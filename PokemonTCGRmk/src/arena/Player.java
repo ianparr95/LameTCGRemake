@@ -13,6 +13,14 @@ public class Player {
 	private ActivePokemonCard apc;
 	private boolean alreadyAttachedEnergy;
 	
+	/**
+	 * Initializes player with the deck, prizes, and bench.
+	 * Automatically sets owner of deck, prizes and bench, BUT NOT APC.
+	 * @param deck
+	 * @param prizes
+	 * @param bench
+	 * @param apc
+	 */
 	public Player(Deck deck, Prizes prizes, Bench bench, ActivePokemonCard apc){
 		this.deck = deck;
 		this.discardPile = new DiscardPile(this);
@@ -21,32 +29,64 @@ public class Player {
 		this.bench = bench;
 		this.apc = apc;
 		alreadyAttachedEnergy = false;
+		deck.setPlayer(this);
+		prizes.setPlayer(this);
+		bench.setPlayer(this);
+		//apc.setPlayer(this);
 	}
 	
+	/**
+	 * Returns the current active pokemon
+	 * @return
+	 */
 	public ActivePokemonCard getActivePokemon(){
 		return apc;
 	}
 	
+	/**
+	 * Returns the Deck.
+	 * @return
+	 */
 	public Deck getDeck(){
 		return deck;
 	}
 	
+	/**
+	 * Returns the discard pile.
+	 * @return
+	 */
 	public DiscardPile getDiscardPile(){
 		return discardPile;
 	}
 	
+	/**
+	 * Returns the hand.
+	 * @return
+	 */
 	public Hand getHand(){
 		return hand;
 	}
 	
+	/**
+	 * Sets the active pokemon to the specified APC.
+	 * @param apc
+	 */
 	public void setActivePokemon(ActivePokemonCard apc){
 		this.apc = apc;
 	}
 	
+	/**
+	 * Returns the prizes.
+	 * @return
+	 */
 	public Prizes getPrizes(){
 		return prizes;
 	}
 	
+	/**
+	 * Returns the bench.
+	 * @return
+	 */
 	public Bench getBench(){
 		return bench;
 	}
@@ -54,7 +94,7 @@ public class Player {
 	/**
 	 * Attachs energy card e to the activepokemoncard pc.
 	 * If already attached an energy this turn, does nothing.
-	 * Pokemon powers avoid using this function?
+	 * FOR BLASTOISES RAINDANCE, IGNORE THIS FUNCTION.
 	 * Assumes pc is either on bench or active pokemon card.
 	 */
 	public void attachEnergyCard(EnergyCard e, ActivePokemonCard pc){
@@ -84,19 +124,23 @@ public class Player {
 		*/
 	}
 	
+	/**
+	 * Set if can attach an energy.
+	 */
 	public void setCanAttachEnergy(){
 		alreadyAttachedEnergy = false;
 	}
 	
 	/**
-	 * Returns false if bench can't fit.
+	 * Adds to bench a pokemon card. Returns false if can't fit in bench.
+	 * DOES NOT CHECK IF POKEMON CARD CAN BE PLAYED.
 	 */
 	public boolean addToBenchFromHand(PokemonCard pc) {
-		hand.getHand().remove(pc);
+		hand.removeCardFromHand(pc);
 		if (bench.getCurrentCapacity() >= bench.getMaxCapacity()) {
 			return false;
 		}
-		hand.getHand().remove(pc);
+		hand.removeCardFromHand(pc);
 		bench.add(pc);
 		return true;
 	}
@@ -107,7 +151,8 @@ public class Player {
 	 * and sets apc to be pc.
 	 */
 	public void setActivePokemonFromHand(PokemonCard pc) {
-		hand.getHand().remove(pc);
+		//hand.getHand().remove(pc);
+		hand.removeCardFromHand(pc);
 		this.apc = new ActivePokemonCard(pc, pc.getId());
 	}
 }

@@ -7,12 +7,22 @@ public class Prizes {
 	private Player player;
 	private Card[] prizes;
 	private int numPrizes;
+	private int numLeft;
 	
+	/**
+	 * Initializes Prizes with the number of prizes
+	 * @param numPrizes
+	 */
 	public Prizes(int numPrizes){
 		prizes = new Card[numPrizes];
 		this.numPrizes = numPrizes;
+		this.numLeft = numPrizes;
 	}
 	
+	/**
+	 * Set the owner of the prizes.
+	 * @param player
+	 */
 	public void setPlayer(Player player){
 		this.player = player;
 	}
@@ -28,8 +38,12 @@ public class Prizes {
 		return prizes[index];
 	}
 	
+	/**
+	 * Returns the number of prizes left.
+	 * @return
+	 */
 	public int numPrizesLeft(){
-		return numPrizes;
+		return numLeft;
 	}
 	
 	/**
@@ -55,7 +69,7 @@ public class Prizes {
 	 * when we use that mankey pokepower.
 	 */
 	public void decreasePrizeCount(){
-		numPrizes--;
+		numLeft--;
 	}
 	
 	/**

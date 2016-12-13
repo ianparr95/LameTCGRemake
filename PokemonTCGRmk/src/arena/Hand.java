@@ -1,6 +1,7 @@
 package arena;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import cardAbstract.ActivePokemonCard;
@@ -13,6 +14,10 @@ public class Hand {
 	private List<Card> hand;
 	private Player player;
 	
+	/**
+	 * Initializes the hand with the owning player.
+	 * @param player
+	 */
 	public Hand(Player player){
 		this.player = player;
 		this.hand = new ArrayList<Card>();
@@ -22,6 +27,8 @@ public class Hand {
 	 * Fills up the hand initially with 7 cards, making sure
 	 * that it has a basic pokemon in it.
 	 * Assumes deck already has 60 cards in it.
+	 * Assumes deck has a basic pokemon: else this function will not
+	 * return and will go into an infinite loop.
 	 */
 	public void drawInitialHand(){
 		Deck d = player.getDeck();
@@ -43,14 +50,26 @@ public class Hand {
 		drawInitialHand();
 	}
 	
+	/**
+	 * Returns as an unmodifiable list the hand.
+	 * @return
+	 */
 	public List<Card> getHand(){
-		return hand;
+		return Collections.unmodifiableList(hand);
 	}
 	
+	/**
+	 * Adds a card to the hand.
+	 * @param c
+	 */
 	public void addCard(Card c){
 		hand.add(c);
 	}
 	
+	/**
+	 * Removes the card from the hand to the discard pile.
+	 * @param index
+	 */
 	public void removeCardToPile(int index){
 		if (index >= hand.size()) return;
 		Card c = hand.remove(index);
@@ -58,7 +77,15 @@ public class Hand {
 	}
 	
 	/**
-	 * Removes the card from the hand.
+	 * Removes the card from the hand and returns it.
+	 */
+	public Card removeCardFromHand(Card c) {
+		hand.remove(c);
+		return c;
+	}
+	
+	/**
+	 * Removes the card from the hand to the discard pile.
 	 */
 	public void removeCardToPile(Card c){
 		hand.remove(c);
@@ -67,7 +94,8 @@ public class Hand {
 	
 	/**
 	 * Returns false if card doesn't exist in this hand.
-	 * Adds this card to the top of the deck.
+	 * Adds this card to the top of the deck. Removes it
+	 * from the hand.
 	 */
 	public boolean removeCardToTopOfDeck(Card c){
 		for (int i = 0 ; i < hand.size(); i++) {
@@ -80,6 +108,10 @@ public class Hand {
 		return false;
 	}
 	
+	/**
+	 * Returns size of the hand.
+	 * @return
+	 */
 	public int getSize(){
 		return hand.size();
 	}
