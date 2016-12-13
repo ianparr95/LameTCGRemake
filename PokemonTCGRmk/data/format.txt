@@ -1,0 +1,31 @@
+for pokemon:
+evol = from where we evolve from. can have commas to seperate etc
+Venusaur: for example:...
+[evol]Ivysaur,Wartotle
+[stage]2
+
+[level] is to distinguish same pokemon but different cards AND SHOUD BE IMMEDIATELY AFTER NAME
+type c = colorless, l = lightning, f = fire, g = grass, s = fighting, p = psychic
+	 w = water
+
+weak = weaknesses, can seperate with comma
+[weak]f,g etc..
+
+then for moves:
+a move ends when we see a new [mname] or a new [name] for a new pokemon
+or a [ENDFILE]
+
+for mcoin, refers to how many coins we toss.
+[mcoinheads]AGILITY,DAMAGE_SELF would mean:
+we apply agility to ourself, but then damage our self.
+then:
+[mcoinheads_2]40
+means since DAMAGE_SELF is second in order from AGILITY,
+we apply 40 to the DAMAGE_SELF thing, which is the damage we deal to self.
+
+[meffect]ALSO THE SAME
+also DISCARD_ENERGY_SELF
+then meffect_1 if is FC, means discard fire, then any type.
+etc..
+
+POKEMON POWERS ALWAYS BEFORE MOVES.
