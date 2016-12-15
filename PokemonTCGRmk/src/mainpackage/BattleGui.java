@@ -37,6 +37,7 @@ import gui.BattlePanel;
 import gui.CardGui;
 import gui.CardListGui;
 import misc.CardFilter;
+import misc.DebugConsole;
 import statuses.*;
 import trainerCard.*;
 import trainerCard.drawingCards.Bill;
@@ -73,12 +74,15 @@ public class BattleGui {
 		drawHandPlaceCards(playerTwo, ba);
 		
 		//:
-		System.out.println("Can perform move? :" + playerOne.getActivePokemon().canPerformMove(
+		/*System.out.println("------------Can perform move? :" + playerOne.getActivePokemon().canPerformMove(
 				playerOne.getActivePokemon().getMove(playerOne.getActivePokemon().getMoveNames()[0])));
 		CardFilter cf = new CardFilter(playerOne.getHand().getHand());
 		List<EnergyCard> ecl = cf.filterBasicEnergy();
 		if (ecl.size() > 0) {
 			playerOne.attachEnergyCard(ecl.get(0), playerOne.getActivePokemon());
+			playerOne.getHand().removeCardFromHand(ecl.get(0));
+			System.out.println("Hand after removing energy:" + playerOne.getHand().getHand());
+			System.out.println("Attached cards to apc after attaching:" + playerOne.getActivePokemon().getEnergyCards());
 		}
 		System.out.println("Can perform move after energy :" + playerOne.getActivePokemon().canPerformMove(
 				playerOne.getActivePokemon().getMove(playerOne.getActivePokemon().getMoveNames()[0])));
@@ -105,7 +109,7 @@ public class BattleGui {
 		System.out.println("Is def dead?" + ba.getDef().isDead());
 		//String cards[][] = ParsePokemonCardsFile.getNameAndLevel();*/
 		//debug(cards);
-		loadGui(ba);
+		/*loadGui(ba);
 		while(true) {
 			try {
 				Thread.sleep(100);
@@ -114,7 +118,8 @@ public class BattleGui {
 				e.printStackTrace();
 				System.exit(1);
 			}
-		}
+		}*/
+		DebugConsole.startDebugConsole(ba);
 	}
 	
 	private static void drawHandPlaceCards(Player player, Arena ba) {

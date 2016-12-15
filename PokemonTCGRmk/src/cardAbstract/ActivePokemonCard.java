@@ -22,13 +22,14 @@ public class ActivePokemonCard extends PokemonCard{
 	
 	private Player player;
 	
-	public ActivePokemonCard(PokemonCard p, int id) {
+	public ActivePokemonCard(PokemonCard p, int id, Player player) {
 		super(p.getName(), p.getLevel(), p.desc, id);
 		this.curEnergy = new ArrayList<String>();
 		statuses = new ArrayList<Status>();
 		tCards = new ArrayList<TrainerCard>();
 		forms = new ArrayList<ActivePokemonCard>();
 		eCards = new ArrayList<EnergyCard>();
+		this.player = player;
 		//forms.add(this);
 	}
 	
@@ -42,7 +43,7 @@ public class ActivePokemonCard extends PokemonCard{
 	 * HP is also copied over.
 	 */
 	public ActivePokemonCard evolve(PokemonCard p) {
-		ActivePokemonCard newApc = new ActivePokemonCard(p,p.getId());
+		ActivePokemonCard newApc = new ActivePokemonCard(p,p.getId(), player);
 		newApc.forms = this.forms;
 		newApc.forms.add(this);
 		newApc.damage = this.damage;
@@ -124,6 +125,14 @@ public class ActivePokemonCard extends PokemonCard{
 		return statuses;
 	}
 	
+	/**
+	 * Calls whenPlayed.
+	 * Does not remove this from the hand.
+	 * If attachable, pokemon will hold this card.
+	 * Else will not: (eg bill doesn't hold, but
+	 * pluspower it will).
+	 * @param s
+	 */
 	public void addTrainer(TrainerCard s) {
 		if (s.attachable()) {
 			tCards.add(s);
@@ -142,6 +151,7 @@ public class ActivePokemonCard extends PokemonCard{
 	// Adds to discard pile.
 	public void removeTrainer(TrainerCard s){
 		tCards.remove(s);
+		System.out.println(player);
 		player.getDiscardPile().addCard(s);
 	}
 	

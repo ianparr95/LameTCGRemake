@@ -27,7 +27,8 @@ public class PluspowerCard extends TrainerCard{
 	public void whenPlayed() {
 		arena.getAtt().addStatus(new statuses.Pluspower(arena.getAtt()));
 		// Remove this from hand:
-		arena.getAttHand().getHand().remove(this);
+		//arena.getAtt().addTrainer(this);
+		arena.getAttHand().removeCardFromHand(this);
 	}
 
 	@Override

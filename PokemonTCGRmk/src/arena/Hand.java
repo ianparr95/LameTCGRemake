@@ -85,6 +85,14 @@ public class Hand {
 	}
 	
 	/**
+	 * Removes the card from the hand and returns it.
+	 */
+	public Card removeCardFromHand(int i) {
+		Card c = hand.remove(i);
+		return c;
+	}
+	
+	/**
 	 * Removes the card from the hand to the discard pile.
 	 */
 	public void removeCardToPile(Card c){

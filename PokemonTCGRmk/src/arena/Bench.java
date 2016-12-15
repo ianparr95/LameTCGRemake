@@ -65,7 +65,7 @@ public class Bench {
 	 * @param c, the pokemon card to add to the bench.
 	 */
 	public void add(PokemonCard c) {
-		ActivePokemonCard apc = new ActivePokemonCard(c, c.getId());
+		ActivePokemonCard apc = new ActivePokemonCard(c, c.getId(), player);
 		bench.add(apc);
 		curCapacity++;
 	}

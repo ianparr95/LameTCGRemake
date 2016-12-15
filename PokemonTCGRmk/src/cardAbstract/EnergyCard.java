@@ -25,6 +25,7 @@ public abstract class EnergyCard extends Card{
 	public void whenPlayed(){
 		//arena.getAtt().addEnergyString(this.energyType());
 		this.otherEnergyEffects(); //like potion energy.. maybe we won't implement it now
+		arena.getAttHand().removeCardFromHand(this);
 	}
 	
 	public void turnUsToOpp(){};

@@ -99,6 +99,14 @@ public class Deck {
 	}
 	
 	/**
+	 * Remove card from index.
+	 * Returns the card. Assumes index is valid.
+	 */
+	public Card removeCardFromDeck(int index){
+		return deck.remove(index);
+	}
+	
+	/**
 	 * Peek the top of the deck
 	 * @return null if deck is empty.
 	 */

@@ -6,6 +6,8 @@ public class DamageOpp extends MoveEffect{
 
 	//private int damage;
 	
+	// We do special handling for this in Arena doMove.
+	
 	public DamageOpp(Arena arena) {
 		super(arena);
 	//	damage = 0;
