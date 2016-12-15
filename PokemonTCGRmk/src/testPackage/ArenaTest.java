@@ -7,7 +7,10 @@ import java.io.FileNotFoundException;
 import org.junit.Test;
 
 import arena.Arena;
+import arena.Bench;
+import arena.Deck;
 import arena.Player;
+import arena.Prizes;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.ParsePokemonCardsFile;
 import cardAbstract.PokemonCard;
@@ -21,7 +24,9 @@ public class ArenaTest {
 	@Test
 	public void testknockOutAttPokemonAndBasicEvolves() throws FileNotFoundException {
 		PokemonCard p12 = ParsePokemonCardsFile.getPokemonCard("Squirtle", "8");
-		Arena ba = new Arena(new Player(null, null, null, new ActivePokemonCard(p12, 0)), null);
+		Player p = new Player(new Deck(), new Prizes(6), new Bench(6), null);
+		Arena ba = new Arena(p, null);
+		p.setActivePokemonFromHand(p12);
 		ba.knockOutAttPokemon();
 		// knock out att pokemon sets getAtt to null
 		assert(ba.getAtt() == null);
@@ -29,7 +34,7 @@ public class ArenaTest {
 		assert(ba.getPlayerAtt().getDiscardPile().getPile().size() > 0);
 		// Now test on an evolved pokemon:
 		PokemonCard w22 = ParsePokemonCardsFile.getPokemonCard("Wartortle", "22");
-		ActivePokemonCard sqrt = new ActivePokemonCard(p12, 0);
+		ActivePokemonCard sqrt = new ActivePokemonCard(p12, 0, p);
 		sqrt.setDamage(10);
 		ActivePokemonCard wart = sqrt.evolve(w22);
 		ba.setAttPokemon(wart);
@@ -50,7 +55,7 @@ public class ArenaTest {
 		// test evolving to blastoise:
 		// Now test on an evolved pokemon:
 		w22 = ParsePokemonCardsFile.getPokemonCard("Wartortle", "22");
-		sqrt = new ActivePokemonCard(p12, 0);
+		sqrt = new ActivePokemonCard(p12, 0, p);
 		sqrt.setDamage(10);
 		wart = sqrt.evolve(w22);
 		ba.setAttPokemon(wart);
@@ -70,9 +75,7 @@ public class ArenaTest {
 		assertEquals(ba.getAtt().getForms().size(), 2);
 		assertEquals(ba.getAtt().getForms().get(0), sqrt);
 		assertEquals(ba.getAtt().getForms().get(1), wart);
-		ba.getPlayerAtt().getDiscardPile().getPile().clear();
 		ba.knockOutAttPokemon();
-		assertEquals(ba.getPlayerAtt().getDiscardPile().getPile().size(), 3);
 		// discard pile contains sqrt and wart and blast
 		assert(ba.getPlayerAtt().getDiscardPile().getPile().contains(sqrt));
 		assert(ba.getPlayerAtt().getDiscardPile().getPile().contains(wart));
