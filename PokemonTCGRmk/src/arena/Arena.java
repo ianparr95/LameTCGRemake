@@ -37,7 +37,8 @@ public class Arena {
 	/**
 	 * Advances to the next turn such that att becomes def,
 	 * and def becomes att. Also applies all status ailments on turn
-	 * end and trainer cards also.
+	 * end and trainer cards also. Sets all can evolve also (IGNORING POKEMON POWER
+	 * OF AERODACTYL!!!)
 	 */
 	public void nextTurn(){
 		for (int i = att.getActivePokemon().getStatus().size() - 1; i >= 0; i--) {
@@ -63,10 +64,16 @@ public class Arena {
 		Player temp = att;
 		att = def;
 		def = temp;
-		// ATT DRAWS A CARD?
-		// TODO:
-		// ALSO: DRAWCARD DOESN'T ADD CARD TO HAND!!!
 		att.getHand().addCard(att.getDeck().drawCard());
+		// Set all evolve
+		att.getActivePokemon().setCanEvolve();
+		def.getActivePokemon().setCanEvolve();
+		for (ActivePokemonCard apc : att.getBench().getBench()) {
+			apc.setCanEvolve();
+		}
+		for (ActivePokemonCard apc : def.getBench().getBench()) {
+			apc.setCanEvolve();
+		}
 	}
 	
 	/**
@@ -287,7 +294,42 @@ public class Arena {
 		}
 		
 		def.getActivePokemon().addDamage(totalDamage);
+		//checkArena();
 		return totalDamage;
+	}
+	
+	/**
+	 * Checks the arena for any dead pokemon. If so: will prompt
+	 * one or both of the players to pick prizes.
+	 */
+	public void checkArena() {
+		int attDead = 0;
+		int defDead = 0;
+		boolean attAct = false;
+		boolean defAct = false;
+		// Check att and def:
+		if (att.getActivePokemon().isDead()) {
+			attDead++;
+			attAct = true;
+		}
+		if (def.getActivePokemon().isDead()) {
+			defDead++;
+			defAct = true;
+
+		}
+		for (ActivePokemonCard apc : att.getBench().getBench()) {
+			if (apc.isDead()) {
+				attDead++;
+			}
+		}
+		for (ActivePokemonCard apc : def.getBench().getBench()) {
+			if (apc.isDead()) {
+				defDead++;
+			}
+		}
+		// prompt prizes here:
+		
+		// TODO: prompt dead active/def to do stuff
 	}
 
 

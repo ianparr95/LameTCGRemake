@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import arena.Arena;
+import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.EnergyCard;
+import cardAbstract.PokemonCard;
 import cardAbstract.PokemonMove;
 import cardAbstract.TrainerCard;
 
@@ -16,6 +18,7 @@ public class DebugConsole {
 	
 	public static void startDebugConsole(Arena ba) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		DebugConsole.ba = ba;
+		@SuppressWarnings("resource")
 		Scanner f = new Scanner(System.in);
 		while (f.hasNext()) {
 			String cmd = f.nextLine();
@@ -33,6 +36,12 @@ public class DebugConsole {
 				System.out.print("Ending turn... ");
 				ba.nextTurn();
 				System.out.println("Done");
+			} else if (cmd.equals("decksize")) {
+				System.out.println("att deck size: " + ba.getAttDeck().getSize());
+				System.out.println("def deck size: " + ba.getDefDeck().getSize());
+			} else if (cmd.equals("moves")) {
+				System.out.println("att moves: " + Arrays.toString(ba.getAtt().getMoves()));
+				System.out.println("def moves: " + Arrays.toString(ba.getDef().getMoves()));
 			}
 			// None of these: try splitting
 			String cmds[] = cmd.split(" ");
@@ -66,6 +75,8 @@ public class DebugConsole {
 					if (ba.getAtt().canPerformMove(m)) {
 						//System.out.println("Can play move " + m.getName());
 						ba.doMove(m);
+						System.out.println("Performed move: ending the turn");
+						ba.nextTurn();
 					} else {
 						System.out.println("Can't play move " + m.getName());
 					}
@@ -80,12 +91,48 @@ public class DebugConsole {
 					if (index < 0 || index >= ba.getAttHand().getSize()) continue;
 					if (ba.getAttHand().getHand().get(index) instanceof EnergyCard) {
 						EnergyCard c = (EnergyCard) ba.getAttHand().getHand().get(index);
-						if (c.canPlay()) {
+						if (c.canPlay() && !ba.getPlayerAtt().alreadyAttachedEnergy()) {
 							System.out.println("Playing energy card: " + c.getName());
-							ba.getAtt().attachEnergy(c);
+							ba.getPlayerAtt().attachEnergyCard(c, ba.getPlayerAtt().getActivePokemon());
+							//ba.checkArena();
+						}
+					}
+				} else if (cmds[0].equals("evolve") && cmds.length >= 3) {
+					int bn = 0;
+					try { //if bn = 0, then active, else bench from 1 to 7.
+						bn = Integer.parseInt(cmds[1]);
+					} catch (Exception e) {
+						continue;
+					}
+					int hand_index = 0;
+					try { //if bn = 0, then active, else bench from 1 to 7.
+						hand_index = Integer.parseInt(cmds[2]);
+					} catch (Exception e) {
+						continue;
+					}
+					if (hand_index < 0 || hand_index >= ba.getAttHand().getSize()) continue;
+					if (bn > 0 && bn >= ba.getPlayerAtt().getBench().getCurrentCapacity()) continue;
+					if (bn == 0) {
+						if (ba.getAtt().canEvolve()) {
+							Card c = ba.getAttHand().getHand().get(hand_index);
+							System.out.println("Evolving pokemon to: " + c);
+							System.out.println("Making sure we can actually evolve to this... ");
+							if (!(c instanceof PokemonCard || c instanceof ActivePokemonCard)) continue;
+							if (ba.getAtt().canEvolveTo((PokemonCard) c)) {
+								ActivePokemonCard evl = ba.getAtt().evolve((PokemonCard) c);
+								System.out.println("Evolving to " + evl.getName());
+								ba.setAttPokemon(evl);
+								ba.getAttHand().removeCardFromHand(hand_index);
+							} else {
+								System.out.println("Can't evolve to this");
+								continue;
+							}
+						} else {
+							System.out.println("Can't evolve this turn");
 						}
 					}
 				}
+				//ba.checkArena();
 			}
 		}
 		f.close();

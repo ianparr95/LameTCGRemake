@@ -62,6 +62,20 @@ public class PokemonCard extends Card{
 	}
 	
 	/**
+	 * Returns an array of pokemon moves for this pokemon
+	 * @return an array of pokemon moves for this pokemon
+	 */
+	public PokemonMove[] getMoves() {
+		String[] mnames = getMoveNames();
+		if (mnames.length == 0) return new PokemonMove[0];
+		PokemonMove[] moves = new PokemonMove[mnames.length];
+		for (int i = 0 ; i < moves.length ; i++) {
+			moves[i] = getMove(mnames[i]);
+		}
+		return moves;
+	}
+	
+	/**
 	 * Get the list of moves this card has.
 	 * @return string[] of names of moves this card has.
 	 */

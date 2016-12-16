@@ -152,5 +152,9 @@ public class PokemonMove {
 			return rs.substring(0, nextStop);
 		}
 	}
+	
+	public String toString() {
+		return "Move name: " + this.getName() + " Move Cost: " + this.getEnergyCost();
+	}
 
 }

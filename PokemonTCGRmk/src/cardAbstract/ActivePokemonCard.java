@@ -36,17 +36,26 @@ public class ActivePokemonCard extends PokemonCard{
 	public void setPlayer(Player p) {
 		this.player = p;
 	}
+	/**
+	 * Returns true if we can evolve to p.
+	 * @param p
+	 * @return
+	 */
+	public boolean canEvolveTo(PokemonCard p) {
+		return p.getEvol().equals(this.getName());
+	}
 	
 	/**
 	 * Returns a new ActivePokemonCard where it is the evolved form.
 	 * All statuses are removed, trainers cards are not. forms is also updated and copied over.
-	 * HP is also copied over.
+	 * HP is also copied over. Does not update bench or active pokemon.
 	 */
 	public ActivePokemonCard evolve(PokemonCard p) {
 		ActivePokemonCard newApc = new ActivePokemonCard(p,p.getId(), player);
 		newApc.forms = this.forms;
 		newApc.forms.add(this);
 		newApc.damage = this.damage;
+		newApc.canEvolve = false;
 		this.damage = 0;
 		for (TrainerCard t : tCards) {
 			newApc.tCards.add(t);
@@ -182,12 +191,18 @@ public class ActivePokemonCard extends PokemonCard{
 		if (this.damage < 0) {
 			this.damage = 0; 
 		}
+		if (this.damage > this.getMaxHp()) {
+			this.damage = this.getMaxHp();
+		}
 	}
 	
 	public void setDamage(int damage){
 		this.damage = damage;
 		if (this.damage < 0) {
 			this.damage = 0; 
+		}
+		if (this.damage > this.getMaxHp()) {
+			this.damage = this.getMaxHp();
 		}
 	}
 	
