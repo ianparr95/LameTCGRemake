@@ -141,8 +141,9 @@ public class ActivePokemonCard extends PokemonCard{
 	 * Else will not: (eg bill doesn't hold, but
 	 * pluspower it will).
 	 * @param s
+	 * @throws CardRequest 
 	 */
-	public void addTrainer(TrainerCard s) {
+	public void addTrainer(TrainerCard s) throws CardRequest {
 		if (s.attachable()) {
 			tCards.add(s);
 			s.whenPlayed();

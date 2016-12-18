@@ -7,6 +7,7 @@ import java.util.Scanner;
 import arena.Arena;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
+import cardAbstract.CardRequest;
 import cardAbstract.EnergyCard;
 import cardAbstract.PokemonCard;
 import cardAbstract.PokemonMove;
@@ -42,6 +43,10 @@ public class DebugConsole {
 			} else if (cmd.equals("moves")) {
 				System.out.println("att moves: " + Arrays.toString(ba.getAtt().getMoves()));
 				System.out.println("def moves: " + Arrays.toString(ba.getDef().getMoves()));
+			} else if (cmd.equals("check")) {
+				ba.checkArena();
+				System.out.println("Att dead? " + ba.attDead + " active: " + ba.attActDead);
+				System.out.println("Def dead? " + ba.defDead + " active: " + ba.defActDead);
 			}
 			// None of these: try splitting
 			String cmds[] = cmd.split(" ");
@@ -58,7 +63,12 @@ public class DebugConsole {
 						TrainerCard c = (TrainerCard) ba.getAttHand().getHand().get(index);
 						if (c.canPlay()) {
 							System.out.println("Playing trainer card: " + c.getName());
-							ba.getAtt().addTrainer(c);
+							try {
+								ba.getAtt().addTrainer(c);
+							} catch (CardRequest e) {
+								// TODO: get the cards request from e, display them.
+								// return them in rList!
+							}
 						}
 					}
 				} else if (cmds[0].equals("atk") && cmds.length >= 2) {
@@ -80,7 +90,7 @@ public class DebugConsole {
 					} else {
 						System.out.println("Can't play move " + m.getName());
 					}
-					// attach energy
+					// attach energy, first is hand,2nd is bench or active, 0 = active.
 				} else if (cmds[0].equals("att") && cmds.length >= 2) {
 					int index = 0;
 					try {
@@ -89,15 +99,27 @@ public class DebugConsole {
 						continue;
 					}
 					if (index < 0 || index >= ba.getAttHand().getSize()) continue;
+					int bn = 0;
+					try { //if bn = 0, then active, else bench from 1 to 7.
+						bn = Integer.parseInt(cmds[2]);
+					} catch (Exception e) {
+						continue;
+					}
+					if (bn < 0 || bn > ba.getPlayerAtt().getBench().getCurrentCapacity()) continue;
 					if (ba.getAttHand().getHand().get(index) instanceof EnergyCard) {
 						EnergyCard c = (EnergyCard) ba.getAttHand().getHand().get(index);
 						if (c.canPlay() && !ba.getPlayerAtt().alreadyAttachedEnergy()) {
-							System.out.println("Playing energy card: " + c.getName());
-							ba.getPlayerAtt().attachEnergyCard(c, ba.getPlayerAtt().getActivePokemon());
-							//ba.checkArena();
+							if (bn == 0) {
+								System.out.println("Playing energy card to active: " + c.getName());
+								ba.getPlayerAtt().attachEnergyCard(c, ba.getPlayerAtt().getActivePokemon());
+							} else {
+								System.out.println("Playing energy card to bench: " + c.getName());
+								ba.getPlayerAtt().attachEnergyCard(
+										c, ba.getPlayerAtt().getBench().getBench().get(bn - 1));
+							}
 						}
 					}
-				} else if (cmds[0].equals("evolve") && cmds.length >= 3) {
+				} else if (cmds[0].equals("evolve") && cmds.length >= 3) { // first bench, 2nd hand
 					int bn = 0;
 					try { //if bn = 0, then active, else bench from 1 to 7.
 						bn = Integer.parseInt(cmds[1]);
@@ -111,7 +133,7 @@ public class DebugConsole {
 						continue;
 					}
 					if (hand_index < 0 || hand_index >= ba.getAttHand().getSize()) continue;
-					if (bn > 0 && bn >= ba.getPlayerAtt().getBench().getCurrentCapacity()) continue;
+					if (bn < 0 || bn > ba.getPlayerAtt().getBench().getCurrentCapacity()) continue;
 					if (bn == 0) {
 						if (ba.getAtt().canEvolve()) {
 							Card c = ba.getAttHand().getHand().get(hand_index);
@@ -124,23 +146,53 @@ public class DebugConsole {
 								ba.setAttPokemon(evl);
 								ba.getAttHand().removeCardFromHand(hand_index);
 							} else {
-								System.out.println("Can't evolve to this");
+								System.out.println("Can't evolve to this pokemon");
 								continue;
 							}
 						} else {
 							System.out.println("Can't evolve this turn");
 						}
+					} else { 
+						// TODO:
+						System.out.println("TODO!!");
+					}
+				} else if (cmds[0].equals("place") && cmds.length >= 2) {
+					// TODO: CHECK ADDING ENERGY CARD!! AND EVOLVE!!
+					int hand_index = 0;
+					try { //if bn = 0, then active, else bench from 1 to 7.
+						hand_index = Integer.parseInt(cmds[1]);
+					} catch (Exception e) {
+						continue;
+					}
+					if (hand_index < 0 || hand_index >= ba.getAttHand().getSize()) continue;
+					Card c = ba.getAttHand().getHand().get(hand_index);
+					if (c instanceof PokemonCard || c instanceof ActivePokemonCard) {
+						// Good:
+						PokemonCard cc = (PokemonCard) c;
+						if (cc.isBasicPokemon() && 
+							ba.getPlayerAtt().getBench().getCurrentCapacity() <
+							ba.getPlayerAtt().getBench().getMaxCapacity()) { // good
+							ba.getPlayerAtt().getHand().removeCardFromHand(hand_index);
+							ba.getPlayerAtt().getBench().add(cc);
+						}
 					}
 				}
-				//ba.checkArena();
-			}
+			} 
 		}
 		f.close();
 	}
 
 	private static void displayBenches() {
-		System.out.println("Att bench: " + ba.getPlayerAtt().getBench().getBench());
-		System.out.println("Def bench: " + ba.getPlayerDef().getBench().getBench());
+		System.out.println("Att bench: ");
+		for (ActivePokemonCard c : ba.getPlayerAtt().getBench().getBench()) {
+			System.out.print("[" + c.getName() + " energies: " + c.getEnergyString());
+		}
+		System.out.println();
+		System.out.println("Def bench: ");
+		for (ActivePokemonCard c : ba.getPlayerDef().getBench().getBench()) {
+			System.out.print("[" + c.getName() + " energies: " + c.getEnergyString());
+		}
+		System.out.println();
 	}
 	
 	private static void displayHands() {

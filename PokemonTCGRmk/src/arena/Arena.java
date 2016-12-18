@@ -298,23 +298,28 @@ public class Arena {
 		return totalDamage;
 	}
 	
+	public boolean attActDead = false;
+	public boolean defActDead = false;
+	public int attDead = 0;
+	public int defDead = 0;
+	
 	/**
-	 * Checks the arena for any dead pokemon. If so: will prompt
-	 * one or both of the players to pick prizes.
+	 * Checks the arena for any dead pokemon. Sets public variables
+	 * attActDead, defActDead, attDead and defDead.
 	 */
 	public void checkArena() {
-		int attDead = 0;
-		int defDead = 0;
-		boolean attAct = false;
-		boolean defAct = false;
+		attDead = 0;
+		defDead = 0;
+		attActDead = false;
+		defActDead = false;
 		// Check att and def:
 		if (att.getActivePokemon().isDead()) {
 			attDead++;
-			attAct = true;
+			attActDead = true;
 		}
 		if (def.getActivePokemon().isDead()) {
 			defDead++;
-			defAct = true;
+			defActDead = true;
 
 		}
 		for (ActivePokemonCard apc : att.getBench().getBench()) {
@@ -327,10 +332,8 @@ public class Arena {
 				defDead++;
 			}
 		}
-		// prompt prizes here:
-		
-		// TODO: prompt dead active/def to do stuff
 	}
+
 
 
 }

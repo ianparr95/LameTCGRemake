@@ -34,8 +34,9 @@ public abstract class TrainerCard extends Card{
 	
 	/**
 	 * Effects when played.
+	 * @throws CardRequest 
 	 */
-	public abstract void whenPlayed();
+	public abstract void whenPlayed() throws CardRequest;
 	
 	/**
 	 * Does ATTACHABLE CARD still exist from opp to us?
