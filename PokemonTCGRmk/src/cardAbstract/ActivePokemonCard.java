@@ -135,7 +135,7 @@ public class ActivePokemonCard extends PokemonCard{
 	}
 	
 	/**
-	 * Calls whenPlayed.
+	 * DOES NOT CALL whenPlayed.
 	 * Does not remove this from the hand.
 	 * If attachable, pokemon will hold this card.
 	 * Else will not: (eg bill doesn't hold, but
@@ -143,12 +143,12 @@ public class ActivePokemonCard extends PokemonCard{
 	 * @param s
 	 * @throws CardRequest 
 	 */
-	public void addTrainer(TrainerCard s) throws CardRequest {
+	public void addTrainer(TrainerCard s) {
 		if (s.attachable()) {
 			tCards.add(s);
-			s.whenPlayed();
+			//s.whenPlayed();
 		} else {
-			s.whenPlayed();
+			//s.whenPlayed();
 		}
 	}
 	

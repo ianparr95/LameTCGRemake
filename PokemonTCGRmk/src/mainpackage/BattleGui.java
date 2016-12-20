@@ -22,6 +22,7 @@ import arena.Player;
 import arena.Prizes;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
+import cardAbstract.CardRequest;
 import cardAbstract.EnergyCard;
 import cardAbstract.ParsePokemonCardsFile;
 import cardAbstract.PokemonCard;
@@ -49,7 +50,7 @@ import trainerCard.statusCards.Potion;
 
 public class BattleGui {
 	
-	public static void main(String args[]) throws FileNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public static void main(String args[]) throws FileNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, CardRequest {
 		Player playerOne = new Player(new Deck(), new Prizes(6), new Bench(6), null);
 		playerOne.getBench().setPlayer(playerOne);
 		playerOne.getDeck().setPlayer(playerOne);
@@ -192,6 +193,8 @@ public class BattleGui {
 		p1d.addCardFast(profOak);
 		p1d.addCardFast(profOak);
 		TrainerCard potion = new Potion(ba, 0);
+		p1d.addCardFast(potion);
+		p1d.addCardFast(potion);
 		p1d.addCardFast(potion);
 		p1d.addCardFast(potion);
 		TrainerCard pluspower = new PluspowerCard(ba, 0);

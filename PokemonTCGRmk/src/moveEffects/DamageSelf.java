@@ -27,7 +27,7 @@ public class DamageSelf extends MoveEffect{
 		return "DAMAGE_SELF";
 	}
 
-	//@Override
+	@Override
 	public void setAdditionalEffects(String s) {
 		damage = Integer.parseInt(s);
 	}

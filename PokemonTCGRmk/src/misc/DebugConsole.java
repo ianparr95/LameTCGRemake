@@ -17,7 +17,7 @@ public class DebugConsole {
 	
 	private static Arena ba;
 	
-	public static void startDebugConsole(Arena ba) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public static void startDebugConsole(Arena ba) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, CardRequest {
 		DebugConsole.ba = ba;
 		@SuppressWarnings("resource")
 		Scanner f = new Scanner(System.in);
@@ -64,10 +64,17 @@ public class DebugConsole {
 						if (c.canPlay()) {
 							System.out.println("Playing trainer card: " + c.getName());
 							try {
-								ba.getAtt().addTrainer(c);
+								// ALSO THIS MAY NOT BE CORRECT, EG POTION DONT USE ADDTRAINER.
+								// NEED FIND ANOTHER WAY!
+								c.whenPlayed();
 							} catch (CardRequest e) {
 								// TODO: get the cards request from e, display them.
 								// return them in rList!
+								//System.out.println("Played potion");
+								e.getReturnList().add(ba.getAtt());
+								//System.out.println("Size of e:" + e.getReturnList().size());
+								c.returnRequestedCards(e);
+								//throw new CardRequestReturn(e);
 							}
 						}
 					}

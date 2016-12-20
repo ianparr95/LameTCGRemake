@@ -1,5 +1,7 @@
 package cardAbstract;
 
+import java.util.List;
+
 import arena.Arena;
 
 public abstract class TrainerCard extends Card{
@@ -53,5 +55,19 @@ public abstract class TrainerCard extends Card{
 	@Override
 	public String toString(){
 		return "" + this.getClass().getSimpleName();
+	}
+
+	/**
+	 * When trainer requests a card.
+	 * Override when needed.
+	 * This is called after whenPlayed(), so for example:
+	 * a potion will get card request for who to apply it to.
+	 * Then this function will need to remove that card from the hand!
+	 * @param pc
+	 */
+	public void returnRequestedCards(CardRequest pc) {
+		// TODO Auto-generated method stub
+		System.err.println("returnRequestCards called when not overriden!!!"
+				+ "\n" + "This may cause unwanted behavior in game.");
 	}
 }

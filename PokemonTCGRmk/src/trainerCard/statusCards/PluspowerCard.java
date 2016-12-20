@@ -3,6 +3,7 @@ package trainerCard.statusCards;
 import arena.Arena;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
+import cardAbstract.CardRequest;
 import cardAbstract.TrainerCard;
 
 public class PluspowerCard extends TrainerCard{
@@ -26,8 +27,7 @@ public class PluspowerCard extends TrainerCard{
 	@Override
 	public void whenPlayed() {
 		arena.getAtt().addStatus(new statuses.Pluspower(arena.getAtt()));
-		// Remove this from hand:
-		//arena.getAtt().addTrainer(this);
+		arena.getAtt().addTrainer(this);
 		arena.getAttHand().removeCardFromHand(this);
 	}
 

@@ -50,13 +50,24 @@ public class Potion extends TrainerCard{
 		bea.addAll(arena.getPlayerAtt().getBench().getBench());
 		CardRequest pc = new CardRequest(true, 1, bea, "Choose a pokemon to play this potion to.", null);
 		pc.requestCard();
+	}
+
+	@Override
+	public void returnRequestedCards(CardRequest pc) {
 		// The card that we want to heal.
-		ActivePokemonCard apc = (ActivePokemonCard) pc.getReturnList()[0];
+		ActivePokemonCard apc = (ActivePokemonCard) pc.getReturnList().get(0);
+		if (apc == null) {
+			System.err.println("Did not specify pokemon to receive potion.");
+			return;
+		} else if (apc.getDamage() == 0) {
+			System.out.println("Pokemon " + apc + " is at full hp!!!");
+			return;
+		}
 		apc.addDamage(-20);
 		if (apc.getDamage() < 0) apc.setDamage(0);
 		arena.getPlayerAtt().getHand().removeCardToPile(this);
 	}
-
+	
 	@Override
 	public void turnOppToUs() {
 	}
