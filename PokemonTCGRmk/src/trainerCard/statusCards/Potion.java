@@ -45,16 +45,28 @@ public class Potion extends TrainerCard{
 		// true, cause want to request a card from ourself, num = 1 because
 		// we only want one card to be healed by a potion.
 		// lc = bench + active, cause we want to choose from these.
-		List<Card> bea = new ArrayList<Card>();
-		bea.add(arena.getAtt());
-		bea.addAll(arena.getPlayerAtt().getBench().getBench());
-		CardRequest pc = new CardRequest(true, 1, bea, "Choose a pokemon to play this potion to.", null);
+		List<Card> displayedCards = new ArrayList<Card>();
+		displayedCards.add(arena.getAtt());
+		displayedCards.addAll(arena.getPlayerAtt().getBench().getBench());
+		List<Card> chooseableCards = new ArrayList<Card>();
+		if (arena.getAtt().getDamage() != 0) chooseableCards.add(arena.getAtt());
+		for (ActivePokemonCard c : arena.getPlayerAtt().getBench().getBench()) {
+			if (c.getDamage() != 0) {
+				chooseableCards.add(c);
+			}
+		}
+		CardRequest pc = new CardRequest(true, 1, displayedCards, chooseableCards
+						, "Choose a pokemon to play this potion to.", 0, false);
 		pc.requestCard();
 	}
 
 	@Override
 	public void returnRequestedCards(CardRequest pc) {
 		// The card that we want to heal.
+		if (pc.getReturnList().size() == 0) {
+			System.err.println("Did not specify pokemon to receive potion.");
+			return;
+		}
 		ActivePokemonCard apc = (ActivePokemonCard) pc.getReturnList().get(0);
 		if (apc == null) {
 			System.err.println("Did not specify pokemon to receive potion.");

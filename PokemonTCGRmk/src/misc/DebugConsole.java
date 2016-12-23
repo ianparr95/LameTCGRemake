@@ -1,7 +1,9 @@
 package misc;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import arena.Arena;
@@ -71,9 +73,70 @@ public class DebugConsole {
 								// TODO: get the cards request from e, display them.
 								// return them in rList!
 								//System.out.println("Played potion");
-								e.getReturnList().add(ba.getAtt());
+								//e.getReturnList().add(ba.getAtt());
+								System.out.println("Trainer requested " + e.getNumberCardsRequest() + " cards");
+								System.out.println("Chooseable cards: " + e.getChooseableList());
+								System.out.println("Displayed cards: " + e.getDisplayList());
+								List<Card> cList = new ArrayList<Card>();
+								for (Card egc : e.getChooseableList()) {
+									cList.add(egc);
+								}
+								System.out.println("Please type an index for chooseable cards");
+								if (e.getChooseableList().size() == 0) {
+									System.err.println("Chooseable list was size 0!!!");
+									System.err.println("Returning picked list as empty");
+									c.returnRequestedCards(e);
+									return;
+								}
+								// getmode may not be important, cause we handle errors in
+								// trainer cards themselves
+								if (e.getMode() == 0) {
+									// num or less cards.
+									int picked = 0;
+									System.out.println("Type done to finish");
+									while (f.hasNext()) {
+										if (picked == e.getNumberCardsRequest()) {
+											System.out.println("Picked cards up to num");
+											break;
+										}
+										cmd = f.nextLine();
+										if (!cmd.equals("done")) {
+											try {
+												index = Integer.parseInt(cmd);
+											} catch (Exception e1) {
+												System.err.println("Didn't enter an index, please try again");
+												continue;
+											}
+										} else {
+											System.out.println("User was done");
+											break;
+										}
+										if (index < 0 || index >= cList.size()) {
+											System.err.println("Bad index, please try again");
+											continue;
+										}
+										// Good index:
+										e.getReturnList().add(cList.get(index));
+										cList.remove(index);
+										picked++;
+										if (picked == e.getNumberCardsRequest()) {
+											System.out.println("Picked cards up to num");
+											break;
+										}
+									}
+								} else if (e.getMode() == 1) {
+									
+								} else if (e.getMode() == 2) {
+									
+								} else {
+									System.err.println("Error in mode for e");
+									System.err.println("Value was: " + e.getMode());
+									System.err.println("Should be 0, 1 or 2.");
+								}
 								//System.out.println("Size of e:" + e.getReturnList().size());
 								c.returnRequestedCards(e);
+								System.out.println("Played trainer, may or may not have worked");
+								continue;
 								//throw new CardRequestReturn(e);
 							}
 						}
@@ -160,7 +223,7 @@ public class DebugConsole {
 							System.out.println("Can't evolve this turn");
 						}
 					} else { 
-						// TODO:
+						// TODO: when want to evolve not active.
 						System.out.println("TODO!!");
 					}
 				} else if (cmds[0].equals("place") && cmds.length >= 2) {

@@ -10,21 +10,36 @@ public class CardRequest extends Throwable{
 
 	private boolean self;
 	private List<Card> rList;
-	private List<Card> fromList;
+	private List<Card> chooseableList;
 	private String message;
-	private CardFilter cfilter;
+	private List<Card> displayedList;
 	private int num;
-	
+	private int mode;
+	private boolean canr;
 	
 	// TODO: ternary if exactly num, less than, greater than etc..
 	// or even if allowzero cards tobe returned etc.
-	public CardRequest(boolean self, int num, List<Card> lc, String msg, CardFilter cfilter) {
+	/**
+	 * Create a new card request.
+	 * @param self if true, then we request a card. Else opponent
+	 * @param num number of cards to request
+	 * @param displayedList the list of cards to display
+	 * @param chooseableList the list of cards that are chooseable
+	 * @param msg associated string (can be anything)
+	 * @param mode, if 0, then less than equal num cards can be chosen.
+	 * 		        if 1, then exactly num cards must be chosen.
+	 * 				if 2, then num or more cards may be chosen.
+	 * @param canRepeat, if true, user can repeat picked cards. if false, no.
+	 */
+	public CardRequest(boolean self, int num, List<Card> displayedList, List<Card>
+					  chooseableList , String msg, int mode, boolean canRepeat) {
 		rList = new ArrayList<Card>();
 		this.self = self;
-		fromList = lc;
+		this.chooseableList = chooseableList;
+		this.displayedList = displayedList;
 		message = msg;
-		this.cfilter = cfilter;
 		this.num = num;
+		this.canr = canRepeat;
 	}
 	
 	public String abc = "lol";
@@ -37,8 +52,12 @@ public class CardRequest extends Throwable{
 		throw this;
 	}
 	
-	public List<Card> getRequestList() {
-		return Collections.unmodifiableList(fromList);
+	public List<Card> getChooseableList() {
+		return Collections.unmodifiableList(chooseableList);
+	}
+	
+	public List<Card> getDisplayList() {
+		return Collections.unmodifiableList(displayedList);
 	}
 	
 	/**
@@ -63,11 +82,12 @@ public class CardRequest extends Throwable{
 		return rList;
 	}
 	
-	/**
-	 * The card type that we request
-	 */
-	public CardFilter getRequestFilter() {
-		return cfilter;
+	public int getMode(){
+		return mode;
+	}
+	
+	public boolean canRepeatPickedCard() {
+		return canr;
 	}
 	
 }
