@@ -1,5 +1,6 @@
 package misc;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,16 +20,21 @@ public class DebugConsole {
 	
 	private static Arena ba;
 	
-	public static void startDebugConsole(Arena ba) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, CardRequest {
+	public static void startDebugConsole(Arena ba) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, CardRequest, IOException {
 		DebugConsole.ba = ba;
 		@SuppressWarnings("resource")
 		Scanner f = new Scanner(System.in);
+		displayCommands();
 		while (f.hasNext()) {
 			String cmd = f.nextLine();
 			if (cmd.equals("q")) {
 				return;
 			} else if (cmd.equals("bench")) {
 				displayBenches();
+			} else if (cmd.equals("help")) {
+				displayCommands();
+			} else if (cmd.equals("clear")) {
+				clearcons();
 			} else if (cmd.equals("hand")) {
 				displayHands();
 			} else if (cmd.equals("active")) {
@@ -38,7 +44,7 @@ public class DebugConsole {
 			} else if (cmd.equals("endturn")) {
 				System.out.print("Ending turn... ");
 				ba.nextTurn();
-				System.out.println("Done");
+				checkgame();
 			} else if (cmd.equals("decksize")) {
 				System.out.println("att deck size: " + ba.getAttDeck().getSize());
 				System.out.println("def deck size: " + ba.getDefDeck().getSize());
@@ -147,6 +153,9 @@ public class DebugConsole {
 					try {
 						index = Integer.parseInt(cmds[1]);
 					} catch (Exception e) {
+						System.out.println("syntax: atk 0 or atk 1"
+								+ " where atk 0 is the first move,"
+								+ " atk 1 is the second move");
 						continue;
 					}
 					String[] moves = ba.getAtt().getMoveNames();
@@ -157,6 +166,7 @@ public class DebugConsole {
 						ba.doMove(m);
 						System.out.println("Performed move: ending the turn");
 						ba.nextTurn();
+						checkgame();
 					} else {
 						System.out.println("Can't play move " + m.getName());
 					}
@@ -248,26 +258,56 @@ public class DebugConsole {
 					}
 				}
 			} 
+			//displayCommands();
 		}
 		f.close();
+	}
+
+	private static void displayCommands() {
+		System.out.println("Command :   Description");
+		System.out.println("help    :   display this!");
+		System.out.println("clear   :   clear the console");
+		System.out.println("ov      :   overview of all cards");
+		System.out.println("active  :   display active pokemon cards");
+		System.out.println("bench   :   display benched pokemon");
+		System.out.println("hand    :   display your hand");
+		System.out.println("discard :   discard the discard piles");
+		System.out.println("endturn :   ends your turn without attacking");
+		System.out.println("decksize:   displays how many cards are left in each deck");
+		System.out.println("moves   :   displays moves of active pokemon");
 	}
 
 	private static void displayBenches() {
 		System.out.println("Att bench: ");
 		for (ActivePokemonCard c : ba.getPlayerAtt().getBench().getBench()) {
-			System.out.print("[" + c.getName() + " energies: " + c.getEnergyString());
+			System.out.println(c.getName() + " energies: " + c.getEnergyString());
 		}
 		System.out.println();
 		System.out.println("Def bench: ");
 		for (ActivePokemonCard c : ba.getPlayerDef().getBench().getBench()) {
-			System.out.print("[" + c.getName() + " energies: " + c.getEnergyString());
+			System.out.println(c.getName() + " energies: " + c.getEnergyString());
 		}
 		System.out.println();
 	}
 	
 	private static void displayHands() {
-		System.out.println("Att hand: " + ba.getAttHand().getHand());
-		System.out.println("Def hand: " + ba.getDefHand().getHand());
+		/*try {
+			Runtime.getRuntime().exec("cls");
+		} catch (IOException e) {
+			System.err.println("Didn't clear the console for some reason!!!");
+		}*/
+		//clearcons();
+		System.out.println("Att hand: ");
+		int i = 0;
+		for (Card c : ba.getAttHand().getHand()) {
+			System.out.println("[" + i + "] Card: " + c);
+			i++;
+		}
+		/*i = 0;
+		System.out.println("Def hand: ");
+		for (Card c : ba.getDefHand().getHand()) {
+			System.out.println("Index: " + i + " Card: " + c);
+		}*/
 	}
 	
 	private static void displayDiscardPile() {
@@ -284,5 +324,25 @@ public class DebugConsole {
 				+ (ba.getDef().getMaxHp() - ba.getDef().getDamage()) + "/" + ba.getDef().getMaxHp()
 				+ " Cards attached: " + ba.getDef().getEnergyCards() + " " + ba.getDef().getTrainerCards()
 				+ " Statuses: " + ba.getDef().getStatus());
+	}
+	
+	private static void checkgame() {
+		System.out.println("Done, now checking arena");
+		ba.checkArena();
+		System.out.println("Att act dead? " + ba.attActDead);
+		System.out.println("Def act dead? " + ba.defActDead);
+		System.out.println("Att prizes to draw: " + ba.defDead);
+		System.out.println("Def prizes to draw: " + ba.attDead);
+		ba.clearCheckArena();
+	}
+	
+	private static void clearcons() {
+		try {
+			new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+		} catch (IOException e) {
+			System.err.println("Couldn't clear console for some reason");
+		} catch (InterruptedException e) {
+			System.err.println("Couldn't clear console for some reason");
+		}
 	}
 }

@@ -333,6 +333,12 @@ public class Arena {
 			}
 		}
 	}
+	public void clearCheckArena() {
+		attDead = 0;
+		defDead = 0;
+		attActDead = false;
+		defActDead = false;
+	}
 
 
 

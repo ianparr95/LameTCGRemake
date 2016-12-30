@@ -2,6 +2,7 @@ package mainpackage;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -50,7 +51,8 @@ import trainerCard.statusCards.Potion;
 
 public class BattleGui {
 	
-	public static void main(String args[]) throws FileNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, CardRequest {
+	public static void main(String args[]) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, CardRequest, IOException {
+		
 		Player playerOne = new Player(new Deck(), new Prizes(6), new Bench(6), null);
 		playerOne.getBench().setPlayer(playerOne);
 		playerOne.getDeck().setPlayer(playerOne);
