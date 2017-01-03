@@ -44,6 +44,7 @@ import statuses.*;
 import trainerCard.*;
 import trainerCard.drawingCards.Bill;
 import trainerCard.drawingCards.ProfessorOak;
+import trainerCard.otherCards.GustOfWindCard;
 import trainerCard.statusCards.DefenderCard;
 import trainerCard.statusCards.FullHeal;
 import trainerCard.statusCards.PluspowerCard;
@@ -204,6 +205,11 @@ public class BattleGui {
 		p1d.addCardFast(pluspower);
 		p1d.addCardFast(pluspower);
 		p1d.addCardFast(pluspower);
+		TrainerCard GOW = new GustOfWindCard(ba, 0);
+		p1d.addCardFast(GOW);
+		p1d.addCardFast(GOW);
+		p1d.addCardFast(GOW);
+		p1d.addCardFast(GOW);
 		WaterEnergy we = new WaterEnergy(ba , 0);
 		for (int i = p1d.getSize(); i < 60; i++) {
 			p1d.addCardFast(we);

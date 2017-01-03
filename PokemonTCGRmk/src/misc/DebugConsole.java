@@ -45,6 +45,16 @@ public class DebugConsole {
 				System.out.print("Ending turn... ");
 				ba.nextTurn();
 				checkgame();
+			} else if (cmd.equals("ov")) {
+				displayActives();
+				System.out.println("att moves: " + Arrays.toString(ba.getAtt().getMoves()));
+				System.out.println("def moves: " + Arrays.toString(ba.getDef().getMoves()));
+				displayBenches();
+				displayHands();
+				displayDiscardPile();
+				System.out.println("att deck size: " + ba.getAttDeck().getSize());
+				System.out.println("def deck size: " + ba.getDefDeck().getSize());
+				
 			} else if (cmd.equals("decksize")) {
 				System.out.println("att deck size: " + ba.getAttDeck().getSize());
 				System.out.println("def deck size: " + ba.getDefDeck().getSize());
@@ -92,7 +102,7 @@ public class DebugConsole {
 									System.err.println("Chooseable list was size 0!!!");
 									System.err.println("Returning picked list as empty");
 									c.returnRequestedCards(e);
-									return;
+									continue;
 								}
 								// getmode may not be important, cause we handle errors in
 								// trainer cards themselves
@@ -234,7 +244,30 @@ public class DebugConsole {
 						}
 					} else { 
 						// TODO: when want to evolve not active.
-						System.out.println("TODO!!");
+						//System.out.println("TODO!!");
+						int bench_index = bn - 1;
+						if (bench_index >= ba.getPlayerAtt().getBench().getCurrentCapacity()) continue;
+						if (ba.getPlayerAtt().getBench().getBench().get(bench_index).canEvolve()) {
+							Card c = ba.getAttHand().getHand().get(hand_index);
+							System.out.println("Evolving pokemon to: " + c);
+							System.out.println("Making sure we can actually evolve to this... ");
+							if (!(c instanceof PokemonCard || c instanceof ActivePokemonCard)) continue;
+							if (ba.getPlayerAtt().getBench().getBench().get(bench_index).canEvolveTo((PokemonCard) c)) {
+								ActivePokemonCard evl = ba.getPlayerAtt().getBench().getBench().get(bench_index).evolve((PokemonCard) c);
+								System.out.println("Evolving to " + evl.getName());
+								int chp = evl.getDamage();
+								ba.getPlayerAtt().getBench().removeCard(bench_index);
+								ba.getPlayerAtt().getBench().add(evl);
+								ba.getPlayerAtt().getBench().getBench().get(bench_index).setDamage(chp);
+								ba.getAttHand().removeCardFromHand(hand_index);
+							} else {
+								System.out.println("Can't evolve to this pokemon");
+								continue;
+							}
+						} else {
+							System.out.println("Can't evolve this turn");
+						}
+						
 					}
 				} else if (cmds[0].equals("place") && cmds.length >= 2) {
 					// TODO: CHECK ADDING ENERGY CARD!! AND EVOLVE!!

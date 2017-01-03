@@ -82,6 +82,23 @@ public class Bench {
 	}
 	
 	/**
+	 * Removes card, returning it.
+	 * @param index
+	 */
+	public ActivePokemonCard removeCard(int index) {
+		return bench.remove(index);
+	}
+	
+	
+	/**
+	 * Removes card
+	 * @param apc
+	 */
+	public boolean removeCard(ActivePokemonCard apc) {
+		return bench.remove(apc);
+	}
+	
+	/**
 	 * Removes the active pokemon card to the discard pile.
 	 * Does nothing if card is not on the bench.
 	 * @param c

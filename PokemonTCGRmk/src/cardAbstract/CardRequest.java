@@ -29,6 +29,7 @@ public class CardRequest extends Throwable{
 	 * @param mode, if 0, then less than equal num cards can be chosen.
 	 * 		        if 1, then exactly num cards must be chosen.
 	 * 				if 2, then num or more cards may be chosen.
+	 * 				!!This may not be important!!
 	 * @param canRepeat, if true, user can repeat picked cards. if false, no.
 	 */
 	public CardRequest(boolean self, int num, List<Card> displayedList, List<Card>
