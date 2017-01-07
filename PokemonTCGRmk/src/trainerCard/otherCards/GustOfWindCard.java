@@ -50,7 +50,7 @@ public class GustOfWindCard extends TrainerCard {
 		}
 		ActivePokemonCard apc = (ActivePokemonCard) pc.getReturnList().get(0);
 		if (apc == null) {
-			System.err.println("Did not specify pokemon to receive potion.");
+			System.err.println("Did not specify pokemon to switch with Gust of Wind.");
 			return;
 		} else {
 			// Good: can swap

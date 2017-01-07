@@ -15,6 +15,7 @@ import cardAbstract.EnergyCard;
 import cardAbstract.PokemonCard;
 import cardAbstract.PokemonMove;
 import cardAbstract.TrainerCard;
+import pokepower.PokePower;
 
 public class DebugConsole {
 	
@@ -22,10 +23,12 @@ public class DebugConsole {
 	
 	public static void startDebugConsole(Arena ba) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, CardRequest, IOException {
 		DebugConsole.ba = ba;
+		PokePower.ba = ba;
 		@SuppressWarnings("resource")
 		Scanner f = new Scanner(System.in);
 		displayCommands();
 		while (f.hasNext()) {
+			ba.setPokePowerStage(PokePower.PowerStage.NOTHING);
 			String cmd = f.nextLine();
 			if (cmd.equals("q")) {
 				return;
@@ -69,6 +72,9 @@ public class DebugConsole {
 			// None of these: try splitting
 			String cmds[] = cmd.split(" ");
 			if (cmds.length > 0) {
+				// Trying something: check the poke power.
+				//ba.checkPowers(); INSTEAD WE CALL THIS IN LIKE ATT,
+				// JUST CTRL+F FOR CHECKPOWERS
 				if (cmds[0].equals("playtr") && cmds.length >= 2) {
 					int index = 0;
 					try {
@@ -182,6 +188,7 @@ public class DebugConsole {
 					}
 					// attach energy, first is hand,2nd is bench or active, 0 = active.
 				} else if (cmds[0].equals("att") && cmds.length >= 2) {
+					ba.setPokePowerStage(PokePower.PowerStage.ATTACH_ENERGY);
 					int index = 0;
 					try {
 						index = Integer.parseInt(cmds[1]);
@@ -198,9 +205,12 @@ public class DebugConsole {
 					if (bn < 0 || bn > ba.getPlayerAtt().getBench().getCurrentCapacity()) continue;
 					if (ba.getAttHand().getHand().get(index) instanceof EnergyCard) {
 						EnergyCard c = (EnergyCard) ba.getAttHand().getHand().get(index);
+						// Check poke powers:
+						ba.checkPowers(c);
 						if (c.canPlay() && !ba.getPlayerAtt().alreadyAttachedEnergy()) {
 							if (bn == 0) {
-								System.out.println("Playing energy card to active: " + c.getName());
+								System.out.
+								println("Playing energy card to active: " + c.getName());
 								ba.getPlayerAtt().attachEnergyCard(c, ba.getPlayerAtt().getActivePokemon());
 							} else {
 								System.out.println("Playing energy card to bench: " + c.getName());
@@ -313,12 +323,14 @@ public class DebugConsole {
 	private static void displayBenches() {
 		System.out.println("Att bench: ");
 		for (ActivePokemonCard c : ba.getPlayerAtt().getBench().getBench()) {
-			System.out.println(c.getName() + " energies: " + c.getEnergyString());
+			System.out.println(c.getName() + " energies: " + c.getEnergyString()
+			+ " Hp: " + (c.getMaxHp() - c.getDamage()) + "/" + c.getMaxHp());
 		}
 		System.out.println();
 		System.out.println("Def bench: ");
 		for (ActivePokemonCard c : ba.getPlayerDef().getBench().getBench()) {
-			System.out.println(c.getName() + " energies: " + c.getEnergyString());
+			System.out.println(c.getName() + " energies: " + c.getEnergyString()
+			+ " Hp: " + (c.getMaxHp() - c.getDamage()) + "/" + c.getMaxHp());
 		}
 		System.out.println();
 	}

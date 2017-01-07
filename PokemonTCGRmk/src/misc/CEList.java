@@ -7,6 +7,8 @@ import moveEffects.MoveEffect;
 import moveEffects.ParOpp;
 import moveEffects.PoisonOpp;
 import moveEffects.SwordsDance;
+import pokepower.PokePower;
+import pokepower.RainDance;
 import trainerCard.drawingCards.Bill;
 import trainerCard.drawingCards.ProfessorOak;
 import trainerCard.otherCards.GustOfWindCard;
@@ -24,9 +26,15 @@ public class CEList {
 	private static Class<? extends TrainerCard> tcSet[] = new Class[]{Bill.class, ProfessorOak.class,
 			DefenderCard.class, FullHeal.class, PluspowerCard.class,
 			Potion.class, GustOfWindCard.class};
+	@SuppressWarnings("unchecked")
+	private static Class<? extends PokePower>[] pSet = new Class[]{RainDance.class};
 
 	public static Class<? extends MoveEffect>[] getMoveEffects(){
 		return meSet;
+	}
+	
+	public static Class<? extends PokePower>[] getPokePowers(){
+		return pSet;
 	}
 
 	public static Class<? extends TrainerCard>[] getTCSet() {

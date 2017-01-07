@@ -12,6 +12,7 @@ import cardAbstract.TrainerCard;
 import misc.CEList;
 import misc.RNG;
 import moveEffects.MoveEffect;
+import pokepower.PokePower;
 import statuses.Status;
 
 public class Arena {
@@ -339,7 +340,36 @@ public class Arena {
 		attActDead = false;
 		defActDead = false;
 	}
+	
+	public void setPokePowerStage(PokePower.PowerStage ps) {
+		PokePower.curStage = ps;
+	}
 
+	public void checkPowers(Object c) throws InstantiationException, IllegalAccessException {
+		if (att.getActivePokemon().getPokePowerName() != null) {
+			for (Class<? extends PokePower> pp : CEList.getPokePowers()) {
+				PokePower p = pp.newInstance();
+				if (!p.activated()) {
+					// Power doesn't have to be activated for it to work:
+					// so we use it now:
+					p.effect(c);
+				}
+			}
+		}
+		if (def.getActivePokemon().getPokePowerName() != null) {
+
+		}
+		for (ActivePokemonCard apc : att.getBench().getBench()) {
+			if (apc.getPokePowerName() != null) {
+
+			}
+		}
+		for (ActivePokemonCard apc : def.getBench().getBench()) {
+			if (apc.getPokePowerName() != null) {
+
+			}
+		}
+	}
 
 
 }

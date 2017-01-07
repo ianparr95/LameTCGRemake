@@ -181,6 +181,9 @@ public class BattleGui {
 		p1d.addCardFast(w22);
 		p1d.addCardFast(w22);
 		p1d.addCardFast(w22);
+		p1d.addCardFast(w22);
+		p1d.addCardFast(blast);
+		p1d.addCardFast(blast);
 		p1d.addCardFast(blast);
 		p1d.addCardFast(blast);
 		p1d.addCardFast(staryu);
