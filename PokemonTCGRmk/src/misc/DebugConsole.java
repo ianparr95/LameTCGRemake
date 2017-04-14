@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import arena.Arena;
+import arena.Player;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.CardRequest;
@@ -20,12 +21,12 @@ import pokepower.PokePower;
 public class DebugConsole {
 	
 	private static Arena ba;
+	private static Scanner f;
 	
 	public static void startDebugConsole(Arena ba) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, CardRequest, IOException {
 		DebugConsole.ba = ba;
 		PokePower.ba = ba;
-		@SuppressWarnings("resource")
-		Scanner f = new Scanner(System.in);
+		f = new Scanner(System.in);
 		displayCommands();
 		while (f.hasNext()) {
 			ba.setPokePowerStage(PokePower.PowerStage.NOTHING);
@@ -48,6 +49,7 @@ public class DebugConsole {
 				System.out.print("Ending turn... ");
 				ba.nextTurn();
 				checkgame();
+				continue;
 			} else if (cmd.equals("ov")) {
 				displayActives();
 				System.out.println("att moves: " + Arrays.toString(ba.getAtt().getMoves()));
@@ -147,9 +149,9 @@ public class DebugConsole {
 										}
 									}
 								} else if (e.getMode() == 1) {
-									
+									// TODO:
 								} else if (e.getMode() == 2) {
-									
+									// TODO:
 								} else {
 									System.err.println("Error in mode for e");
 									System.err.println("Value was: " + e.getMode());
@@ -205,7 +207,13 @@ public class DebugConsole {
 					if (bn < 0 || bn > ba.getPlayerAtt().getBench().getCurrentCapacity()) continue;
 					if (ba.getAttHand().getHand().get(index) instanceof EnergyCard) {
 						EnergyCard c = (EnergyCard) ba.getAttHand().getHand().get(index);
-						// Check poke powers:
+						// Check poke powers: ALTNERATIFVLY: overload checkPowers
+						// such that different stage can do like:
+						// this stage: pass energycard + arena.
+						// attack: pass move + arena etc..
+						// endturn: pass arena only
+						// TODO: ALSO ADD A CHECK IF POKE POWER AFFECTS OPPOSITION!!
+						// EG: RAIN DANCE , NO, BUT PREHISTORIC POWER, YES!
 						ba.checkPowers(c);
 						if (c.canPlay() && !ba.getPlayerAtt().alreadyAttachedEnergy()) {
 							if (bn == 0) {
@@ -371,6 +379,9 @@ public class DebugConsole {
 				+ " Statuses: " + ba.getDef().getStatus());
 	}
 	
+	/**
+	 * CALLED BEFORE OR AFTER ENDTURN?
+	 */
 	private static void checkgame() {
 		System.out.println("Done, now checking arena");
 		ba.checkArena();
@@ -378,7 +389,52 @@ public class DebugConsole {
 		System.out.println("Def act dead? " + ba.defActDead);
 		System.out.println("Att prizes to draw: " + ba.defDead);
 		System.out.println("Def prizes to draw: " + ba.attDead);
+		// TODO: check prizes is zero. also need to check if decked out
+		
+		// if att dead, ask them to replace.
+		if (ba.attActDead) {
+			ba.knockOutAttPokemon();
+			replaceAct(ba.getPlayerAtt(),true);
+		}
+		if (ba.defActDead) {
+			ba.knockOutDefPokemon();
+			replaceAct(ba.getPlayerDef(),false);
+		}
+		
 		ba.clearCheckArena();
+	}
+	
+	private static void replaceAct(Player p, boolean att) {
+		if (p.getBench().getCurrentCapacity() == 0) {
+			// att lost
+			System.out.println("a player lost due to having no benched pokemon to replace!");
+			// TODO: EXIT?
+		} else {
+			// ask to replace
+			System.out.println("Replace active. Current pokemon in bench are: " + p.getBench().getBench());
+			System.out.println("Type an index: ");
+			while (f.hasNext()) {
+				String s = f.next();
+				int ind;
+				try {
+					ind = Integer.parseInt(s);
+				} catch (Exception e) {
+					System.out.println("Please type a number");
+					continue;
+				}
+				if (ind < 0 || ind >= p.getBench().getCurrentCapacity()) {
+					System.out.println("Please type a valid index");
+					continue;
+				}
+				// now replace:
+				if (att) {
+					ba.setAttPokemon(p.getBench().removeCard(ind));
+				} else {
+					ba.setDefPokemon(p.getBench().removeCard(ind));
+				}
+				break;
+			}
+		}
 	}
 	
 	private static void clearcons() {

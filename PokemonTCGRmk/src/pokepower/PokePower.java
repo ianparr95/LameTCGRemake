@@ -39,6 +39,8 @@ public abstract class PokePower {
 	 */
 	public abstract boolean activated();
 	
+	public abstract boolean affectsEnemies();
+	
 	/**
 	 * Effects of this power.
 	 * Object can be anything!

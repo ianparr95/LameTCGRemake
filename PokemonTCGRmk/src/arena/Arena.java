@@ -81,7 +81,7 @@ public class Arena {
 	 * Knocks out the active pokemon:
 	 * Sets att to be null.
 	 * Adds att and all cards attached to discard pile.
-	 * Asks def to pick out a card from prize.
+	 * MAYBE ask def to pick out a card.
 	 */
 	public void knockOutAttPokemon(){
 		//att.getDiscardPile().addCard(att.getActivePokemon());
@@ -98,10 +98,27 @@ public class Arena {
 		
 		// ALSO ASK PLAYER TO CHOOSE ACTIVE POKEMON?
 		att.setActivePokemon(null);
-		// TODO: ASK DEF PICK OUT PRIZE CARD>?
+		// TODO: ASK DEF PICK OUT PRIZE CARD>? HERE OR NOT
 	}
 	
 	// ALSO HAVE KNOCKOUTDEFPOKEMON.
+	public void knockOutDefPokemon(){
+		//att.getDiscardPile().addCard(att.getActivePokemon());
+		for (TrainerCard c : def.getActivePokemon().getTrainerCards()) {
+			def.getDiscardPile().addCard(c);
+		}
+		// Now convert att activePokemon to simple a pokemon card, adding it to discard pile.
+		PokemonCard p = def.getActivePokemon();
+		def.getDiscardPile().addCard(p);
+		// Also add preevolutions of that card.
+		for (PokemonCard c : def.getActivePokemon().getForms()) {
+			def.getDiscardPile().addCard(c);
+		}
+		
+		// ALSO ASK PLAYER TO CHOOSE ACTIVE POKEMON?
+		def.setActivePokemon(null);
+		// TODO: ASK DEF PICK OUT PRIZE CARD>? HERE OR NOT
+	}
 	
 	public ActivePokemonCard getAtt(){
 		return att.getActivePokemon();
@@ -349,10 +366,12 @@ public class Arena {
 		if (att.getActivePokemon().getPokePowerName() != null) {
 			for (Class<? extends PokePower> pp : CEList.getPokePowers()) {
 				PokePower p = pp.newInstance();
-				if (!p.activated()) {
-					// Power doesn't have to be activated for it to work:
-					// so we use it now:
-					p.effect(c);
+				if (p.getName().equals(att.getActivePokemon().getPokePowerName())) { 
+					if (!p.activated()) {
+						// Power doesn't have to be activated for it to work:
+						// so we use it now:
+						p.effect(c);
+					}
 				}
 			}
 		}
@@ -361,7 +380,16 @@ public class Arena {
 		}
 		for (ActivePokemonCard apc : att.getBench().getBench()) {
 			if (apc.getPokePowerName() != null) {
-
+				for (Class<? extends PokePower> pp : CEList.getPokePowers()) {
+					PokePower p = pp.newInstance();
+					if (p.getName().equals(att.getActivePokemon().getPokePowerName())) { 
+						if (!p.activated()) {
+							// Power doesn't have to be activated for it to work:
+							// so we use it now:
+							p.effect(c);
+						}
+					}
+				}
 			}
 		}
 		for (ActivePokemonCard apc : def.getBench().getBench()) {

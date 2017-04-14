@@ -33,4 +33,9 @@ public class RainDance extends PokePower{
 		}
 	}
 
+	@Override
+	public boolean affectsEnemies() {
+		return false;
+	}
+
 }
