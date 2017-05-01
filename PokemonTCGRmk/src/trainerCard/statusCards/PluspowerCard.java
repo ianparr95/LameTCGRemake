@@ -37,7 +37,7 @@ public class PluspowerCard extends TrainerCard{
 
 	@Override
 	public void turnUsToOpp() {
-		arena.getAtt().removeTrainer(this);
+		arena.getAtt().removeTrainerToDiscardPile(this);
 	}
 
 	@Override

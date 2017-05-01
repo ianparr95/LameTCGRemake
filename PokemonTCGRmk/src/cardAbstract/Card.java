@@ -1,7 +1,7 @@
 package cardAbstract;
 
 /**
- * All cards have an id... could be deck position?
+ * All cards have an unique id.
  * Initial value of a card is zero.
  */
 public abstract class Card {
@@ -34,7 +34,7 @@ public abstract class Card {
 	
 	public abstract String getName();
 	
-	// Could be level:
+	// additional info about the card.
 	public abstract String addInfoName();
 	
 }

@@ -14,7 +14,6 @@ public class ActivePokemonCard extends PokemonCard{
 	private List<Status> statuses;
 	private int damage = 0; // current damage dealt to our pokemon
 	
-	// TODO: IMPLEMENT ATTACHING TRAINER CARDS
 	private List<TrainerCard> tCards; // current trainer cards attached
 	private List<EnergyCard> eCards; // current energy cards
 	
@@ -22,6 +21,13 @@ public class ActivePokemonCard extends PokemonCard{
 	
 	private Player player;
 	
+	/**
+	 * Creates a new ActivePokemonCard from the specified PokemonCard,
+	 * and sets the id and owning player.
+	 * @param p, the PokemonCard to be promoted to an ActivePokemonCard
+	 * @param id, the id of the card
+	 * @param player, the owning player.
+	 */
 	public ActivePokemonCard(PokemonCard p, int id, Player player) {
 		super(p.getName(), p.getLevel(), p.desc, id);
 		this.curEnergy = new ArrayList<String>();
@@ -33,22 +39,32 @@ public class ActivePokemonCard extends PokemonCard{
 		//forms.add(this);
 	}
 	
+	/**
+	 * Sets the owning player
+	 * @param p, the player to be set as the owner.
+	 */
 	public void setPlayer(Player p) {
 		this.player = p;
 	}
 	/**
-	 * Returns true if we can evolve to p.
-	 * @param p
-	 * @return
+	 * Returns true if this can evolve to p.
+	 * @param p, the card to be checked.
+	 * @return true, if this card can evolve to pokemon p.
 	 */
 	public boolean canEvolveTo(PokemonCard p) {
 		return p.getEvol().equals(this.getName());
 	}
 	
 	/**
-	 * Returns a new ActivePokemonCard where it is the evolved form.
-	 * All statuses are removed, trainers cards are not. forms is also updated and copied over.
-	 * HP is also copied over. Does not update bench or active pokemon.
+	 * Returns a new ActivePokemonCard where it is the evolved form of this card.
+	 * Does not do any checking on whether we can actually evolve to p.
+	 * All curable statuses are removed, trainers cards are not. Forms are also updated and copied over.
+	 * HP is also copied over. Does not update bench or active pokemon. So the user needs to
+	 * remove from the bench/active the current ActivePokemonCard, and replace it with the
+	 * ActivePokemonCard returned from here.
+	 * Also clears the current card of all statuses/damage/attached cards.
+	 * @param p, the card to be evolved to.
+	 * @return A new ActivePokemonCard which is the evolved form of this card.
 	 */
 	public ActivePokemonCard evolve(PokemonCard p) {
 		ActivePokemonCard newApc = new ActivePokemonCard(p,p.getId(), player);
@@ -82,14 +98,27 @@ public class ActivePokemonCard extends PokemonCard{
 		return newApc;
 	}
 	
+	/**
+	 * Get forms of this card, which are the cards we
+	 * evolved from.
+	 * @return A list of forms of this card.
+	 */
 	public List<ActivePokemonCard> getForms(){
 		return forms;
 	}
+	
 	
 	public List<EnergyCard> getEnergyCards(){
 		return eCards;
 	}
 	
+	/**
+	 * Adds status s to this card.
+	 * Will replace Poisoned with Toxic if found. This is only case
+	 * of special handling.
+	 * Does not add status if unable to stack.
+	 * @param s, status to add.
+	 */
 	public void addStatus(Status s) {
 		// CHECK IF SHOULD STACK.
 		
@@ -126,49 +155,66 @@ public class ActivePokemonCard extends PokemonCard{
 
 	}
 	
+	/**
+	 * Removes status s from this card.
+	 * Equivalent to getStatus().remove(s).
+	 * @param s, the status to be removed.
+	 */
 	public void removeStatus(Status s){
 		statuses.remove(s);
 	}
 	
+	/**
+	 * Returns a list of statuses for this card.
+	 * @return A list of statuses for this card.
+	 */
 	public List<Status> getStatus(){
 		return statuses;
 	}
 	
 	/**
-	 * DOES NOT CALL whenPlayed.
-	 * Does not remove this from the hand.
-	 * If attachable, pokemon will hold this card.
-	 * Else will not: (eg bill doesn't hold, but
-	 * pluspower it will).
-	 * @param s
-	 * @throws CardRequest 
+	 * If the card is attachable, attaches it to this card.
+	 * Does not call whenPlayed or any other method.
+	 * @param s, the card to attach.
 	 */
 	public void addTrainer(TrainerCard s) {
 		if (s.attachable()) {
 			tCards.add(s);
-			//s.whenPlayed();
-		} else {
-			//s.whenPlayed();
 		}
 	}
 	
+	/**
+	 * Attaches the energy to this pokemon.
+	 * Does not call whenPlayed or any other method.
+	 * @param e, the energy card to attach.
+	 */
 	public void attachEnergy(EnergyCard e){
 		eCards.add(e);
 		this.curEnergy.add(e.energyType());
-		e.whenPlayed();
 	}
 	
-	// Adds to discard pile.
-	public void removeTrainer(TrainerCard s){
+	/**
+	 * Removes the specified TrainerCard from this card.
+	 * Adds this card to the discard pile.
+	 * @param s, the card to remove to the discard pile.
+	 */
+	public void removeTrainerToDiscardPile(TrainerCard s){
 		tCards.remove(s);
-		System.out.println(player);
 		player.getDiscardPile().addCard(s);
 	}
 	
+	/**
+	 * Returns a list of attached trainer cards.
+	 * @return a list of attached trainer cards.
+	 */
 	public List<TrainerCard> getTrainerCards(){
 		return tCards;
 	}
 	
+	/**
+	 * Returns true if this card is affected by sleep
+	 * @return True, if this card is affected by sleep.
+	 */
 	public boolean isAsleep(){
 		for(Status s : statuses) {
 			if (s instanceof statuses.Sleep) {
@@ -178,15 +224,40 @@ public class ActivePokemonCard extends PokemonCard{
 		return false;
 	}
 	
+	/**
+	 * Returns true if this card is affected by confusion
+	 * @return True, if this card is affected by confusion.
+	 */
+	public boolean isConfused(){
+		for(Status s : statuses) {
+			if (s instanceof statuses.Confused) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
+	/**
+	 * Returns true if this card is dead
+	 * @return True, if this is dead.
+	 */
 	public boolean isDead(){
 		return damage >= this.getMaxHp();
 	}
 	
+	/**
+	 * Adds the energy string to this card
+	 * @param e, the energy string to add.
+	 */
 	public void addEnergyString(String e){
 		curEnergy.add(e);
 	}
 	
+	/**
+	 * Adds the specified damage to this card.
+	 * HP does not go below 0 or above max hp.
+	 * @param damage, the damage to add.
+	 */
 	public void addDamage(int damage){
 		this.damage += damage;
 		if (this.damage < 0) {
@@ -197,6 +268,12 @@ public class ActivePokemonCard extends PokemonCard{
 		}
 	}
 	
+	/**
+	 * Sets the current damage on this card.
+	 * Damage does not go below zero or above
+	 * the max hp of this card.
+	 * @param damage, the amount to set damage as.
+	 */
 	public void setDamage(int damage){
 		this.damage = damage;
 		if (this.damage < 0) {
@@ -207,10 +284,27 @@ public class ActivePokemonCard extends PokemonCard{
 		}
 	}
 	
+	/**
+	 * Gets the damage on this card.
+	 * @return the amount of damage on this card.
+	 */
 	public int getDamage(){
 		return damage;
 	}
 	
+	/**
+	 * Checks if we can perform the specified move.
+	 * Does the following checks:
+	 * 1. Is mv null?
+	 * 2. Is mv's energycost not null?
+	 * 3. Are we affected by a status so that we can't perform the move?
+	 * 4. Does this card have the correct energy cards to perform the move?
+	 * Does not do confusion checking. That should be done elsewhere,
+	 * since confusion always returns true, so we should check if this card
+	 * is confused.
+	 * @param mv, the move to check if this card can perform.
+	 * @return True, if this card can perform the move.
+	 */
 	public boolean canPerformMove(PokemonMove mv){
 		// First check if this card even has that move:
 		if (mv == null) {
@@ -276,6 +370,10 @@ public class ActivePokemonCard extends PokemonCard{
 		return (us.length() >= oe.length());
 	}
 	
+	/**
+	 * Get the energy string of this card.
+	 * @return the energy string of this card.
+	 */
 	public String getEnergyString() {
 		String k = "";
 		for (String s : curEnergy) {
@@ -285,7 +383,8 @@ public class ActivePokemonCard extends PokemonCard{
 	}
 	
 	/**
-	 * CLears this card of all status, attached cards, hp...
+	 * Clears this card of all statuses, attached cards, health etc.
+	 * Sets the card to be unable to evolve.
 	 */
 	public void clearCard(){
 		this.curEnergy = new ArrayList<String>();

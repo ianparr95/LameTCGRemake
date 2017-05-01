@@ -3,6 +3,9 @@ package statuses;
 import cardAbstract.ActivePokemonCard;
 import misc.RNG;
 
+/**
+ * Do special handling for this class!
+ */
 public class Confused extends Status{
 
 	public Confused(ActivePokemonCard apc) {
@@ -22,10 +25,10 @@ public class Confused extends Status{
 
 	@Override
 	public boolean canAttack() {
-		boolean heads = RNG.flipCoin();
+		/*boolean heads = RNG.flipCoin();
 		if (heads) return true;
-		apc.addDamage(30);
-		return false;
+		apc.addDamage(30);*/
+		return true;
 	}
 
 	@Override

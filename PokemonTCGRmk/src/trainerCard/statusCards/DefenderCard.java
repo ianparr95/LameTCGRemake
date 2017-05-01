@@ -33,7 +33,7 @@ public class DefenderCard extends TrainerCard{
 
 	@Override
 	public void turnOppToUs() {
-		arena.getAtt().removeTrainer(this);
+		arena.getAtt().removeTrainerToDiscardPile(this);
 	}
 
 	@Override
