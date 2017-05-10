@@ -20,7 +20,7 @@ public class PsychicEnergy extends EnergyCard{
 	}
 
 	@Override
-	public void otherEnergyEffects() {
+	protected void otherEnergyEffects() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -38,5 +38,17 @@ public class PsychicEnergy extends EnergyCard{
 	@Override
 	public String getName() {
 		return "Psychic Energy";
+	}
+
+	@Override
+	public void turnUsToOpp() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void turnOppToUs() {
+		// TODO Auto-generated method stub
+		
 	}
 }

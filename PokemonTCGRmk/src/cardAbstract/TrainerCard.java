@@ -5,13 +5,7 @@ import java.util.List;
 import arena.Arena;
 
 public abstract class TrainerCard extends Card{
-	// make it take ATTacker and DEFENDER?
-	// also have ability like gust of wind:
-	// let some function like "chooseeEnemeyBenchPokemon" etc..
-	// TODO: ALSO WHEN SOMEONE SWITCHES OUT BENCH POKEMON, MAKE SURE MODIFY ATT/DEF
-	
-	//protected ActivePokemonCard att;
-	//protected ActivePokemonCard def;
+
 	protected Arena arena;
 	
 	public TrainerCard(Arena arena, int id) {

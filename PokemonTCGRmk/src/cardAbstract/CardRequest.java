@@ -6,6 +6,7 @@ import java.util.List;
 
 import misc.CardFilter;
 
+@SuppressWarnings("serial")
 public class CardRequest extends Throwable{
 
 	private boolean self;
@@ -17,19 +18,16 @@ public class CardRequest extends Throwable{
 	private int mode;
 	private boolean canr;
 	
-	// TODO: ternary if exactly num, less than, greater than etc..
-	// or even if allowzero cards tobe returned etc.
 	/**
 	 * Create a new card request.
-	 * @param self if true, then we request a card. Else opponent
-	 * @param num number of cards to request
-	 * @param displayedList the list of cards to display
-	 * @param chooseableList the list of cards that are chooseable
+	 * @param self, if true, then we request a card. Else opponent
+	 * @param num, number of cards to request
+	 * @param displayedList, the list of cards to display eg: entire deck.
+	 * @param chooseableList, the list of cards that are chooseable eg: only basic pokemon.
 	 * @param msg associated string (can be anything)
 	 * @param mode, if 0, then less than equal num cards can be chosen.
 	 * 		        if 1, then exactly num cards must be chosen.
 	 * 				if 2, then num or more cards may be chosen.
-	 * 				!!This may not be important!!
 	 * @param canRepeat, if true, user can repeat picked cards. if false, no.
 	 */
 	public CardRequest(boolean self, int num, List<Card> displayedList, List<Card>
@@ -43,28 +41,43 @@ public class CardRequest extends Throwable{
 		this.canr = canRepeat;
 	}
 	
-	public String abc = "lol";
-	
+	/**
+	 * Get the number of cards requested
+	 * @return the number of cards requested.
+	 */
 	public int getNumberCardsRequest() {
 		return num;
 	}
 	
+	/**
+	 * Request a card. We throw this, and the catcher should
+	 * call this class's methods to get information about
+	 * the card we request.
+	 * @throws CardRequest, throws this.
+	 */
 	public void requestCard() throws CardRequest {
 		throw this;
 	}
 	
+	/**
+	 * Get the chooseable card list.
+	 * @return an unmodifiable list of chooseable cards.
+	 */
 	public List<Card> getChooseableList() {
 		return Collections.unmodifiableList(chooseableList);
 	}
 	
+	/**
+	 * Get the displayed card list.
+	 * @return an unmodifiable list of displayed cards.
+	 */
 	public List<Card> getDisplayList() {
 		return Collections.unmodifiableList(displayedList);
 	}
 	
 	/**
-	 * Returns true if request cards from our self,
-	 * false if we need to pass this along to opponent
-	 * to handle.
+	 * Returns if we request cards from ourself.
+	 * @return True, if we request cards for ourself. False if from the opponent.
 	 */
 	public boolean isSelf() {
 		return self;
@@ -76,17 +89,25 @@ public class CardRequest extends Throwable{
 	}
 	
 	/**
-	 * Returns the list of cards we should fill up.
-	 * @return
+	 * The return list, we should use this list to return cards requested.
+	 * @return a modifiable list, that we should use to return cards.
 	 */
 	public List<Card> getReturnList() {
 		return rList;
 	}
 	
+	/**
+	 * Get the mode of this card request.
+	 * @return mode of this card request.
+	 */
 	public int getMode(){
 		return mode;
 	}
 	
+	/**
+	 * Returns true if we can pick the same card multiple times.
+	 * @return true if we can repick the same card.
+	 */
 	public boolean canRepeatPickedCard() {
 		return canr;
 	}

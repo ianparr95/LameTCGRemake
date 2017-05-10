@@ -32,8 +32,8 @@ public class PokemonCard extends Card{
 	protected boolean canEvolve = false; 
 	
 	/**
-	 * Should be used using ParsePokemonCardsFile's function: getPokemonCard
-	 * This creates a pokemon card with the associated card description string
+	 * Create a pokemon card with the associated card description string.
+	 * Should be used using ParsePokemonCardsFile's function getPokemonCard.
 	 * @param name
 	 * @param level
 	 * @param cardDes: cardDescription, should be read in from ParsePokemonCardsFile
@@ -172,22 +172,41 @@ public class PokemonCard extends Card{
 		return getAssoc("[rcost]");
 	}
 	
+	/**
+	 * Get the name of the PokePower, eg: "Rain Dance"
+	 * @return the name of the PokePower
+	 */
 	public String getPokePowerName(){
 		return getAssoc("[powername]");
 	}
 	
+	/**
+	 * Get the PokePower type, eg : "RAIN_DANCE".
+	 * Used because different cards may have different
+	 * names for PokePower, but the same effect.
+	 * @return the name of the PokePower type
+	 */
 	public String getPokePowerType(){
 		return getAssoc("[ptype]");
 	}
 	
+	/**
+	 * Returns true if this is a basic pokemon. Else false.
+	 * @return true, if this is a basic pokemon.
+	 */
 	public boolean isBasicPokemon(){
 		String stage = getAssoc("[evol]");
 		return stage.equals("b");
 	}
 	
+	/**
+	 * Get the PokemonMove from the associated name
+	 * @param moveName, the name of the move
+	 * @return the PokemonMove associated with the name.
+	 */
 	public PokemonMove getMove(String moveName) {
 		PokemonMove r = null;
-		if (moves == null) {
+		if (moves == null) { // not cached.
 			String[] mn = getMoveNames();
 			moves = new PokemonMove[mn.length];
 			for (int i = 0 ; i < moves.length; i++) {
@@ -196,7 +215,7 @@ public class PokemonCard extends Card{
 					r = moves[i];
 				}
 			}
-		} else {
+		} else { // cached.
 			for (int i = 0 ; i < moves.length; i++) {
 				if (moves[i].getName().equals(moveName)) {
 					r = moves[i];
@@ -230,6 +249,11 @@ public class PokemonCard extends Card{
 		}
 	}
 	
+	/**
+	 * Get the data associated with the tag
+	 * @param tag
+	 * @return the String associated with the tag.
+	 */
 	private String getAssoc(String tag) {
 		int tLoc = desc.indexOf(tag);
 		if (tLoc < 0) {
@@ -245,10 +269,17 @@ public class PokemonCard extends Card{
 		}
 	}
 	
+	/**
+	 * Returns true if we can evolve.
+	 * @return true, if we can evolve.
+	 */
 	public boolean canEvolve(){
 		return canEvolve;
 	}
 	
+	/**
+	 * Set that this card can evolve.
+	 */
 	public void setCanEvolve(){
 		canEvolve = true;
 	}

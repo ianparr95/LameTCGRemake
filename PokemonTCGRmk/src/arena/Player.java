@@ -112,25 +112,11 @@ public class Player {
 		}
 		alreadyAttachedEnergy = true;
 		pc.attachEnergy(e);
-		// Then remove from hand:
-
+		// Then now call energy's effects.
+		e.whenPlayed();
+		// now remove it from the hand.
+		hand.removeCardFromHand(e);
 		
-		// BELOW: don't actually need to do this?
-		/*
-		if (pc.equals(apc)) {
-			// User chose to attach energy card to current active:
-			apc.attachEnergy(e);
-		} else {
-			// User didnt attach to current active:
-			// Search bench.
-			for (ActivePokemonCard c : bench.getBench()) {
-				if (c.equals(pc)) {
-					c.attachEnergy(e);
-					break;
-				}
-			}
-		}
-		*/
 	}
 	
 	/**

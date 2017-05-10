@@ -24,7 +24,7 @@ public class StoneEnergy extends EnergyCard {
 	}
 
 	@Override
-	public void otherEnergyEffects() {
+	protected void otherEnergyEffects() {
 		// Do nothing for this since this is a basic energy card.
 	}
 	
@@ -41,6 +41,18 @@ public class StoneEnergy extends EnergyCard {
 	@Override
 	public String getName() {
 		return "Fighting Energy";
+	}
+
+	@Override
+	public void turnUsToOpp() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void turnOppToUs() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
