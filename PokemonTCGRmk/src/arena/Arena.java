@@ -16,11 +16,36 @@ public class Arena {
 	private Player att;
 	private Player def;
 	
+	// UI should set this.
+	public static enum GameStage {
+		ATTACK, ATTACH_ENERGY, ATTACH_TRAINER, RECEIVE_ATTACK, RECEIVE_DAMAGE, NOTHING, PLACE_POKEMON, RETREAT_POKEMON
+	}
+
+	private static GameStage curStage;
+	
 	// TODO:
 	// Set this to be player instead.
 	public Arena(Player att, Player def) {
 		this.att = att;
 		this.def = def;
+	}
+	
+	/**
+	 * Get the current stage.
+	 * @return The current stage of the arena.
+	 */
+	public GameStage getCurStage() {
+		return curStage;
+	}
+
+	/**
+	 * Set the current stage of the game.
+	 * @param curStage, the current stage of the game.
+	 * IE: Attacking, set stage to ATTACK,
+	 * when retreating, set to RETREAT_POKEMON etc.
+	 */
+	public void setCurStage(GameStage stage) {
+		curStage = stage;
 	}
 	
 	public Player getPlayerAtt() {
@@ -352,10 +377,6 @@ public class Arena {
 		defDead = 0;
 		attActDead = false;
 		defActDead = false;
-	}
-	
-	public void setPokePowerStage(PokePower.PowerStage ps) {
-		PokePower.curStage = ps;
 	}
 
 	public void checkPowers(Object c) throws InstantiationException, IllegalAccessException {

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import arena.Arena;
+import arena.Arena.GameStage;
 import arena.Player;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
@@ -29,7 +30,7 @@ public class DebugConsole {
 		f = new Scanner(System.in);
 		displayCommands();
 		while (f.hasNext()) {
-			ba.setPokePowerStage(PokePower.PowerStage.NOTHING);
+			ba.setCurStage(GameStage.NOTHING);
 			String cmd = f.nextLine();
 			if (cmd.equals("q")) {
 				return;
@@ -190,7 +191,7 @@ public class DebugConsole {
 					}
 					// attach energy, first is hand,2nd is bench or active, 0 = active.
 				} else if (cmds[0].equals("att") && cmds.length >= 2) {
-					ba.setPokePowerStage(PokePower.PowerStage.ATTACH_ENERGY);
+					ba.setCurStage(GameStage.ATTACH_ENERGY);
 					int index = 0;
 					try {
 						index = Integer.parseInt(cmds[1]);

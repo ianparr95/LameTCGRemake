@@ -1,5 +1,6 @@
 package pokepower;
 
+import arena.Arena.GameStage;
 import cardAbstract.EnergyCard;
 
 public class RainDance extends PokePower{
@@ -18,17 +19,16 @@ public class RainDance extends PokePower{
 
 	@Override
 	public void effect(Object c) {
-		if (curStage == PowerStage.ATTACH_ENERGY) {
+		if (ba.getCurStage() == GameStage.ATTACH_ENERGY) {
 			//if (ba.getPlayerAtt())
 			if (c instanceof EnergyCard) {
 				if (((EnergyCard) c).energyType().equals("w")) {
-					System.out.println("Rain Dance invoked!!!!");
-					// STILL NEED TO TEST WITH OTHER ENERGY TYPES
+					//System.out.println("Rain Dance invoked!!!!");
 					ba.getPlayerAtt().setCanAttachEnergy();
 				}
 			} else {
 				System.err.println("Rain Dance called at the wrong stage, because"
-						+ " expected c to be an energy card, but it wasn't!");
+						+ " expected object to be an energy card, but it wasn't!");
 			}
 		}
 	}
