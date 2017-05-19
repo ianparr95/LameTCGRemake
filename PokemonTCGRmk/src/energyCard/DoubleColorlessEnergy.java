@@ -1,19 +1,14 @@
 package energyCard;
 
-import java.util.Arrays;
-
 import arena.Arena;
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.EnergyCard;
-import cardAbstract.PokemonCard;
 
 public class DoubleColorlessEnergy extends EnergyCard{
 
 
 	public DoubleColorlessEnergy(Arena arena, int id) {
 		super(arena, id);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

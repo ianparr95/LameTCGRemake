@@ -1,11 +1,7 @@
 package arena;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-
 import cardAbstract.ActivePokemonCard;
-import cardAbstract.Card;
 import cardAbstract.PokemonCard;
 import cardAbstract.PokemonMove;
 import cardAbstract.TrainerCard;

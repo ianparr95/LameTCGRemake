@@ -1,30 +1,33 @@
 package cardAbstract;
 
-import java.util.List;
-
 import arena.Arena;
 
 public abstract class TrainerCard extends Card{
 
 	protected Arena arena;
 	
+	/**
+	 * Create a new TrainerCard with the specified arena and id
+	 * @param arena, the arena the card belongs to.
+	 * @param id, the unique id of the card.
+	 */
 	public TrainerCard(Arena arena, int id) {
 		super(id);
 		this.arena = arena;
 	}
 	
-	public Arena getArena(){
-		return arena;
-	}
 	/**
+	 * Is this card attachable?
 	 * Eg: pluspower/defender is attachable, but bill, prof oak etc is not.
 	 * @return true if attachable
 	 */
 	public abstract boolean attachable();
 	
 	/**
-	 * Returns false eg: if revive is played but no dead pokemon in discard pile.
-	 * @return true if can paly this card.
+	 * Can we play this card?
+	 * eg: if revive is played but no dead pokemon in discard pile.
+	 * then we want to return false.
+	 * @return true if can plly this card.
 	 */
 	public abstract boolean canPlay();
 	

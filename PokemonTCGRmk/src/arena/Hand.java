@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.PokemonCard;
 

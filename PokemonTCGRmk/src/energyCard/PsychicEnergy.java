@@ -1,7 +1,6 @@
 package energyCard;
 
 import arena.Arena;
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.EnergyCard;
 

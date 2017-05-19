@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import misc.CardFilter;
-
 @SuppressWarnings("serial")
 public class CardRequest extends Throwable{
 

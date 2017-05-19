@@ -11,8 +11,6 @@ import cardAbstract.PokemonCard;
 public class Deck {
 	// A deck holds 60 cards
 	private List<Card> deck; // both trainer and pokemoncard extend this.
-	private Player player;
-	
 	/**
 	 * Initializes a new deck.
 	 */
@@ -25,7 +23,6 @@ public class Deck {
 	 * @param player
 	 */
 	public void setPlayer(Player player){
-		this.player = player;
 	}
 	
 	/**
