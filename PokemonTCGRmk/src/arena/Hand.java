@@ -50,10 +50,9 @@ public class Hand {
 	}
 	
 	/**
-	 * Returns as an unmodifiable list the hand.
-	 * @return
+	 * Returns as an unmodifiable list the hand.t
 	 */
-	public List<Card> getHand(){
+	public List<Card> getList(){
 		return Collections.unmodifiableList(hand);
 	}
 	

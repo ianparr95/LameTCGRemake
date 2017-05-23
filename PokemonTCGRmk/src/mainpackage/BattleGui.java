@@ -127,9 +127,9 @@ public class BattleGui {
 	}
 	
 	private static void drawHandPlaceCards(Player player, Arena ba) {
-		System.out.println("Player drew initial hand:\n" + player.getHand().getHand());
+		System.out.println("Player drew initial hand:\n" + player.getHand().getList());
 
-		CardFilter cf = new CardFilter(player.getHand().getHand());
+		CardFilter cf = new CardFilter(player.getHand().getList());
 		// Get all the basic pokemon from playerOne's hand.
 		List<PokemonCard> ih = cf.filterCardsStage("0");
 		// Take the first card from ih and place it for player one's active
@@ -142,8 +142,8 @@ public class BattleGui {
 		for (PokemonCard pc : ih) {
 			player.addToBenchFromHand(pc);
 		}
-		System.out.println("Player's bench is now:" + player.getBench().getBench());
-		System.out.println("Hand is now:" + player.getHand().getHand());
+		System.out.println("Player's bench is now:" + player.getBench().getList());
+		System.out.println("Hand is now:" + player.getHand().getList());
 		// Attach an energy card: TODO: add a method for this
 		// In the class player: that way can keep track if attached one during a
 		// turn
@@ -296,12 +296,12 @@ public class BattleGui {
 		//Card po = new DefenderCard(null, 0);
 		//CardGui g = new CardGui(p12);
 		//g.setVisible(true);
-		List<ActivePokemonCard> benchba = ba.getPlayerDef().getBench().getBench();
+		List<ActivePokemonCard> benchba = ba.getPlayerDef().getBench().getList();
 		List<Card> benchfix = new ArrayList<Card>();
 		for (Card c : benchba){
 			benchfix.add(c);
 		}
-		CardListGui g = new CardListGui(ba.getDefDeck().getDeck());
+		CardListGui g = new CardListGui(ba.getDefDeck().getList());
 		g.setVisible(true);
 		jf.setLayout(null);
 		jf.setSize(700, 700);

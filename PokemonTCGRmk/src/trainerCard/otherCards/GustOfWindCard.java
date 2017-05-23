@@ -33,7 +33,7 @@ public class GustOfWindCard extends TrainerCard {
 	public void whenPlayed() throws CardRequest {
 		// TODO Auto-generated method stub
 		List<Card> pList = new ArrayList<Card>();
-		for (Card c : arena.getPlayerDef().getBench().getBench()) {
+		for (Card c : arena.getPlayerDef().getBench().getList()) {
 			pList.add(c);
 		}
 		CardRequest pc = new CardRequest(true, 1, pList, pList
@@ -59,7 +59,7 @@ public class GustOfWindCard extends TrainerCard {
 			arena.getPlayerDef().getBench().removeCard(apc);
 			int chp = curAct.getDamage();
 			arena.getPlayerDef().getBench().add(curAct);
-			for (ActivePokemonCard aa : arena.getPlayerDef().getBench().getBench()) {
+			for (ActivePokemonCard aa : arena.getPlayerDef().getBench().getList()) {
 				if (aa.equals(curAct)) {
 					aa.setDamage(chp);
 					aa.getStatus().clear();

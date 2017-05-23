@@ -5,14 +5,10 @@ import arena.Arena;
 public abstract class PokePower {
 
 	public static Arena ba;
-	
-	
-	
+
 	private String pname;
 	private String ptype;
 
-	
-	
 	/**
 	 * name and type, name should be used for like:
 	 * "Rain Dance". type would be like "rain_dance"
@@ -38,16 +34,31 @@ public abstract class PokePower {
 	public abstract boolean affectsEnemies();
 	
 	/**
+	 * Whether this power affects ourselves.
+	 * IE: Rain Dance does. There's probably some power that
+	 * doesn't...
+	 */
+	public abstract boolean affectsSelf();
+	
+	/**
 	 * Effects of this power.
 	 * Object can be anything!
 	 * But should be relevant. IE: Rain Dance passed in a energy card.
 	 */
 	public abstract void effect(Object c);
 	
+	/**
+	 * Get the name of the power.
+	 * Eg: "Rain Dance"
+	 */
 	public String getName() {
 		return pname;
 	}
 	
+	/**
+	 * Get the type of the power.
+	 * Eg: "RAIN_DANCE"
+	 */
 	public String getType() {
 		return ptype;
 	}

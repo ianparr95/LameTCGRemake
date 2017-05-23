@@ -19,6 +19,9 @@ import cardAbstract.PokemonMove;
 import cardAbstract.TrainerCard;
 import pokepower.PokePower;
 
+/**
+ * Basic single player console.
+ */
 public class DebugConsole {
 	
 	private static Arena ba;
@@ -26,7 +29,6 @@ public class DebugConsole {
 	
 	public static void startDebugConsole(Arena ba) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, CardRequest, IOException {
 		DebugConsole.ba = ba;
-		PokePower.ba = ba;
 		f = new Scanner(System.in);
 		displayCommands();
 		while (f.hasNext()) {
@@ -86,8 +88,8 @@ public class DebugConsole {
 						continue;
 					}
 					if (index < 0 || index >= ba.getAttHand().getSize()) continue;
-					if (ba.getAttHand().getHand().get(index) instanceof TrainerCard) {
-						TrainerCard c = (TrainerCard) ba.getAttHand().getHand().get(index);
+					if (ba.getAttHand().getList().get(index) instanceof TrainerCard) {
+						TrainerCard c = (TrainerCard) ba.getAttHand().getList().get(index);
 						if (c.canPlay()) {
 							System.out.println("Playing trainer card: " + c.getName());
 							try {
@@ -206,8 +208,8 @@ public class DebugConsole {
 						continue;
 					}
 					if (bn < 0 || bn > ba.getPlayerAtt().getBench().getCurrentCapacity()) continue;
-					if (ba.getAttHand().getHand().get(index) instanceof EnergyCard) {
-						EnergyCard c = (EnergyCard) ba.getAttHand().getHand().get(index);
+					if (ba.getAttHand().getList().get(index) instanceof EnergyCard) {
+						EnergyCard c = (EnergyCard) ba.getAttHand().getList().get(index);
 						// Check poke powers: ALTNERATIFVLY: overload checkPowers
 						// such that different stage can do like:
 						// this stage: pass energycard + arena.
@@ -224,7 +226,7 @@ public class DebugConsole {
 							} else {
 								System.out.println("Playing energy card to bench: " + c.getName());
 								ba.getPlayerAtt().attachEnergyCard(
-										c, ba.getPlayerAtt().getBench().getBench().get(bn - 1));
+										c, ba.getPlayerAtt().getBench().getList().get(bn - 1));
 							}
 						}
 					}
@@ -245,7 +247,7 @@ public class DebugConsole {
 					if (bn < 0 || bn > ba.getPlayerAtt().getBench().getCurrentCapacity()) continue;
 					if (bn == 0) {
 						if (ba.getAtt().canEvolve()) {
-							Card c = ba.getAttHand().getHand().get(hand_index);
+							Card c = ba.getAttHand().getList().get(hand_index);
 							System.out.println("Evolving pokemon to: " + c);
 							System.out.println("Making sure we can actually evolve to this... ");
 							if (!(c instanceof PokemonCard || c instanceof ActivePokemonCard)) continue;
@@ -266,18 +268,18 @@ public class DebugConsole {
 						//System.out.println("TODO!!");
 						int bench_index = bn - 1;
 						if (bench_index >= ba.getPlayerAtt().getBench().getCurrentCapacity()) continue;
-						if (ba.getPlayerAtt().getBench().getBench().get(bench_index).canEvolve()) {
-							Card c = ba.getAttHand().getHand().get(hand_index);
+						if (ba.getPlayerAtt().getBench().getList().get(bench_index).canEvolve()) {
+							Card c = ba.getAttHand().getList().get(hand_index);
 							System.out.println("Evolving pokemon to: " + c);
 							System.out.println("Making sure we can actually evolve to this... ");
 							if (!(c instanceof PokemonCard || c instanceof ActivePokemonCard)) continue;
-							if (ba.getPlayerAtt().getBench().getBench().get(bench_index).canEvolveTo((PokemonCard) c)) {
-								ActivePokemonCard evl = ba.getPlayerAtt().getBench().getBench().get(bench_index).evolve((PokemonCard) c);
+							if (ba.getPlayerAtt().getBench().getList().get(bench_index).canEvolveTo((PokemonCard) c)) {
+								ActivePokemonCard evl = ba.getPlayerAtt().getBench().getList().get(bench_index).evolve((PokemonCard) c);
 								System.out.println("Evolving to " + evl.getName());
 								int chp = evl.getDamage();
 								ba.getPlayerAtt().getBench().removeCard(bench_index);
 								ba.getPlayerAtt().getBench().add(evl);
-								ba.getPlayerAtt().getBench().getBench().get(bench_index).setDamage(chp);
+								ba.getPlayerAtt().getBench().getList().get(bench_index).setDamage(chp);
 								ba.getAttHand().removeCardFromHand(hand_index);
 							} else {
 								System.out.println("Can't evolve to this pokemon");
@@ -297,7 +299,7 @@ public class DebugConsole {
 						continue;
 					}
 					if (hand_index < 0 || hand_index >= ba.getAttHand().getSize()) continue;
-					Card c = ba.getAttHand().getHand().get(hand_index);
+					Card c = ba.getAttHand().getList().get(hand_index);
 					if (c instanceof PokemonCard || c instanceof ActivePokemonCard) {
 						// Good:
 						PokemonCard cc = (PokemonCard) c;
@@ -331,13 +333,13 @@ public class DebugConsole {
 
 	private static void displayBenches() {
 		System.out.println("Att bench: ");
-		for (ActivePokemonCard c : ba.getPlayerAtt().getBench().getBench()) {
+		for (ActivePokemonCard c : ba.getPlayerAtt().getBench().getList()) {
 			System.out.println(c.getName() + " energies: " + c.getEnergyString()
 			+ " Hp: " + (c.getMaxHp() - c.getDamage()) + "/" + c.getMaxHp());
 		}
 		System.out.println();
 		System.out.println("Def bench: ");
-		for (ActivePokemonCard c : ba.getPlayerDef().getBench().getBench()) {
+		for (ActivePokemonCard c : ba.getPlayerDef().getBench().getList()) {
 			System.out.println(c.getName() + " energies: " + c.getEnergyString()
 			+ " Hp: " + (c.getMaxHp() - c.getDamage()) + "/" + c.getMaxHp());
 		}
@@ -353,7 +355,7 @@ public class DebugConsole {
 		//clearcons();
 		System.out.println("Att hand: ");
 		int i = 0;
-		for (Card c : ba.getAttHand().getHand()) {
+		for (Card c : ba.getAttHand().getList()) {
 			System.out.println("[" + i + "] Card: " + c);
 			i++;
 		}
@@ -365,8 +367,8 @@ public class DebugConsole {
 	}
 	
 	private static void displayDiscardPile() {
-		System.out.println("Att pile: " + ba.getPlayerAtt().getDiscardPile().getPile());
-		System.out.println("Def pile: " + ba.getPlayerDef().getDiscardPile().getPile());
+		System.out.println("Att pile: " + ba.getPlayerAtt().getDiscardPile().getList());
+		System.out.println("Def pile: " + ba.getPlayerDef().getDiscardPile().getList());
 	}
 	
 	private static void displayActives() {
@@ -412,7 +414,7 @@ public class DebugConsole {
 			// TODO: EXIT?
 		} else {
 			// ask to replace
-			System.out.println("Replace active. Current pokemon in bench are: " + p.getBench().getBench());
+			System.out.println("Replace active. Current pokemon in bench are: " + p.getBench().getList());
 			System.out.println("Type an index: ");
 			while (f.hasNext()) {
 				String s = f.next();

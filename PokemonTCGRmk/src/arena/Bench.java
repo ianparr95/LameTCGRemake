@@ -52,7 +52,7 @@ public class Bench {
 	 * The bench of cards as an unmodifiable list.
 	 * @return the bench of cards as a List.
 	 */
-	public List<ActivePokemonCard> getBench(){
+	public List<ActivePokemonCard> getList(){
 		return Collections.unmodifiableList(bench);
 	}
 	

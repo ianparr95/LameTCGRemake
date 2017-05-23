@@ -61,9 +61,8 @@ public class Deck {
 	
 	/**
 	 * Returns an unmodifiable list of cards
-	 * @return
 	 */
-	public List<Card> getDeck(){
+	public List<Card> getList(){
 		return Collections.unmodifiableList(deck);
 	}
 	

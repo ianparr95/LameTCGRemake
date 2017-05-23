@@ -30,9 +30,8 @@ public class DiscardPile {
 	
 	/**
 	 * Returns the pile as an unmodifiable list
-	 * @return
 	 */
-	public List<Card> getPile(){
+	public List<Card> getList(){
 		return Collections.unmodifiableList(pile);
 	}
 	

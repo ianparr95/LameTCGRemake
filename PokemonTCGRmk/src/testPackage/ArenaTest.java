@@ -31,7 +31,7 @@ public class ArenaTest {
 		// knock out att pokemon sets getAtt to null
 		assert(ba.getAtt() == null);
 		// discard pile contains att
-		assert(ba.getPlayerAtt().getDiscardPile().getPile().size() > 0);
+		assert(ba.getPlayerAtt().getDiscardPile().getList().size() > 0);
 		// Now test on an evolved pokemon:
 		PokemonCard w22 = ParsePokemonCardsFile.getPokemonCard("Wartortle", "22");
 		ActivePokemonCard sqrt = new ActivePokemonCard(p12, 0, p);
@@ -50,8 +50,8 @@ public class ArenaTest {
 		// knock out att pokemon sets getAtt to null
 		assert(ba.getAtt() == null);
 		// discard pile contains sqrt and wart
-		assert(ba.getPlayerAtt().getDiscardPile().getPile().contains(sqrt));
-		assert(ba.getPlayerAtt().getDiscardPile().getPile().contains(wart));
+		assert(ba.getPlayerAtt().getDiscardPile().getList().contains(sqrt));
+		assert(ba.getPlayerAtt().getDiscardPile().getList().contains(wart));
 		// test evolving to blastoise:
 		// Now test on an evolved pokemon:
 		w22 = ParsePokemonCardsFile.getPokemonCard("Wartortle", "22");
@@ -77,9 +77,9 @@ public class ArenaTest {
 		assertEquals(ba.getAtt().getForms().get(1), wart);
 		ba.knockOutAttPokemon();
 		// discard pile contains sqrt and wart and blast
-		assert(ba.getPlayerAtt().getDiscardPile().getPile().contains(sqrt));
-		assert(ba.getPlayerAtt().getDiscardPile().getPile().contains(wart));
-		assert(ba.getPlayerAtt().getDiscardPile().getPile().contains(blast));
+		assert(ba.getPlayerAtt().getDiscardPile().getList().contains(sqrt));
+		assert(ba.getPlayerAtt().getDiscardPile().getList().contains(wart));
+		assert(ba.getPlayerAtt().getDiscardPile().getList().contains(blast));
 		// Now test trainer cards:
 		
 		// Good: passed the test!

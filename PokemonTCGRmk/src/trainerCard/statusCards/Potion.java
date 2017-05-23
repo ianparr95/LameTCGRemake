@@ -28,7 +28,7 @@ public class Potion extends TrainerCard{
 	public boolean canPlay() {
 		List<ActivePokemonCard> bea = new ArrayList<ActivePokemonCard>();
 		bea.add(arena.getAtt());
-		bea.addAll(arena.getPlayerAtt().getBench().getBench());
+		bea.addAll(arena.getPlayerAtt().getBench().getList());
 		for (ActivePokemonCard apc : bea) { // check all cards, if damaged, can play.
 			if (apc.getDamage() != 0) {
 				return true;
@@ -47,10 +47,10 @@ public class Potion extends TrainerCard{
 		// lc = bench + active, cause we want to choose from these.
 		List<Card> displayedCards = new ArrayList<Card>();
 		displayedCards.add(arena.getAtt());
-		displayedCards.addAll(arena.getPlayerAtt().getBench().getBench());
+		displayedCards.addAll(arena.getPlayerAtt().getBench().getList());
 		List<Card> chooseableCards = new ArrayList<Card>();
 		if (arena.getAtt().getDamage() != 0) chooseableCards.add(arena.getAtt());
-		for (ActivePokemonCard c : arena.getPlayerAtt().getBench().getBench()) {
+		for (ActivePokemonCard c : arena.getPlayerAtt().getBench().getList()) {
 			if (c.getDamage() != 0) {
 				chooseableCards.add(c);
 			}

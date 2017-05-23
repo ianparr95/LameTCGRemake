@@ -23,8 +23,11 @@ public class Arena {
 
 	private static GameStage curStage;
 	
-	// TODO:
-	// Set this to be player instead.
+	/**
+	 * Create a new instance of an arena
+	 * @param att, the first player (the attacker).
+	 * @param def, the second player (the defender).
+	 */
 	public Arena(Player att, Player def) {
 		this.att = att;
 		this.def = def;
@@ -90,10 +93,10 @@ public class Arena {
 		// Set all evolve
 		att.getActivePokemon().setCanEvolve();
 		def.getActivePokemon().setCanEvolve();
-		for (ActivePokemonCard apc : att.getBench().getBench()) {
+		for (ActivePokemonCard apc : att.getBench().getList()) {
 			apc.setCanEvolve();
 		}
-		for (ActivePokemonCard apc : def.getBench().getBench()) {
+		for (ActivePokemonCard apc : def.getBench().getList()) {
 			apc.setCanEvolve();
 		}
 	}
@@ -116,7 +119,7 @@ public class Arena {
 		for (PokemonCard c : att.getActivePokemon().getForms()) {
 			att.getDiscardPile().addCard(c);
 		}
-		
+
 		// ALSO ASK PLAYER TO CHOOSE ACTIVE POKEMON?
 		att.setActivePokemon(null);
 		// TODO: ASK DEF PICK OUT PRIZE CARD>? HERE OR NOT
@@ -361,12 +364,12 @@ public class Arena {
 			defActDead = true;
 
 		}
-		for (ActivePokemonCard apc : att.getBench().getBench()) {
+		for (ActivePokemonCard apc : att.getBench().getList()) {
 			if (apc.isDead()) {
 				attDead++;
 			}
 		}
-		for (ActivePokemonCard apc : def.getBench().getBench()) {
+		for (ActivePokemonCard apc : def.getBench().getList()) {
 			if (apc.isDead()) {
 				defDead++;
 			}
@@ -395,7 +398,7 @@ public class Arena {
 		if (def.getActivePokemon().getPokePowerName() != null) {
 
 		}
-		for (ActivePokemonCard apc : att.getBench().getBench()) {
+		for (ActivePokemonCard apc : att.getBench().getList()) {
 			if (apc.getPokePowerName() != null) {
 				for (Class<? extends PokePower> pp : CEList.getPokePowers()) {
 					PokePower p = pp.newInstance();
@@ -409,7 +412,7 @@ public class Arena {
 				}
 			}
 		}
-		for (ActivePokemonCard apc : def.getBench().getBench()) {
+		for (ActivePokemonCard apc : def.getBench().getList()) {
 			if (apc.getPokePowerName() != null) {
 
 			}
