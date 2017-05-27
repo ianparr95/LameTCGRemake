@@ -12,7 +12,7 @@ public class ParOpp extends MoveEffect{
 
 
 	public void whenPlayed() {
-		arena.getDef().addStatus(new Paralysis(arena.getDef()));
+		arena.getDefActive().addStatus(new Paralysis(arena.getDefActive()));
 	}
 
 	

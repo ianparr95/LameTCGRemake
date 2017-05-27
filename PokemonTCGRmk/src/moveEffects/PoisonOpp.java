@@ -13,7 +13,7 @@ public class PoisonOpp extends MoveEffect{
 	
 	public void whenPlayed() {
 		// TODO Auto-generated method stub
-		arena.getDef().addStatus(new Poisoned(arena.getDef()));
+		arena.getDefActive().addStatus(new Poisoned(arena.getDefActive()));
 	}
 
 	

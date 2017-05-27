@@ -14,7 +14,7 @@ public class DamageSelf extends MoveEffect{
 
 	public void whenPlayed() {
 		// Damage self doesn't apply resis/whatever. So can do it here.
-		arena.getAtt().addDamage(damage);
+		arena.getAttActive().addDamage(damage);
 	}
 
 	

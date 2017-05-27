@@ -11,7 +11,7 @@ public class SwordsDance extends MoveEffect{
 
 	
 	public void whenPlayed() {
-		arena.getAtt().addStatus(new DoubleDamage(arena.getAtt()));
+		arena.getAttActive().addStatus(new DoubleDamage(arena.getAttActive()));
 	}
 
 	

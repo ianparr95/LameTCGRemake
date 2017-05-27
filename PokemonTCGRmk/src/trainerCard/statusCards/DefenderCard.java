@@ -25,15 +25,15 @@ public class DefenderCard extends TrainerCard{
 
 	@Override
 	public void whenPlayed() {
-		arena.getAtt().addStatus(new statuses.Defender(arena.getAtt()));
+		arena.getAttActive().addStatus(new statuses.Defender(arena.getAttActive()));
 		// Remove this from hand:
-		arena.getAtt().addTrainer(this);
+		arena.getAttActive().addTrainer(this);
 		arena.getAttHand().removeCardFromHand(this);
 	}
 
 	@Override
 	public void turnOppToUs() {
-		arena.getAtt().removeTrainerToDiscardPile(this);
+		arena.getAttActive().removeTrainerToDiscardPile(this);
 	}
 
 	@Override

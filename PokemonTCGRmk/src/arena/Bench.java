@@ -71,6 +71,15 @@ public class Bench {
 	}
 	
 	/**
+	 * Adds the active pokemon card. Therefore all statuses are set.
+	 * So they should be cleared.
+	 */
+	public void addActive(ActivePokemonCard c) {
+		bench.add(c);
+		curCapacity++;
+	}
+	
+	/**
 	 * Removes the card at index to the discard pile.
 	 * Assumes card at index exists.
 	 * @param index

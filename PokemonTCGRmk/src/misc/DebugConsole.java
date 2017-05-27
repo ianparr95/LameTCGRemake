@@ -32,6 +32,8 @@ public class DebugConsole {
 		f = new Scanner(System.in);
 		displayCommands();
 		while (f.hasNext()) {
+			// when reset back here, gamestage is nothing
+			// cause there is no action yet.
 			ba.setCurStage(GameStage.NOTHING);
 			String cmd = f.nextLine();
 			if (cmd.equals("q")) {
@@ -50,13 +52,19 @@ public class DebugConsole {
 				displayDiscardPile();
 			} else if (cmd.equals("endturn")) {
 				System.out.print("Ending turn... ");
+				// when we end turn, just call nextTurn
+				// and then check the game statuss
 				ba.nextTurn();
 				checkgame();
+				// TODO:
+				// Check game: should ask to replace dead pokemon
+				// draw prizes etc...
 				continue;
 			} else if (cmd.equals("ov")) {
+				// overview of stuff.
 				displayActives();
-				System.out.println("att moves: " + Arrays.toString(ba.getAtt().getMoves()));
-				System.out.println("def moves: " + Arrays.toString(ba.getDef().getMoves()));
+				System.out.println("att moves: " + Arrays.toString(ba.getAttActive().getMoves()));
+				System.out.println("def moves: " + Arrays.toString(ba.getDefActive().getMoves()));
 				displayBenches();
 				displayHands();
 				displayDiscardPile();
@@ -67,126 +75,50 @@ public class DebugConsole {
 				System.out.println("att deck size: " + ba.getAttDeck().getSize());
 				System.out.println("def deck size: " + ba.getDefDeck().getSize());
 			} else if (cmd.equals("moves")) {
-				System.out.println("att moves: " + Arrays.toString(ba.getAtt().getMoves()));
-				System.out.println("def moves: " + Arrays.toString(ba.getDef().getMoves()));
+				System.out.println("att moves: " + Arrays.toString(ba.getAttActive().getMoves()));
+				System.out.println("def moves: " + Arrays.toString(ba.getDefActive().getMoves()));
 			} else if (cmd.equals("check")) {
-				ba.checkArena();
+				// TODO: check is a debug command?
+				// fix the checkArena function also?
+				/*ba.checkArena();
 				System.out.println("Att dead? " + ba.attDead + " active: " + ba.attActDead);
 				System.out.println("Def dead? " + ba.defDead + " active: " + ba.defActDead);
+				*/
 			}
-			// None of these: try splitting
+			// More complex commands: split based on spaces.
 			String cmds[] = cmd.split(" ");
 			if (cmds.length > 0) {
-				// Trying something: check the poke power.
-				//ba.checkPowers(); INSTEAD WE CALL THIS IN LIKE ATT,
-				// JUST CTRL+F FOR CHECKPOWERS
+				// play a trainer card.
 				if (cmds[0].equals("playtr") && cmds.length >= 2) {
-					int index = 0;
-					try {
-						index = Integer.parseInt(cmds[1]);
-					} catch (Exception e) {
-						continue;
-					}
-					if (index < 0 || index >= ba.getAttHand().getSize()) continue;
+					int index = getIndex(0, ba.getAttHand().getSize(), 
+							"Usage: playtr <card position in hand", cmds);
+					if (index == -999) continue;
 					if (ba.getAttHand().getList().get(index) instanceof TrainerCard) {
 						TrainerCard c = (TrainerCard) ba.getAttHand().getList().get(index);
 						if (c.canPlay()) {
 							System.out.println("Playing trainer card: " + c.getName());
-							try {
-								// ALSO THIS MAY NOT BE CORRECT, EG POTION DONT USE ADDTRAINER.
-								// NEED FIND ANOTHER WAY!
-								c.whenPlayed();
-							} catch (CardRequest e) {
-								// TODO: get the cards request from e, display them.
-								// return them in rList!
-								//System.out.println("Played potion");
-								//e.getReturnList().add(ba.getAtt());
-								System.out.println("Trainer requested " + e.getNumberCardsRequest() + " cards");
-								System.out.println("Chooseable cards: " + e.getChooseableList());
-								System.out.println("Displayed cards: " + e.getDisplayList());
-								List<Card> cList = new ArrayList<Card>();
-								for (Card egc : e.getChooseableList()) {
-									cList.add(egc);
-								}
-								System.out.println("Please type an index for chooseable cards");
-								if (e.getChooseableList().size() == 0) {
-									System.err.println("Chooseable list was size 0!!!");
-									System.err.println("Returning picked list as empty");
-									c.returnRequestedCards(e);
-									continue;
-								}
-								// getmode may not be important, cause we handle errors in
-								// trainer cards themselves
-								if (e.getMode() == 0) {
-									// num or less cards.
-									int picked = 0;
-									System.out.println("Type done to finish");
-									while (f.hasNext()) {
-										if (picked == e.getNumberCardsRequest()) {
-											System.out.println("Picked cards up to num");
-											break;
-										}
-										cmd = f.nextLine();
-										if (!cmd.equals("done")) {
-											try {
-												index = Integer.parseInt(cmd);
-											} catch (Exception e1) {
-												System.err.println("Didn't enter an index, please try again");
-												continue;
-											}
-										} else {
-											System.out.println("User was done");
-											break;
-										}
-										if (index < 0 || index >= cList.size()) {
-											System.err.println("Bad index, please try again");
-											continue;
-										}
-										// Good index:
-										e.getReturnList().add(cList.get(index));
-										cList.remove(index);
-										picked++;
-										if (picked == e.getNumberCardsRequest()) {
-											System.out.println("Picked cards up to num");
-											break;
-										}
-									}
-								} else if (e.getMode() == 1) {
-									// TODO:
-								} else if (e.getMode() == 2) {
-									// TODO:
-								} else {
-									System.err.println("Error in mode for e");
-									System.err.println("Value was: " + e.getMode());
-									System.err.println("Should be 0, 1 or 2.");
-								}
-								//System.out.println("Size of e:" + e.getReturnList().size());
-								c.returnRequestedCards(e);
-								System.out.println("Played trainer, may or may not have worked");
-								continue;
-								//throw new CardRequestReturn(e);
-							}
+							catchWhenPlayed(c, index, cmd); 
+							continue;
 						}
+					} else {
+						System.out.println(ba.getAttHand().getList().get(index) + " is not a trainer card!");
+						continue;
 					}
 				} else if (cmds[0].equals("atk") && cmds.length >= 2) {
 					// attack with index being command
-					int index = 0;
-					try {
-						index = Integer.parseInt(cmds[1]);
-					} catch (Exception e) {
-						System.out.println("syntax: atk 0 or atk 1"
+					String[] moves = ba.getAttActive().getMoveNames();
+					int index = getIndex(0, moves.length,
+							"Usage: atk 0 or atk 1"
 								+ " where atk 0 is the first move,"
-								+ " atk 1 is the second move");
-						continue;
-					}
-					String[] moves = ba.getAtt().getMoveNames();
-					if (index >= moves.length) continue;
-					PokemonMove m = ba.getAtt().getMove(moves[index]);
-					if (ba.getAtt().canPerformMove(m)) {
+								+ " atk 1 is the second move", cmds);
+					if (index == -999) continue;
+					PokemonMove m = ba.getAttActive().getMove(moves[index]);
+					if (ba.getAttActive().canPerformMove(m)) {
 						//System.out.println("Can play move " + m.getName());
 						ba.doMove(m);
 						System.out.println("Performed move: ending the turn");
 						ba.nextTurn();
+						// TODO: checkgame fix it!
 						checkgame();
 					} else {
 						System.out.println("Can't play move " + m.getName());
@@ -246,13 +178,13 @@ public class DebugConsole {
 					if (hand_index < 0 || hand_index >= ba.getAttHand().getSize()) continue;
 					if (bn < 0 || bn > ba.getPlayerAtt().getBench().getCurrentCapacity()) continue;
 					if (bn == 0) {
-						if (ba.getAtt().canEvolve()) {
+						if (ba.getAttActive().canEvolve()) {
 							Card c = ba.getAttHand().getList().get(hand_index);
 							System.out.println("Evolving pokemon to: " + c);
 							System.out.println("Making sure we can actually evolve to this... ");
 							if (!(c instanceof PokemonCard || c instanceof ActivePokemonCard)) continue;
-							if (ba.getAtt().canEvolveTo((PokemonCard) c)) {
-								ActivePokemonCard evl = ba.getAtt().evolve((PokemonCard) c);
+							if (ba.getAttActive().canEvolveTo((PokemonCard) c)) {
+								ActivePokemonCard evl = ba.getAttActive().evolve((PokemonCard) c);
 								System.out.println("Evolving to " + evl.getName());
 								ba.setAttPokemon(evl);
 								ba.getAttHand().removeCardFromHand(hand_index);
@@ -317,6 +249,97 @@ public class DebugConsole {
 		f.close();
 	}
 
+	private static void catchWhenPlayed(TrainerCard c, int index, String cmd) {
+		try {
+			// ALSO THIS MAY NOT BE CORRECT, EG POTION DONT USE ADDTRAINER.
+			// NEED FIND ANOTHER WAY!
+			c.whenPlayed();
+		} catch (CardRequest e) {
+			// TODO: get the cards request from e, display them.
+			// return them in rList!
+			//System.out.println("Played potion");
+			//e.getReturnList().add(ba.getAtt());
+			System.out.println("Trainer requested " + e.getNumberCardsRequest() + " cards");
+			System.out.println("Chooseable cards: " + e.getChooseableList());
+			System.out.println("Displayed cards: " + e.getDisplayList());
+			List<Card> cList = new ArrayList<Card>();
+			for (Card egc : e.getChooseableList()) {
+				cList.add(egc);
+			}
+			System.out.println("Please type an index for chooseable cards");
+			if (e.getChooseableList().size() == 0) {
+				System.err.println("Chooseable list was size 0!!!");
+				System.err.println("Returning picked list as empty");
+				c.returnRequestedCards(e);
+				return;
+			}
+			// getmode may not be important, cause we handle errors in
+			// trainer cards themselves
+			if (e.getMode() == 0) {
+				// num or less cards.
+				int picked = 0;
+				System.out.println("Type done to finish");
+				while (f.hasNext()) {
+					if (picked == e.getNumberCardsRequest()) {
+						System.out.println("Picked cards up to num");
+						break;
+					}
+					cmd = f.nextLine();
+					if (!cmd.equals("done")) {
+						try {
+							index = Integer.parseInt(cmd);
+						} catch (Exception e1) {
+							System.err.println("Didn't enter an index, please try again");
+							continue;
+						}
+					} else {
+						System.out.println("User was done");
+						break;
+					}
+					if (index < 0 || index >= cList.size()) {
+						System.err.println("Bad index, please try again");
+						continue;
+					}
+					// Good index:
+					e.getReturnList().add(cList.get(index));
+					cList.remove(index);
+					picked++;
+					if (picked == e.getNumberCardsRequest()) {
+						System.out.println("Picked cards up to num");
+						break;
+					}
+				}
+			} else if (e.getMode() == 1) {
+				// TODO:
+			} else if (e.getMode() == 2) {
+				// TODO:
+			} else {
+				System.err.println("Error in mode for e");
+				System.err.println("Value was: " + e.getMode());
+				System.err.println("Should be 0, 1 or 2.");
+			}
+			//System.out.println("Size of e:" + e.getReturnList().size());
+			c.returnRequestedCards(e);
+			System.out.println("Played trainer, may or may not have worked");
+			//throw new CardRequestReturn(e);
+		}
+	}
+
+	private static int getIndex(int min, int max, String string, String[] cmds) {
+		int index = 0;
+		try {
+			index = Integer.parseInt(cmds[1]);
+		} catch (Exception e) {
+			System.out.println("Usage: playtr <card position in hand>");
+			return -999;
+		}
+		if (index < min || index >= max) {
+			System.out.println("Entered a bad index");
+			return -999;
+		}
+		return index;
+	}
+
 	private static void displayCommands() {
 		System.out.println("Command :   Description");
 		System.out.println("help    :   display this!");
@@ -372,14 +395,14 @@ public class DebugConsole {
 	}
 	
 	private static void displayActives() {
-		System.out.println("Att active: " + ba.getAtt().getName() + " hp: "
-				+ (ba.getAtt().getMaxHp() - ba.getAtt().getDamage()) + "/" + ba.getAtt().getMaxHp()
-				+ " Cards attached: " + ba.getAtt().getEnergyCards() + " " + ba.getAtt().getTrainerCards()
-				+ " Statuses: " + ba.getAtt().getStatus());
-		System.out.println("Def active: " + ba.getDef().getName() + " hp: "
-				+ (ba.getDef().getMaxHp() - ba.getDef().getDamage()) + "/" + ba.getDef().getMaxHp()
-				+ " Cards attached: " + ba.getDef().getEnergyCards() + " " + ba.getDef().getTrainerCards()
-				+ " Statuses: " + ba.getDef().getStatus());
+		System.out.println("Att active: " + ba.getAttActive().getName() + " hp: "
+				+ (ba.getAttActive().getMaxHp() - ba.getAttActive().getDamage()) + "/" + ba.getAttActive().getMaxHp()
+				+ " Cards attached: " + ba.getAttActive().getEnergyCards() + " " + ba.getAttActive().getTrainerCards()
+				+ " Statuses: " + ba.getAttActive().getStatus());
+		System.out.println("Def active: " + ba.getDefActive().getName() + " hp: "
+				+ (ba.getDefActive().getMaxHp() - ba.getDefActive().getDamage()) + "/" + ba.getDefActive().getMaxHp()
+				+ " Cards attached: " + ba.getDefActive().getEnergyCards() + " " + ba.getDefActive().getTrainerCards()
+				+ " Statuses: " + ba.getDefActive().getStatus());
 	}
 	
 	/**

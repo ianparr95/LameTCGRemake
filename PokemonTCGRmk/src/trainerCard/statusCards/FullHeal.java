@@ -21,7 +21,7 @@ public class FullHeal extends TrainerCard{
 
 	@Override
 	public boolean canPlay() {
-		for (Status s : arena.getAtt().getStatus()) {
+		for (Status s : arena.getAttActive().getStatus()) {
 			if (s.curable()) {
 				// if exists a status that can be cured, can use full heal.
 				return true;
@@ -32,10 +32,10 @@ public class FullHeal extends TrainerCard{
 
 	@Override
 	public void whenPlayed() {
-		for (int i = arena.getAtt().getStatus().size() - 1 ; i >= 0 ; i--) {
-			Status s = arena.getAtt().getStatus().get(i);
+		for (int i = arena.getAttActive().getStatus().size() - 1 ; i >= 0 ; i--) {
+			Status s = arena.getAttActive().getStatus().get(i);
 			if (s.curable()) {
-				arena.getAtt().removeStatus(s);
+				arena.getAttActive().removeStatus(s);
 			}
 		}
 		arena.getAttHand().removeCardToPile(this);

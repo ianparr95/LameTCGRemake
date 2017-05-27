@@ -54,19 +54,22 @@ public class GustOfWindCard extends TrainerCard {
 			return;
 		} else {
 			// Good: can swap
-			ActivePokemonCard curAct = arena.getDef();
+			ActivePokemonCard curAct = arena.getDefActive();
+			System.out.println("Swapping to " + apc + " with energy string: " + apc.getEnergyString());
+			System.out.println("Swapping from " + curAct + " with energy string: " + curAct.getEnergyString());
 			arena.setDefPokemon(apc);
 			arena.getPlayerDef().getBench().removeCard(apc);
-			int chp = curAct.getDamage();
-			arena.getPlayerDef().getBench().add(curAct);
-			for (ActivePokemonCard aa : arena.getPlayerDef().getBench().getList()) {
+			//int chp = curAct.getDamage();
+			arena.getPlayerDef().getBench().addActive(curAct);
+			/*for (ActivePokemonCard aa : arena.getPlayerDef().getBench().getList()) {
 				if (aa.equals(curAct)) {
 					aa.setDamage(chp);
 					aa.getStatus().clear();
-					System.out.println("Set damage");
+					//System.out.println("Set damage");
 					break;
 				}
-			}
+			}*/
+			curAct.getStatus().clear();
 			arena.getPlayerAtt().getHand().removeCardToPile(this);
 			return;
 		}

@@ -144,11 +144,11 @@ public class Arena {
 		// TODO: ASK DEF PICK OUT PRIZE CARD>? HERE OR NOT
 	}
 	
-	public ActivePokemonCard getAtt(){
+	public ActivePokemonCard getAttActive(){
 		return att.getActivePokemon();
 	}
 	
-	public ActivePokemonCard getDef(){
+	public ActivePokemonCard getDefActive(){
 		return def.getActivePokemon();
 	}
 	

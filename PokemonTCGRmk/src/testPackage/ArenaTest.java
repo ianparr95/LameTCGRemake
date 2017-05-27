@@ -29,7 +29,7 @@ public class ArenaTest {
 		p.setActivePokemonFromHand(p12);
 		ba.knockOutAttPokemon();
 		// knock out att pokemon sets getAtt to null
-		assert(ba.getAtt() == null);
+		assert(ba.getAttActive() == null);
 		// discard pile contains att
 		assert(ba.getPlayerAtt().getDiscardPile().getList().size() > 0);
 		// Now test on an evolved pokemon:
@@ -38,17 +38,17 @@ public class ArenaTest {
 		sqrt.setDamage(10);
 		ActivePokemonCard wart = sqrt.evolve(w22);
 		ba.setAttPokemon(wart);
-		assertEquals(ba.getAtt().getName(), "Wartortle");
-		assertEquals(ba.getAtt().getLevel(), "22");
+		assertEquals(ba.getAttActive().getName(), "Wartortle");
+		assertEquals(ba.getAttActive().getLevel(), "22");
 		assertEquals(sqrt.getEvol(), "b");
-		assertEquals(ba.getAtt().getEvol(), "Squirtle");
-		assertEquals(ba.getAtt().getForms().get(0), sqrt);
-		assertEquals(ba.getAtt().getDamage(), 10);
-		assertEquals(ba.getAtt().getType(), "w");
+		assertEquals(ba.getAttActive().getEvol(), "Squirtle");
+		assertEquals(ba.getAttActive().getForms().get(0), sqrt);
+		assertEquals(ba.getAttActive().getDamage(), 10);
+		assertEquals(ba.getAttActive().getType(), "w");
 		// Now knock out:
 		ba.knockOutAttPokemon();
 		// knock out att pokemon sets getAtt to null
-		assert(ba.getAtt() == null);
+		assert(ba.getAttActive() == null);
 		// discard pile contains sqrt and wart
 		assert(ba.getPlayerAtt().getDiscardPile().getList().contains(sqrt));
 		assert(ba.getPlayerAtt().getDiscardPile().getList().contains(wart));
@@ -59,22 +59,22 @@ public class ArenaTest {
 		sqrt.setDamage(10);
 		wart = sqrt.evolve(w22);
 		ba.setAttPokemon(wart);
-		assertEquals(ba.getAtt().getName(), "Wartortle");
-		assertEquals(ba.getAtt().getLevel(), "22");
+		assertEquals(ba.getAttActive().getName(), "Wartortle");
+		assertEquals(ba.getAttActive().getLevel(), "22");
 		assertEquals(sqrt.getEvol(), "b");
-		assertEquals(ba.getAtt().getEvol(), "Squirtle");
-		assertEquals(ba.getAtt().getForms().get(0), sqrt);
-		assertEquals(ba.getAtt().getDamage(), 10);
-		assertEquals(ba.getAtt().getType(), "w");
+		assertEquals(ba.getAttActive().getEvol(), "Squirtle");
+		assertEquals(ba.getAttActive().getForms().get(0), sqrt);
+		assertEquals(ba.getAttActive().getDamage(), 10);
+		assertEquals(ba.getAttActive().getType(), "w");
 		wart.addDamage(20);
-		assertEquals(ba.getAtt().getDamage(), 30);
+		assertEquals(ba.getAttActive().getDamage(), 30);
 		PokemonCard bl = ParsePokemonCardsFile.getPokemonCard("Blastoise", "52");
 		ActivePokemonCard blast = wart.evolve(bl);
 		ba.setAttPokemon(blast);
-		assertEquals(ba.getAtt().getDamage(), 30);
-		assertEquals(ba.getAtt().getForms().size(), 2);
-		assertEquals(ba.getAtt().getForms().get(0), sqrt);
-		assertEquals(ba.getAtt().getForms().get(1), wart);
+		assertEquals(ba.getAttActive().getDamage(), 30);
+		assertEquals(ba.getAttActive().getForms().size(), 2);
+		assertEquals(ba.getAttActive().getForms().get(0), sqrt);
+		assertEquals(ba.getAttActive().getForms().get(1), wart);
 		ba.knockOutAttPokemon();
 		// discard pile contains sqrt and wart and blast
 		assert(ba.getPlayerAtt().getDiscardPile().getList().contains(sqrt));

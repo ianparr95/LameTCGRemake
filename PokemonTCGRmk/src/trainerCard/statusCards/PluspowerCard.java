@@ -26,8 +26,8 @@ public class PluspowerCard extends TrainerCard{
 
 	@Override
 	public void whenPlayed() {
-		arena.getAtt().addStatus(new statuses.Pluspower(arena.getAtt()));
-		arena.getAtt().addTrainer(this);
+		arena.getAttActive().addStatus(new statuses.Pluspower(arena.getAttActive()));
+		arena.getAttActive().addTrainer(this);
 		arena.getAttHand().removeCardFromHand(this);
 	}
 
@@ -37,7 +37,7 @@ public class PluspowerCard extends TrainerCard{
 
 	@Override
 	public void turnUsToOpp() {
-		arena.getAtt().removeTrainerToDiscardPile(this);
+		arena.getAttActive().removeTrainerToDiscardPile(this);
 	}
 
 	@Override
