@@ -20,6 +20,13 @@ public class Prizes {
 	}
 	
 	/**
+	 * Get the total number of prizes.
+	 */
+	public int getTotalNumPrizes() {
+		return numPrizes;
+	}
+	
+	/**
 	 * Set the owner of the prizes.
 	 * @param player
 	 */

@@ -70,7 +70,6 @@ public class DebugConsole {
 				displayDiscardPile();
 				System.out.println("att deck size: " + ba.getAttDeck().getSize());
 				System.out.println("def deck size: " + ba.getDefDeck().getSize());
-				
 			} else if (cmd.equals("decksize")) {
 				System.out.println("att deck size: " + ba.getAttDeck().getSize());
 				System.out.println("def deck size: " + ba.getDefDeck().getSize());
@@ -126,20 +125,21 @@ public class DebugConsole {
 					// attach energy, first is hand,2nd is bench or active, 0 = active.
 				} else if (cmds[0].equals("att") && cmds.length >= 2) {
 					ba.setCurStage(GameStage.ATTACH_ENERGY);
-					int index = 0;
-					try {
-						index = Integer.parseInt(cmds[1]);
-					} catch (Exception e) {
-						continue;
-					}
-					if (index < 0 || index >= ba.getAttHand().getSize()) continue;
+					int index = getIndex(0, ba.getAttHand().getSize(), 
+							"Usage: att <index in hand for energy card> <0 for "
+							+ "active, 1 to 6 for bench>", cmds);
+					if (index == -999) continue;
 					int bn = 0;
 					try { //if bn = 0, then active, else bench from 1 to 7.
 						bn = Integer.parseInt(cmds[2]);
 					} catch (Exception e) {
+						System.out.println("Usage: att <index in hand for energy card> <0 for active, 1 to 6 for bench>");
 						continue;
 					}
-					if (bn < 0 || bn > ba.getPlayerAtt().getBench().getCurrentCapacity()) continue;
+					if (bn < 0 || bn > ba.getPlayerAtt().getBench().getCurrentCapacity()) {
+						System.out.println("Invalid index for pokemon");
+						continue;
+					}
 					if (ba.getAttHand().getList().get(index) instanceof EnergyCard) {
 						EnergyCard c = (EnergyCard) ba.getAttHand().getList().get(index);
 						// Check poke powers: ALTNERATIFVLY: overload checkPowers
@@ -330,7 +330,7 @@ public class DebugConsole {
 		try {
 			index = Integer.parseInt(cmds[1]);
 		} catch (Exception e) {
-			System.out.println("Usage: playtr <card position in hand>");
+			System.out.println("Didn't enter a number! Try again");
 			return -999;
 		}
 		if (index < min || index >= max) {
@@ -407,29 +407,80 @@ public class DebugConsole {
 	
 	/**
 	 * CALLED BEFORE OR AFTER ENDTURN?
+	 * Prompts user to get prizes.
 	 */
 	private static void checkgame() {
 		System.out.println("Done, now checking arena");
-		ba.checkArena();
-		System.out.println("Att act dead? " + ba.attActDead);
-		System.out.println("Def act dead? " + ba.defActDead);
-		System.out.println("Att prizes to draw: " + ba.defDead);
-		System.out.println("Def prizes to draw: " + ba.attDead);
+		System.out.println("Att act dead? " + ba.attActDead());
+		System.out.println("Def act dead? " + ba.defActDead());
+		System.out.println("Att prizes to draw: " + ba.numPrizesAttDraw());
+		System.out.println("Def prizes to draw: " + ba.numPrizesDefDraw());
 		// TODO: check prizes is zero. also need to check if decked out
 		
+		// Now ask to draw prizes:
+		if (ba.numPrizesAttDraw() != 0) {
+			drawPrizes(ba.getPlayerAtt(), ba.numPrizesAttDraw());
+		}
+		if (ba.numPrizesDefDraw() != 0) {
+			drawPrizes(ba.getPlayerDef(), ba.numPrizesDefDraw());
+		}
+		System.out.println("Att has: " + ba.getPlayerAtt().getPrizes().numPrizesLeft() + " prizes left");
+		System.out.println("Def has: " + ba.getPlayerDef().getPrizes().numPrizesLeft() + " prizes left");
+		
 		// if att dead, ask them to replace.
-		if (ba.attActDead) {
+		if (ba.attActDead()) {
 			ba.knockOutAttPokemon();
 			replaceAct(ba.getPlayerAtt(),true);
 		}
-		if (ba.defActDead) {
+		if (ba.defActDead()) {
 			ba.knockOutDefPokemon();
 			replaceAct(ba.getPlayerDef(),false);
 		}
-		
-		ba.clearCheckArena();
 	}
 	
+	
+	
+	private static void drawPrizes(Player player, int numDraw) {
+		System.out.println("There are: " + player.getPrizes().numPrizesLeft() + " to pick from.");
+		for (int i = 0; i < numDraw; i++) {
+			System.out.println("Type an index to draw a prize from.");
+			System.out.println("Possible indexes are:");
+			for (int j = 0; j < player.getPrizes().getTotalNumPrizes(); j++) {
+				if (player.getPrizes().peekPrize(j) != null) {
+					System.out.print(j + " ");
+				}
+			}
+			System.out.println();
+			while (f.hasNext()) {
+				String s = f.next();
+				int ind;
+				try {
+					ind = Integer.parseInt(s);
+				} catch (Exception e) {
+					System.out.println("Please type a number");
+					continue;
+				}
+				if (ind < 0 || ind >= player.getPrizes().getTotalNumPrizes()) {
+					System.out.println("Please type a valid index");
+					continue;
+				}
+				if (player.getPrizes().peekPrize(ind) == null) {
+					System.out.println("Prize was already taken, please try again");
+					continue;
+				}
+				Card c = player.getPrizes().removePrize(ind);
+				player.getPrizes().decreasePrizeCount();
+				System.out.println("Prize was a: " + c);
+				player.getHand().addCard(c);
+				break;
+			}
+			if (player.getPrizes().numPrizesLeft() == 0) {
+				return;
+			}
+		}
+		
+	}
+
 	private static void replaceAct(Player p, boolean att) {
 		if (p.getBench().getCurrentCapacity() == 0) {
 			// att lost

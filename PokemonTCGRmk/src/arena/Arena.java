@@ -2,6 +2,7 @@ package arena;
 
 import java.lang.reflect.InvocationTargetException;
 import cardAbstract.ActivePokemonCard;
+import cardAbstract.EnergyCard;
 import cardAbstract.PokemonCard;
 import cardAbstract.PokemonMove;
 import cardAbstract.TrainerCard;
@@ -103,13 +104,16 @@ public class Arena {
 	
 	/**
 	 * Knocks out the active pokemon:
-	 * Sets att to be null.
 	 * Adds att and all cards attached to discard pile.
 	 * MAYBE ask def to pick out a card.
+	 * !!!Does not set att to null!!!
 	 */
 	public void knockOutAttPokemon(){
 		//att.getDiscardPile().addCard(att.getActivePokemon());
 		for (TrainerCard c : att.getActivePokemon().getTrainerCards()) {
+			att.getDiscardPile().addCard(c);
+		}
+		for (EnergyCard c : att.getActivePokemon().getEnergyCards()) {
 			att.getDiscardPile().addCard(c);
 		}
 		// Now convert att activePokemon to simple a pokemon card, adding it to discard pile.
@@ -121,7 +125,7 @@ public class Arena {
 		}
 
 		// ALSO ASK PLAYER TO CHOOSE ACTIVE POKEMON?
-		att.setActivePokemon(null);
+		//att.setActivePokemon(null);
 		// TODO: ASK DEF PICK OUT PRIZE CARD>? HERE OR NOT
 	}
 	
@@ -129,6 +133,9 @@ public class Arena {
 	public void knockOutDefPokemon(){
 		//att.getDiscardPile().addCard(att.getActivePokemon());
 		for (TrainerCard c : def.getActivePokemon().getTrainerCards()) {
+			def.getDiscardPile().addCard(c);
+		}
+		for (EnergyCard c : def.getActivePokemon().getEnergyCards()) {
 			def.getDiscardPile().addCard(c);
 		}
 		// Now convert att activePokemon to simple a pokemon card, adding it to discard pile.
@@ -340,47 +347,49 @@ public class Arena {
 		return totalDamage;
 	}
 	
-	public boolean attActDead = false;
-	public boolean defActDead = false;
-	public int attDead = 0;
-	public int defDead = 0;
+	public boolean attActDead() {
+		return att.getActivePokemon().isDead();
+	}
+	
+	public boolean defActDead() {
+		return def.getActivePokemon().isDead();
+	}
 	
 	/**
-	 * Checks the arena for any dead pokemon. Sets public variables
-	 * attActDead, defActDead, attDead and defDead.
+	 * Returns the number of prizes Att should draw.
+	 * So if the opponent has Active dead, then returns 1.
+	 * If one bench + active, returns 2. If only 1 on bench, will
+	 * return 1. Etc..
+	 * @return Number of prizes Def should draw.
 	 */
-	public void checkArena() {
-		attDead = 0;
-		defDead = 0;
-		attActDead = false;
-		defActDead = false;
-		// Check att and def:
-		if (att.getActivePokemon().isDead()) {
-			attDead++;
-			attActDead = true;
+	public int numPrizesAttDraw() {
+		return numDraw(def);
+	}
+	
+	/**
+	 * Returns the number of prizes Def should draw.
+	 * So if the opponent has Active dead, then returns 1.
+	 * If one bench + active, returns 2. If only 1 on bench, will
+	 * return 1. Etc..
+	 * @return Number of prizes Att should draw.
+	 */
+	public int numPrizesDefDraw() {
+		return numDraw(att);
+	}
+	
+	private int numDraw(Player p) {
+		int num = 0;
+		if (p.getActivePokemon().isDead()) {
+			num++;
 		}
-		if (def.getActivePokemon().isDead()) {
-			defDead++;
-			defActDead = true;
-
-		}
-		for (ActivePokemonCard apc : att.getBench().getList()) {
+		for (ActivePokemonCard apc : p.getBench().getList()) {
 			if (apc.isDead()) {
-				attDead++;
+				num++;
 			}
 		}
-		for (ActivePokemonCard apc : def.getBench().getList()) {
-			if (apc.isDead()) {
-				defDead++;
-			}
-		}
+		return num;
 	}
-	public void clearCheckArena() {
-		attDead = 0;
-		defDead = 0;
-		attActDead = false;
-		defActDead = false;
-	}
+	
 
 	public void checkPowers(Object c) throws InstantiationException, IllegalAccessException {
 		if (att.getActivePokemon().getPokePowerName() != null) {

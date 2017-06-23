@@ -11,7 +11,7 @@ public class Bench {
 	
 	private Player player;
 	private int capacity;
-	private int curCapacity;
+	//private int curCapacity;
 	private List<ActivePokemonCard> bench;
 	
 	/**
@@ -21,7 +21,7 @@ public class Bench {
 	public Bench(int capacity) {
 		this.capacity = capacity;
 		this.bench = new ArrayList<ActivePokemonCard>();
-		this.curCapacity = 0;
+		//this.curCapacity = 0;
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public class Bench {
 	 * @return the current capacity of the bench
 	 */
 	public int getCurrentCapacity(){
-		return curCapacity;
+		return bench.size();
 	}
 	
 	/**
@@ -67,7 +67,7 @@ public class Bench {
 	public void add(PokemonCard c) {
 		ActivePokemonCard apc = new ActivePokemonCard(c, c.getId(), player);
 		bench.add(apc);
-		curCapacity++;
+		//curCapacity++;
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class Bench {
 	 */
 	public void addActive(ActivePokemonCard c) {
 		bench.add(c);
-		curCapacity++;
+		//curCapacity++;
 	}
 	
 	/**
