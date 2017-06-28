@@ -1,1 +1,4 @@
-Lame attempted remake of Pokemon TCG
+Pokemon TCG Engine, meant to be easily modifiable so that new cards and abilities can be easily added.
+Things left to be implemented: Supporter Cards (as opposed to trainerCards), more pokepowers (only raindance so far is added) and more move effects etc.
+
+Game runs through mainpackage/BattleGui.java, which runs DebugConsole which runs a basic game of pokemon TCG in a console.
