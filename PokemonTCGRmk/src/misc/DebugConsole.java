@@ -27,7 +27,11 @@ public class DebugConsole {
 	private static Arena ba;
 	private static Scanner f;
 	
-	public static void startDebugConsole(Arena ba) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, CardRequest, IOException {
+	/**
+	 * Starts the game console, with the specified arena.
+	 * The decks, prizes, players, hands etc... should all be set up already before running this.
+	 */
+	public static void startDebugConsole(Arena ba) throws Exception {
 		DebugConsole.ba = ba;
 		f = new Scanner(System.in);
 		displayCommands();
@@ -53,18 +57,16 @@ public class DebugConsole {
 			} else if (cmd.equals("endturn")) {
 				System.out.print("Ending turn... ");
 				// when we end turn, just call nextTurn
-				// and then check the game statuss
+				// and then check the game status
 				ba.nextTurn();
 				checkgame();
-				// TODO:
-				// Check game: should ask to replace dead pokemon
-				// draw prizes etc...
+				// TODO: checkgame should be before nextTurn and after?
+				// due to poison etc... and they might die.
 				continue;
 			} else if (cmd.equals("ov")) {
 				// overview of stuff.
 				displayActives();
-				System.out.println("att moves: " + Arrays.toString(ba.getAttActive().getMoves()));
-				System.out.println("def moves: " + Arrays.toString(ba.getDefActive().getMoves()));
+				displayMoves();
 				displayBenches();
 				displayHands();
 				displayDiscardPile();
@@ -74,15 +76,9 @@ public class DebugConsole {
 				System.out.println("att deck size: " + ba.getAttDeck().getSize());
 				System.out.println("def deck size: " + ba.getDefDeck().getSize());
 			} else if (cmd.equals("moves")) {
-				System.out.println("att moves: " + Arrays.toString(ba.getAttActive().getMoves()));
-				System.out.println("def moves: " + Arrays.toString(ba.getDefActive().getMoves()));
+				displayMoves();
 			} else if (cmd.equals("check")) {
-				// TODO: check is a debug command?
-				// fix the checkArena function also?
-				/*ba.checkArena();
-				System.out.println("Att dead? " + ba.attDead + " active: " + ba.attActDead);
-				System.out.println("Def dead? " + ba.defDead + " active: " + ba.defActDead);
-				*/
+				// Fix later...
 			}
 			// More complex commands: split based on spaces.
 			String cmds[] = cmd.split(" ");
@@ -91,39 +87,52 @@ public class DebugConsole {
 				if (cmds[0].equals("playtr") && cmds.length >= 2) {
 					int index = getIndex(0, ba.getAttHand().getSize(), 
 							"Usage: playtr <card position in hand", cmds);
-					if (index == -999) continue;
+					if (index == -999) {
+						System.out.println("Usage: playtr <card position in hand");
+						continue;
+					}
+					Card ca = ba.getAttHand().getList().get(index);
 					if (ba.getAttHand().getList().get(index) instanceof TrainerCard) {
-						TrainerCard c = (TrainerCard) ba.getAttHand().getList().get(index);
+						// if the card we got was a trainercard:
+						TrainerCard c = (TrainerCard) ca;
 						if (c.canPlay()) {
+							// If we can play it, we do.
 							System.out.println("Playing trainer card: " + c.getName());
+							// Get prepared to catch exceptions when playing it.
 							catchWhenPlayed(c, index, cmd); 
+							continue;
+						} else {
+							System.out.println("Cannot play this card now");
 							continue;
 						}
 					} else {
-						System.out.println(ba.getAttHand().getList().get(index) + " is not a trainer card!");
+						System.out.println(ca + " is not a trainer card!");
 						continue;
 					}
 				} else if (cmds[0].equals("atk") && cmds.length >= 2) {
 					// attack with index being command
-					String[] moves = ba.getAttActive().getMoveNames();
-					int index = getIndex(0, moves.length,
+					int index = getIndex(0, ba.getAttActive().getMoves().length,
 							"Usage: atk 0 or atk 1"
 								+ " where atk 0 is the first move,"
 								+ " atk 1 is the second move", cmds);
 					if (index == -999) continue;
-					PokemonMove m = ba.getAttActive().getMove(moves[index]);
+					// get the move the user specified.
+					PokemonMove m = ba.getAttActive().getMoves()[index];
 					if (ba.getAttActive().canPerformMove(m)) {
-						//System.out.println("Can play move " + m.getName());
+						// if we can perform the move, then just perform it
+						// and set the game stage.
+						ba.setCurStage(GameStage.ATTACK);
 						ba.doMove(m);
 						System.out.println("Performed move: ending the turn");
 						ba.nextTurn();
-						// TODO: checkgame fix it!
+						// TODO: checkgame is here. Maybe call before nextTurn?
+						// Or have two checkgames? Before and after nextTurn.
 						checkgame();
 					} else {
 						System.out.println("Can't play move " + m.getName());
 					}
-					// attach energy, first is hand,2nd is bench or active, 0 = active.
 				} else if (cmds[0].equals("att") && cmds.length >= 2) {
+					// attaching an energy.
 					ba.setCurStage(GameStage.ATTACH_ENERGY);
 					int index = getIndex(0, ba.getAttHand().getSize(), 
 							"Usage: att <index in hand for energy card> <0 for "
@@ -142,41 +151,47 @@ public class DebugConsole {
 					}
 					if (ba.getAttHand().getList().get(index) instanceof EnergyCard) {
 						EnergyCard c = (EnergyCard) ba.getAttHand().getList().get(index);
-						// Check poke powers: ALTNERATIFVLY: overload checkPowers
-						// such that different stage can do like:
-						// this stage: pass energycard + arena.
-						// attack: pass move + arena etc..
-						// endturn: pass arena only
-						// TODO: ALSO ADD A CHECK IF POKE POWER AFFECTS OPPOSITION!!
-						// EG: RAIN DANCE , NO, BUT PREHISTORIC POWER, YES!
+						// checkPowers before we attach the card.
 						ba.checkPowers(c);
 						if (c.canPlay() && !ba.getPlayerAtt().alreadyAttachedEnergy()) {
-							if (bn == 0) {
+							if (bn == 0) { // attach to active
 								System.out.
 								println("Playing energy card to active: " + c.getName());
 								ba.getPlayerAtt().attachEnergyCard(c, ba.getPlayerAtt().getActivePokemon());
 							} else {
 								System.out.println("Playing energy card to bench: " + c.getName());
+								// attach to bench.
 								ba.getPlayerAtt().attachEnergyCard(
 										c, ba.getPlayerAtt().getBench().getList().get(bn - 1));
 							}
 						}
+					} else {
+						System.out.println("Not an energy card");
 					}
-				} else if (cmds[0].equals("evolve") && cmds.length >= 3) { // first bench, 2nd hand
+				} else if (cmds[0].equals("evolve") && cmds.length >= 3) {
+					// evolving a pokemon.
 					int bn = 0;
 					try { //if bn = 0, then active, else bench from 1 to 7.
 						bn = Integer.parseInt(cmds[1]);
 					} catch (Exception e) {
+						System.out.println("Usage: evolve <0 for active, 1 to 6 for bench> <hand index>");
 						continue;
 					}
 					int hand_index = 0;
 					try { //if bn = 0, then active, else bench from 1 to 7.
 						hand_index = Integer.parseInt(cmds[2]);
 					} catch (Exception e) {
+						System.out.println("Usage: evolve <0 for active, 1 to 6 for bench> <hand index>");
 						continue;
 					}
-					if (hand_index < 0 || hand_index >= ba.getAttHand().getSize()) continue;
-					if (bn < 0 || bn > ba.getPlayerAtt().getBench().getCurrentCapacity()) continue;
+					if (hand_index < 0 || hand_index >= ba.getAttHand().getSize()) {
+						System.out.println("Entered a bad hand index");
+						continue;
+					}
+					if (bn < 0 || bn > ba.getPlayerAtt().getBench().getCurrentCapacity()){
+						System.out.println("Entered a bad pokemon index");
+						continue;
+					}
 					if (bn == 0) {
 						if (ba.getAttActive().canEvolve()) {
 							Card c = ba.getAttHand().getList().get(hand_index);
@@ -247,6 +262,11 @@ public class DebugConsole {
 			//displayCommands();
 		}
 		f.close();
+	}
+
+	private static void displayMoves() {
+		System.out.println("att moves: " + Arrays.toString(ba.getAttActive().getMoves()));
+		System.out.println("def moves: " + Arrays.toString(ba.getDefActive().getMoves()));
 	}
 
 	private static void catchWhenPlayed(TrainerCard c, int index, String cmd) {
@@ -485,6 +505,7 @@ public class DebugConsole {
 		if (p.getBench().getCurrentCapacity() == 0) {
 			// att lost
 			System.out.println("a player lost due to having no benched pokemon to replace!");
+			System.exit(0);
 			// TODO: EXIT?
 		} else {
 			// ask to replace

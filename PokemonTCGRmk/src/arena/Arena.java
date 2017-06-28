@@ -65,6 +65,7 @@ public class Arena {
 	 * and def becomes att. Also applies all status ailments on turn
 	 * end and trainer cards also. Sets all can evolve also (IGNORING POKEMON POWER
 	 * OF AERODACTYL!!!)
+	 * ALSO DRAWS A CARD FROM DECK!
 	 */
 	public void nextTurn(){
 		for (int i = att.getActivePokemon().getStatus().size() - 1; i >= 0; i--) {
@@ -147,7 +148,7 @@ public class Arena {
 		}
 		
 		// ALSO ASK PLAYER TO CHOOSE ACTIVE POKEMON?
-		def.setActivePokemon(null);
+		//def.setActivePokemon(null);
 		// TODO: ASK DEF PICK OUT PRIZE CARD>? HERE OR NOT
 	}
 	

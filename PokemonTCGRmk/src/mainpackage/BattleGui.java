@@ -52,7 +52,7 @@ import trainerCard.statusCards.Potion;
 
 public class BattleGui {
 	
-	public static void main(String args[]) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, CardRequest, IOException {
+	public static void main(String args[]) throws CardRequest, Exception {
 		
 		Player playerOne = new Player(new Deck(), new Prizes(6), new Bench(6), null);
 		playerOne.getBench().setPlayer(playerOne);
