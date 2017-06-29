@@ -3,7 +3,7 @@ package trainerCard.statusCards;
 import java.util.ArrayList;
 import java.util.List;
 
-import arena.Arena;
+import arena.GameArena;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.CardRequest;
@@ -14,7 +14,7 @@ public class Potion extends TrainerCard{
 
 	// FIX FULLHEAL, AND OTHER CARDS ALSO WITH THIS NEW CLASS OF CARD REQUEST!
 
-	public Potion(Arena arena, int id) {
+	public Potion(GameArena arena, int id) {
 		super(arena, id);
 		// TODO Auto-generated constructor stub
 	}

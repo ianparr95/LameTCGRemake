@@ -1,6 +1,6 @@
 package energyCard;
 
-import arena.Arena;
+import arena.GameArena;
 import cardAbstract.Card;
 import cardAbstract.EnergyCard;
 
@@ -8,7 +8,7 @@ public class PsychicEnergy extends EnergyCard{
 
 
 
-	public PsychicEnergy(Arena arena, int id) {
+	public PsychicEnergy(GameArena arena, int id) {
 		super(arena, id);
 		// TODO Auto-generated constructor stub
 	}

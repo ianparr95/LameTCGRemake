@@ -1,17 +1,17 @@
 package cardAbstract;
 
-import arena.Arena;
+import arena.GameArena;
 
 public abstract class EnergyCard extends Card{
 
-	protected Arena arena;
+	protected GameArena arena;
 	
 	/**
 	 * Constructor for a new EnergyCard
 	 * @param arena, the current arena of play.
 	 * @param id, the card id.
 	 */
-	public EnergyCard(Arena arena, int id) {
+	public EnergyCard(GameArena arena, int id) {
 		super(id);
 		this.arena = arena;
 	}

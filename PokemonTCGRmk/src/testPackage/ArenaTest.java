@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 
 import org.junit.Test;
 
-import arena.Arena;
+import arena.GameArena;
 import arena.Bench;
 import arena.Deck;
 import arena.Player;
@@ -25,7 +25,7 @@ public class ArenaTest {
 	public void testknockOutAttPokemonAndBasicEvolves() throws FileNotFoundException {
 		PokemonCard p12 = ParsePokemonCardsFile.getPokemonCard("Squirtle", "8");
 		Player p = new Player(new Deck(), new Prizes(6), new Bench(6), null);
-		Arena ba = new Arena(p, null);
+		GameArena ba = new GameArena(p, null);
 		p.setActivePokemonFromHand(p12);
 		ba.knockOutAttPokemon();
 		// knock out att pokemon sets getAtt to null

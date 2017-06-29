@@ -1,11 +1,11 @@
 package moveEffects;
 
-import arena.Arena;
+import arena.GameArena;
 import statuses.DoubleDamage;
 
 public class SwordsDance extends MoveEffect{
 
-	public SwordsDance(Arena arena) {
+	public SwordsDance(GameArena arena) {
 		super(arena);
 	}
 

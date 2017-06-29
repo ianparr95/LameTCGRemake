@@ -12,7 +12,7 @@ import moveEffects.MoveEffect;
 import pokepower.PokePower;
 import statuses.Status;
 
-public class Arena {
+public class GameArena {
 	
 	private Player att;
 	private Player def;
@@ -29,7 +29,7 @@ public class Arena {
 	 * @param att, the first player (the attacker).
 	 * @param def, the second player (the defender).
 	 */
-	public Arena(Player att, Player def) {
+	public GameArena(Player att, Player def) {
 		this.att = att;
 		this.def = def;
 	}
@@ -233,7 +233,7 @@ public class Arena {
 					}
 					// HERE WE USE GETHEADFLIPEFFECT: FOR OTHERS USE TAIL EFFECT AND ADDTIONAL EFFECTS
 					for (Class<? extends MoveEffect> enl : CEList.getMoveEffects()) {
-						MoveEffect me = enl.getDeclaredConstructor(Arena.class).newInstance(this);
+						MoveEffect me = enl.getDeclaredConstructor(GameArena.class).newInstance(this);
 						if (me.mEffectName().equals(eName)) {
 							// SET ME STUFF HERE, LIKE ATT AND DEF.
 							if (me.requireAdditionalEffects()) {
@@ -259,7 +259,7 @@ public class Arena {
 					}
 					// HERE WE USE GETHEADFLIPEFFECT: FOR OTHERS USE TAIL EFFECT AND ADDTIONAL EFFECTS
 					for (Class<? extends MoveEffect> enl : CEList.getMoveEffects()) {
-						MoveEffect me = enl.getDeclaredConstructor(Arena.class).newInstance(this);
+						MoveEffect me = enl.getDeclaredConstructor(GameArena.class).newInstance(this);
 						if (me.mEffectName().equals(eName)) {
 							// SET ME STUFF HERE, LIKE ATT AND DEF.
 							if (me.requireAdditionalEffects()) {

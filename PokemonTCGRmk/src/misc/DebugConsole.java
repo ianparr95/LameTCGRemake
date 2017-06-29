@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import arena.Arena;
-import arena.Arena.GameStage;
+import arena.GameArena;
+import arena.GameArena.GameStage;
 import arena.Player;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
@@ -24,14 +24,14 @@ import pokepower.PokePower;
  */
 public class DebugConsole {
 	
-	private static Arena ba;
+	private static GameArena ba;
 	private static Scanner f;
 	
 	/**
 	 * Starts the game console, with the specified arena.
 	 * The decks, prizes, players, hands etc... should all be set up already before running this.
 	 */
-	public static void startDebugConsole(Arena ba) throws Exception {
+	public static void startDebugConsole(GameArena ba) throws Exception {
 		DebugConsole.ba = ba;
 		f = new Scanner(System.in);
 		displayCommands();

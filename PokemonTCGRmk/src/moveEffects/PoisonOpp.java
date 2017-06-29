@@ -1,11 +1,11 @@
 package moveEffects;
 
-import arena.Arena;
+import arena.GameArena;
 import statuses.Poisoned;
 
 public class PoisonOpp extends MoveEffect{
 
-	public PoisonOpp(Arena arena) {
+	public PoisonOpp(GameArena arena) {
 		super(arena);
 		// TODO Auto-generated constructor stub
 	}

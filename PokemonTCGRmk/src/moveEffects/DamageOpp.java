@@ -1,6 +1,6 @@
 package moveEffects;
 
-import arena.Arena;
+import arena.GameArena;
 
 public class DamageOpp extends MoveEffect{
 
@@ -8,7 +8,7 @@ public class DamageOpp extends MoveEffect{
 	
 	// We do special handling for this in Arena doMove.
 	
-	public DamageOpp(Arena arena) {
+	public DamageOpp(GameArena arena) {
 		super(arena);
 	//	damage = 0;
 	}

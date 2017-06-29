@@ -1,11 +1,11 @@
 package moveEffects;
 
-import arena.Arena;
+import arena.GameArena;
 import statuses.Paralysis;
 
 public class ParOpp extends MoveEffect{
 
-	public ParOpp(Arena arena) {
+	public ParOpp(GameArena arena) {
 		super(arena);
 		// TODO Auto-generated constructor stub
 	}

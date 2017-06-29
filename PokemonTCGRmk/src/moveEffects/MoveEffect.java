@@ -1,6 +1,6 @@
 package moveEffects;
 
-import arena.Arena;
+import arena.GameArena;
 
 public abstract class MoveEffect {
 
@@ -12,9 +12,9 @@ public abstract class MoveEffect {
 	}
 	*/
 	
-	protected Arena arena;
+	protected GameArena arena;
 	
-	public MoveEffect(Arena arena) {
+	public MoveEffect(GameArena arena) {
 		this.arena = arena;
 	}
 	

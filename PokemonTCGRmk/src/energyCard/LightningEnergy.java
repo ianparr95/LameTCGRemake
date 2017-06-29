@@ -1,13 +1,13 @@
 package energyCard;
 
-import arena.Arena;
+import arena.GameArena;
 import cardAbstract.Card;
 import cardAbstract.EnergyCard;
 
 public class LightningEnergy extends EnergyCard{
 
 
-	public LightningEnergy(Arena arena, int id) {
+	public LightningEnergy(GameArena arena, int id) {
 		super(arena, id);
 		// TODO Auto-generated constructor stub
 	}

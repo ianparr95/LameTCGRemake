@@ -1,6 +1,6 @@
 package trainerCard.statusCards;
 
-import arena.Arena;
+import arena.GameArena;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.TrainerCard;
@@ -9,7 +9,7 @@ import statuses.Status;
 public class FullHeal extends TrainerCard{
 
 
-	public FullHeal(Arena arena, int id) {
+	public FullHeal(GameArena arena, int id) {
 		super(arena, id);
 		// TODO Auto-generated constructor stub
 	}

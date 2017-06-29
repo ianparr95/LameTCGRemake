@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import arena.Arena;
+import arena.GameArena;
 import arena.Bench;
 import arena.Deck;
 import arena.Hand;
@@ -66,7 +66,7 @@ public class BattleGui {
 		playerTwo.getPrizes().setPlayer(playerTwo);
 		playerTwo.getBench().setPlayer(playerTwo);
 
-		Arena ba = new Arena(playerOne, playerTwo);
+		GameArena ba = new GameArena(playerOne, playerTwo);
 		testDeck(playerOne, ba);
 		testDeck(playerTwo, ba);
 
@@ -126,7 +126,7 @@ public class BattleGui {
 		DebugConsole.startDebugConsole(ba);
 	}
 	
-	private static void drawHandPlaceCards(Player player, Arena ba) {
+	private static void drawHandPlaceCards(Player player, GameArena ba) {
 		System.out.println("Player drew initial hand:\n" + player.getHand().getList());
 
 		CardFilter cf = new CardFilter(player.getHand().getList());
@@ -162,7 +162,7 @@ public class BattleGui {
 		}*/
 	}
 	
-	private static void testDeck(Player player, Arena ba) throws FileNotFoundException {
+	private static void testDeck(Player player, GameArena ba) throws FileNotFoundException {
 		PokemonCard p12 = ParsePokemonCardsFile.getPokemonCard("Squirtle", "8");
 		PokemonCard w22 = ParsePokemonCardsFile.getPokemonCard("Wartortle", "22");
 		PokemonCard blast = ParsePokemonCardsFile.getPokemonCard("Blastoise", "52");
@@ -276,7 +276,7 @@ public class BattleGui {
 		return (us.length() >= oe.length());
 	}
 	
-	private static void loadGui(Arena ba) throws FileNotFoundException{
+	private static void loadGui(GameArena ba) throws FileNotFoundException{
 		JFrame jf = new JFrame("Battle!");
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setVisible(true);

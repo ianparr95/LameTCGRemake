@@ -1,17 +1,17 @@
 package cardAbstract;
 
-import arena.Arena;
+import arena.GameArena;
 
 public abstract class TrainerCard extends Card{
 
-	protected Arena arena;
+	protected GameArena arena;
 	
 	/**
 	 * Create a new TrainerCard with the specified arena and id
 	 * @param arena, the arena the card belongs to.
 	 * @param id, the unique id of the card.
 	 */
-	public TrainerCard(Arena arena, int id) {
+	public TrainerCard(GameArena arena, int id) {
 		super(id);
 		this.arena = arena;
 	}

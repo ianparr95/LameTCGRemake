@@ -1,6 +1,6 @@
 package pokepower;
 
-import arena.Arena.GameStage;
+import arena.GameArena.GameStage;
 import cardAbstract.EnergyCard;
 
 public class RainDance extends PokePower{

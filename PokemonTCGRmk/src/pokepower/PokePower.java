@@ -1,10 +1,10 @@
 package pokepower;
 
-import arena.Arena;
+import arena.GameArena;
 
 public abstract class PokePower {
 
-	public static Arena ba;
+	public static GameArena ba;
 
 	private String pname;
 	private String ptype;

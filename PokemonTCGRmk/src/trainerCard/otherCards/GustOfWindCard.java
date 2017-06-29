@@ -3,7 +3,7 @@ package trainerCard.otherCards;
 import java.util.ArrayList;
 import java.util.List;
 
-import arena.Arena;
+import arena.GameArena;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.CardRequest;
@@ -12,7 +12,7 @@ import trainerCard.statusCards.Potion;
 
 public class GustOfWindCard extends TrainerCard {
 
-	public GustOfWindCard(Arena arena, int id) {
+	public GustOfWindCard(GameArena arena, int id) {
 		super(arena, id);
 		// TODO Auto-generated constructor stub
 	}

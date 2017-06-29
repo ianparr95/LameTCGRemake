@@ -1,6 +1,6 @@
 package trainerCard.statusCards;
 
-import arena.Arena;
+import arena.GameArena;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.TrainerCard;
@@ -8,7 +8,7 @@ import cardAbstract.TrainerCard;
 public class DefenderCard extends TrainerCard{
 
 
-	public DefenderCard(Arena arena, int id) {
+	public DefenderCard(GameArena arena, int id) {
 		super(arena, id);
 		// TODO Auto-generated constructor stub
 	}

@@ -1,13 +1,13 @@
 package energyCard;
 
-import arena.Arena;
+import arena.GameArena;
 import cardAbstract.Card;
 import cardAbstract.EnergyCard;
 
 public class DoubleColorlessEnergy extends EnergyCard{
 
 
-	public DoubleColorlessEnergy(Arena arena, int id) {
+	public DoubleColorlessEnergy(GameArena arena, int id) {
 		super(arena, id);
 	}
 

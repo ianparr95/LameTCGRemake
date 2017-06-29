@@ -1,12 +1,12 @@
 package trainerCard.drawingCards;
 
-import arena.Arena;
+import arena.GameArena;
 import cardAbstract.Card;
 import cardAbstract.TrainerCard;
 
 public class ProfessorOak extends TrainerCard{
 
-		public ProfessorOak(Arena arena, int id) {
+		public ProfessorOak(GameArena arena, int id) {
 			super(arena, id);
 		}
 

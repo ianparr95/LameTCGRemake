@@ -1,12 +1,12 @@
 package moveEffects;
 
-import arena.Arena;
+import arena.GameArena;
 
 public class DamageSelf extends MoveEffect{
 
 	private int damage;
 	
-	public DamageSelf(Arena arena) {
+	public DamageSelf(GameArena arena) {
 		super(arena);
 		damage = 0;
 	}

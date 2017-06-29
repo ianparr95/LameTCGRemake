@@ -1,12 +1,12 @@
 package trainerCard.drawingCards;
 
-import arena.Arena;
+import arena.GameArena;
 import cardAbstract.Card;
 import cardAbstract.TrainerCard;
 
 public class Bill extends TrainerCard{
 
-		public Bill(Arena arena, int id) {
+		public Bill(GameArena arena, int id) {
 			super(arena, id);
 			// TODO Auto-generated constructor stub
 		}
