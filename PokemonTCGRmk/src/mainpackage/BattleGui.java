@@ -38,6 +38,7 @@ import energyCard.WaterEnergy;
 import gui.BattlePanel;
 import gui.CardGui;
 import gui.CardListGui;
+import gui.MainGui;
 import misc.CardFilter;
 import misc.DebugConsole;
 import statuses.*;
@@ -76,45 +77,9 @@ public class BattleGui {
 		drawHandPlaceCards(playerOne, ba);
 		System.out.println("------PlayerTwo-------");
 		drawHandPlaceCards(playerTwo, ba);
-		
-		//:
-		/*System.out.println("------------Can perform move? :" + playerOne.getActivePokemon().canPerformMove(
-				playerOne.getActivePokemon().getMove(playerOne.getActivePokemon().getMoveNames()[0])));
-		CardFilter cf = new CardFilter(playerOne.getHand().getHand());
-		List<EnergyCard> ecl = cf.filterBasicEnergy();
-		if (ecl.size() > 0) {
-			playerOne.attachEnergyCard(ecl.get(0), playerOne.getActivePokemon());
-			playerOne.getHand().removeCardFromHand(ecl.get(0));
-			System.out.println("Hand after removing energy:" + playerOne.getHand().getHand());
-			System.out.println("Attached cards to apc after attaching:" + playerOne.getActivePokemon().getEnergyCards());
-		}
-		System.out.println("Can perform move after energy :" + playerOne.getActivePokemon().canPerformMove(
-				playerOne.getActivePokemon().getMove(playerOne.getActivePokemon().getMoveNames()[0])));
-		ba.doMove(playerOne.getActivePokemon().getMove(playerOne.getActivePokemon().getMoveNames()[0]));
-		// AFTER DOING MOVE: CHECK IF BOTH POKEMON ARE KNOCKED OUT? ALSO NEED CHECK BETWEEN TURNS
-		// DUE TO POISON!!
-		// AFTER DOING THIS S
-		
-		
-		System.out.println("PlayerTwo's pokemon has: " + playerTwo.getActivePokemon().getDamage() + " hp out of " +
-		playerTwo.getActivePokemon().getMaxHp() + " left");
-		//System.out.println(playerOne.getBench().getBench().get(0).getDamage());
-		System.out.println("Player att hand: " + ba.getAttHand().getHand());
-		
-		
-		
-		ba.nextTurn();
-		System.out.println("Is def paralysed?" + ba.getAtt().getStatus());
-		ba.nextTurn();
-		ba.doMove(playerOne.getActivePokemon().getMove(playerOne.getActivePokemon().getMoveNames()[0]));
-		System.out.println("After next turn: att hand is: " + ba.getAttHand().getHand());
-		System.out.println("Def is: " + ba.getDefHand().getHand());
-		System.out.println("Def's has been dealt damage of " + (ba.getDef().getDamage()) + " out of " + ba.getDef().getMaxHp());
-		System.out.println("Is def dead?" + ba.getDef().isDead());
-		//String cards[][] = ParsePokemonCardsFile.getNameAndLevel();*/
 		//debug(cards);
-		/*loadGui(ba);
-		while(true) {
+		MainGui.loadGui(ba);
+		/*while(true) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
@@ -123,7 +88,9 @@ public class BattleGui {
 				System.exit(1);
 			}
 		}*/
-		DebugConsole.startDebugConsole(ba);
+		
+		// LOAD DEBUG CONSOLE.
+		//DebugConsole.startDebugConsole(ba);
 	}
 	
 	private static void drawHandPlaceCards(Player player, GameArena ba) {

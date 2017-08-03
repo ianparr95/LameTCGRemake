@@ -402,6 +402,7 @@ public class GameArena {
 	}
 	
 
+	// TODO: FIX THIS!!
 	public void checkPowers(Object c) throws InstantiationException, IllegalAccessException {
 		if (att.getActivePokemon().getPokePowerName() != null) {
 			for (Class<? extends PokePower> pp : CEList.getPokePowers()) {
