@@ -17,7 +17,7 @@ public class GameArena {
 	private Player att;
 	private Player def;
 	
-	// UI should set this.
+	// UI should set this. Decribes which stage of the game we are in, so that pokepowers can work appropriately.
 	public static enum GameStage {
 		ATTACK, ATTACH_ENERGY, ATTACH_TRAINER, RECEIVE_ATTACK, RECEIVE_DAMAGE, NOTHING, PLACE_POKEMON, RETREAT_POKEMON
 	}
@@ -52,15 +52,24 @@ public class GameArena {
 		curStage = stage;
 	}
 	
+	/**
+	 * Get the attacking player
+	 * @return The attacking player
+	 */
 	public Player getPlayerAtt() {
 		return att;
 	}
 	
+	/**
+	 * Get the defending player
+	 * @return The defending player
+	 */
 	public Player getPlayerDef(){
 		return def;
 	}
 	
 	/**
+	 * TODO: clean up.
 	 * Advances to the next turn such that att becomes def,
 	 * and def becomes att. Also applies all status ailments on turn
 	 * end and trainer cards also. Sets all can evolve also (IGNORING POKEMON POWER
@@ -91,8 +100,8 @@ public class GameArena {
 		Player temp = att;
 		att = def;
 		def = temp;
-		att.getHand().addCard(att.getDeck().drawCard());
-		// Set all evolve
+		att.getHand().addCard(att.getDeck().drawCard()); //draw a card.
+		// Sets so all pokemon can now be evolved.
 		att.getActivePokemon().setCanEvolve();
 		def.getActivePokemon().setCanEvolve();
 		for (ActivePokemonCard apc : att.getBench().getList()) {
@@ -110,6 +119,7 @@ public class GameArena {
 	 * !!!Does not set att to null!!!
 	 */
 	public void knockOutAttPokemon(){
+		// TODO: FIX THAT REMOVING TO DISCARD PILE BUT NOT REMOVING FROM THE CARD ITSELF!.
 		//att.getDiscardPile().addCard(att.getActivePokemon());
 		for (TrainerCard c : att.getActivePokemon().getTrainerCards()) {
 			att.getDiscardPile().addCard(c);

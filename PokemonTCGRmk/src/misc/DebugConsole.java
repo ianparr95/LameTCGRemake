@@ -18,6 +18,7 @@ import cardAbstract.PokemonCard;
 import cardAbstract.PokemonMove;
 import cardAbstract.TrainerCard;
 import pokepower.PokePower;
+import statuses.Status;
 
 /**
  * Basic single player console.
@@ -79,6 +80,99 @@ public class DebugConsole {
 				displayMoves();
 			} else if (cmd.equals("check")) {
 				// Fix later...
+			} else if (cmd.equals("retreat")) {
+				boolean canRetreat = true;
+				for (Status s : ba.getPlayerAtt().getActivePokemon().getStatus()) {
+					if (!s.canRetreat()) {
+						System.out.println("Can't retreat cause your pokemon is affected by a status");
+						canRetreat = false;
+						break;
+					}
+				}
+				if (!canRetreat) continue;
+				if (ba.getPlayerAtt().getBench().getCurrentCapacity() == 0) {
+					System.out.println("You don't have a bench pokemon to retreat to.");
+					continue;
+				}
+				System.out.println("Require: " + ba.getAttActive().getRCost() + " to retreat");
+				if (ba.getAttActive().getRCost().length() > ba.getAttActive().getEnergyString().length()) {
+					System.out.println("You don't have enough energy cards to retreat");
+					continue;
+				}
+				List<EnergyCard> attCards = ba.getAttActive().getEnergyCards();
+				String rCost = ba.getAttActive().getRCost();
+				if (attCards.size() == 0) {
+					System.out.println("You don't have any energy cards!");
+					if (rCost.equals("")) {
+						// no retreat cost.
+						System.out.println("There is no retreat cost, so retreating: please choose"
+								+ " a pokemon from the bench to switch with");
+						for (int i = ba.getAttActive().getTrainerCards().size() - 1; i >= 0; i--) {
+							ba.getPlayerAtt().getDiscardPile().addCard(ba.getAttActive().getTrainerCards().get(i));
+							ba.getPlayerAtt().getActivePokemon().getTrainerCards().remove(i);
+						}
+						ba.getAttActive().clearStatuses();
+						switchPokemon(f);
+					} else {
+						System.out.println("Can't retreat now since you have no energy cards!");
+						continue;
+					}
+				} else {
+					// now user should select cards to use.
+					List<EnergyCard> cardCopy = new ArrayList<EnergyCard>();
+					List<EnergyCard> chosenCards = new ArrayList<EnergyCard>();
+					for (EnergyCard ec : attCards) {
+						cardCopy.add(ec);
+					}
+					System.out.println("Type q to quit:");
+					System.out.println("Or index of card to use:");
+					int curLen = 0;
+					while (true) {
+						System.out.println("Available cards: ");
+						for (int i = 0 ; i < cardCopy.size(); i++) {
+							System.out.println(i + "." + cardCopy.get(i).energyType());
+						}
+						System.out.println("Needed cards: " + rCost);
+						System.out.println("You have currently: ");
+						for (int i = 0 ; i < chosenCards.size(); i++) {
+							System.out.print(chosenCards.get(i).energyType());
+						}
+						System.out.println();
+						String s = f.nextLine();
+						if (s.equals("q")) break;
+						try {
+							Integer idx = Integer.parseInt(s);
+							if (idx < 0 || idx >= cardCopy.size()) {
+								System.out.println("Please enter a valid index");
+								continue;
+							}
+							EnergyCard ec = cardCopy.get(idx);
+							chosenCards.add(ec);
+							cardCopy.remove(ec);
+							curLen += ec.energyType().length();
+							if (curLen >= rCost.length()) {
+								// good, can retreat.
+								System.out.println("Retreating pokemon");
+								//ba.getAttActive().
+								for (int i = ba.getAttActive().getTrainerCards().size() - 1; i >= 0; i--) {
+									ba.getPlayerAtt().getDiscardPile().addCard(ba.getAttActive().getTrainerCards().get(i));
+									ba.getPlayerAtt().getActivePokemon().getTrainerCards().remove(i);
+								}
+								for (EnergyCard eng : chosenCards) {
+									ba.getPlayerAtt().getDiscardPile().addCard(eng);
+									ba.getAttActive().getEnergyCards().remove(eng);
+								}
+								ba.getAttActive().clearStatuses();
+								switchPokemon(f);
+								break;
+							}
+						} catch (Exception e) {
+							System.out.println("Please enter an index. Try again");
+							continue;
+						}
+					}
+					
+				}
 			}
 			// More complex commands: split based on spaces.
 			String cmds[] = cmd.split(" ");
@@ -264,6 +358,35 @@ public class DebugConsole {
 		f.close();
 	}
 
+	private static void switchPokemon(Scanner f) {
+		System.out.println("Please choose bench pokemon to switch to:");
+		for (int i = 0 ; i < ba.getPlayerAtt().getBench().getList().size(); i++) {
+			ActivePokemonCard c = ba.getPlayerAtt().getBench().getList().get(i);
+			System.out.println(i + "." + c.getName() + " energies: " + c.getEnergyString()
+			+ " Hp: " + (c.getMaxHp() - c.getDamage()) + "/" + c.getMaxHp());
+		}
+		while (true) {
+			String s = f.nextLine();
+			try {
+				Integer idx = Integer.parseInt(s);
+				if (idx < 0 || idx >= ba.getPlayerAtt().getBench().getList().size()) {
+					System.out.println("Please enter a valid index");
+					continue;
+				}
+				// good can switch.
+				ActivePokemonCard curAct = ba.getPlayerAtt().getActivePokemon();
+				ActivePokemonCard newAct = ba.getPlayerAtt().getBench().getList().get(idx);
+				ba.getPlayerAtt().getBench().removeCard(newAct);
+				ba.getPlayerAtt().getBench().add(curAct);
+				ba.setAttPokemon(newAct);
+				System.out.println("Successfully retreated pokemon");
+				break;
+			} catch (Exception e) {
+				System.out.println("Please enter an index.");
+			}
+		}
+	}
+
 	private static void displayMoves() {
 		System.out.println("att moves: " + Arrays.toString(ba.getAttActive().getMoves()));
 		System.out.println("def moves: " + Arrays.toString(ba.getDefActive().getMoves()));
@@ -372,6 +495,7 @@ public class DebugConsole {
 		System.out.println("endturn :   ends your turn without attacking");
 		System.out.println("decksize:   displays how many cards are left in each deck");
 		System.out.println("moves   :   displays moves of active pokemon");
+		System.out.println("retreat :   retreat the current active pokemon");
 	}
 
 	private static void displayBenches() {

@@ -121,7 +121,7 @@ public class ActivePokemonCard extends PokemonCard{
 	 */
 	public void addStatus(Status s) {
 		// CHECK IF SHOULD STACK.
-		
+		// TODO: fix poisoned/toxic in the future.
 		//ALSO CHECK IF HAVE POISONED AND TOXIC: ONLY USE TOXIC. POISONED NO!!
 		if (s instanceof Poisoned) {
 			// Check if toxic exists: if so don't do anything.
@@ -394,6 +394,10 @@ public class ActivePokemonCard extends PokemonCard{
 		eCards = new ArrayList<EnergyCard>();
 		canEvolve = false;
 		this.damage = 0;
+	}
+
+	public void clearStatuses() {
+		statuses.clear();
 	}
 	
 	
