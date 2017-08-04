@@ -146,6 +146,7 @@ public class CardListGui extends JPanel {
 			}
 		});
 	}
+
 	
 	
 	

@@ -243,7 +243,7 @@ public class BattleGui {
 		return (us.length() >= oe.length());
 	}
 	
-	private static void loadGui(GameArena ba) throws FileNotFoundException{
+	private static void testGui(GameArena ba) throws FileNotFoundException{
 		JFrame jf = new JFrame("Battle!");
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setVisible(true);
