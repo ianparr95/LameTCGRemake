@@ -79,10 +79,11 @@ public class Main {
 		drawHandPlaceCards(playerTwo, ba);
 		//debug(cards);
 		
+		// TODO: CHANGE HERE
 		// LOAD GUI
-		//MainGui.loadGui(ba);
+		MainGui.loadGui(ba);
 		// LOAD DEBUG CONSOLE.
-		DebugConsole.startDebugConsole(ba);
+		//DebugConsole.startDebugConsole(ba);
 	}
 	
 	private static void drawHandPlaceCards(Player player, GameArena ba) {

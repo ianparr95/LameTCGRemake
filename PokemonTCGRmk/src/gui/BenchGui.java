@@ -60,7 +60,7 @@ public class BenchGui extends JPanel implements GuiUpdate {
 			if (pc != null) {
 				JDialog clicked = new JDialog();
 				clicked.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-				CardGui ng = new CardGui(pc);
+				ActivePokemonCardGui ng = new ActivePokemonCardGui(pc);
 				clicked.add(ng);
 				ng.setVisible(true);
 				clicked.setPreferredSize(ng.getPreferredSize());

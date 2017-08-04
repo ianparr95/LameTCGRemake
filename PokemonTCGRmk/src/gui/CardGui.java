@@ -10,10 +10,11 @@ import javax.swing.border.LineBorder;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.PokemonCard;
-import misc.JMultilineLabel;
 
 @SuppressWarnings("serial")
+@Deprecated
 public class CardGui extends JPanel {
+	// TODO: DONT USE THIS CLASS, just for reference.
 	
 	private Card card;
 	

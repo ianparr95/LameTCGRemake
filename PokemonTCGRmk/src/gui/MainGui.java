@@ -15,7 +15,7 @@ public class MainGui {
 	public static final int BENCH_HEIGHT = 50;
 	
 	public static final int BENCH_X = 175;
-	public static final int BENCH_Y_TOP = 200;
+	public static final int BENCH_Y_TOP = 100;
 	public static final int BENCH_Y_BOT = 500;
 	
 	public static void loadGui(GameArena ba) {
@@ -33,6 +33,7 @@ public class MainGui {
 		jf.add(bot);
 		bot.setBounds(BENCH_X, BENCH_Y_BOT, BENCH_WIDTH, BENCH_HEIGHT);
 		jf.add(top);
+		top.setBounds(BENCH_X, BENCH_Y_TOP, BENCH_WIDTH, BENCH_HEIGHT);
 		
 	}
 	

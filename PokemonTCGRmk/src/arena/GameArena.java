@@ -14,6 +14,12 @@ import statuses.Status;
 
 public class GameArena {
 	
+	// TODO!!!
+	/*
+	 * BIG THING TO DO IS SET MOVE EFFECTS IN DOMOVE THAT AREN'T COINFLIPS.
+	 * FOR EXAMPLE, SWORDS DANCE IS NOT A COINFLIP SO IT DOES NOTHING.
+	 */
+	
 	private Player att;
 	private Player def;
 	
