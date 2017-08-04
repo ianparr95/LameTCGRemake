@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import arena.Bench;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.PokemonCard;
+import gui.Clickables.ActivePokemonCardGui;
 
 public class BenchGui extends JPanel implements GuiUpdate {
 	

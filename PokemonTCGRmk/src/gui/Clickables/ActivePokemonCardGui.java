@@ -1,4 +1,4 @@
-package gui;
+package gui.Clickables;
 
 import java.awt.Color;
 
@@ -8,6 +8,7 @@ import javax.swing.border.LineBorder;
 
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.EnergyCard;
+import gui.JMultilineLabel;
 
 /**
  * Active Pokemon Card GUI
@@ -36,6 +37,8 @@ public class ActivePokemonCardGui extends JPanel {
 		this.setBorder(new LineBorder(Color.black));
 		this.setSize(200, 300);
 		
-		
+		ClickableMove moveOne = new ClickableMove(card.getMoves()[0]);
+		this.add(moveOne);
+		moveOne.setBounds(0,200, 200, 50);
 	}
 }
