@@ -14,6 +14,7 @@ import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.CardRequest;
 import cardAbstract.EnergyCard;
+import cardAbstract.ParsePokemonCardsFile;
 import cardAbstract.PokemonCard;
 import cardAbstract.PokemonMove;
 import cardAbstract.TrainerCard;
@@ -45,6 +46,11 @@ public class DebugConsole {
 				return;
 			} else if (cmd.equals("bench")) {
 				displayBenches();
+			} else if (cmd.equals("fill")) {
+				// sets att active full energy.
+				ba.getAttActive().addEnergyString("fffffggggglllllssssspppppwwwwwccccc");
+				System.out.println("Set energy string of active to be full");
+				System.out.println("Does not attach!!! So don't try retreating etc, might bug");
 			} else if (cmd.equals("help")) {
 				displayCommands();
 			} else if (cmd.equals("clear")) {
@@ -177,6 +183,19 @@ public class DebugConsole {
 			// More complex commands: split based on spaces.
 			String cmds[] = cmd.split(" ");
 			if (cmds.length > 0) {
+				if (cmds[0].equals("setActive") && cmds.length >= 3) {
+					// sets the active pokemon to be the pokemon name + level
+					String name = cmds[1];
+					String level = cmds[2];
+					PokemonCard pc = ParsePokemonCardsFile.getPokemonCard(name, level);
+					if (pc == null) {
+						System.out.println("Card didn't exist, doing nothing");
+					} else {
+						System.out.println("Got the card, setting it to be active");
+						ba.setAttPokemon(new ActivePokemonCard(pc, 99, ba.getPlayerAtt()));
+					}
+				}
+				
 				// play a trainer card.
 				if (cmds[0].equals("playtr") && cmds.length >= 2) {
 					int index = getIndex(0, ba.getAttHand().getSize(), 

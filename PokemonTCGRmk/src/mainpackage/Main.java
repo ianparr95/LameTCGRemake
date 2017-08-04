@@ -51,7 +51,7 @@ import trainerCard.statusCards.FullHeal;
 import trainerCard.statusCards.PluspowerCard;
 import trainerCard.statusCards.Potion;
 
-public class BattleGui {
+public class Main {
 	
 	public static void main(String args[]) throws CardRequest, Exception {
 		
@@ -78,19 +78,11 @@ public class BattleGui {
 		System.out.println("------PlayerTwo-------");
 		drawHandPlaceCards(playerTwo, ba);
 		//debug(cards);
-		MainGui.loadGui(ba);
-		/*while(true) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.exit(1);
-			}
-		}*/
 		
+		// LOAD GUI
+		//MainGui.loadGui(ba);
 		// LOAD DEBUG CONSOLE.
-		//DebugConsole.startDebugConsole(ba);
+		DebugConsole.startDebugConsole(ba);
 	}
 	
 	private static void drawHandPlaceCards(Player player, GameArena ba) {
