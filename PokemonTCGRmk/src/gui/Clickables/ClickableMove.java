@@ -2,6 +2,8 @@ package gui.Clickables;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Frame;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -17,16 +19,19 @@ import gui.JMultilineLabel;
  * Displays information about a move.
  * A label that can be clicked.
  */
-public class ClickableMove extends JLabel implements MouseListener {
+public class ClickableMove extends JMultilineLabel implements MouseListener {
 
 	private JDialog box;
 	private boolean in = false;
 	
-	public ClickableMove(PokemonMove mv) {
-		this.setText(mv.getName());
+	public ClickableMove(Component parent, PokemonMove mv) {
+		this.setText(mv.getName() + "\nDamage: " + mv.getMoveDamageOpp() +
+		((mv.getAdditionalEffects().length != 0 || mv.getCoinFlips() != 0) ? "* " : " ")
+		+ "\nEnergy cost: " + mv.getEnergyCost());
 		this.setVisible(true);
 		this.addMouseListener(this);
-		box = new JDialog();
+		box = new JDialog((Frame) parent, false);
+		box.setAlwaysOnTop(true);
 		box.setResizable(false);
 		box.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		

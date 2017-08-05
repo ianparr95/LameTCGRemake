@@ -15,4 +15,14 @@ public class JMultilineLabel extends JTextArea{
         setWrapStyleWord(true);  
         setLineWrap(true);
     }
+    
+    public JMultilineLabel(){
+        setEditable(false);  
+        setCursor(null);  
+        setOpaque(false);  
+        setFocusable(false);  
+        setFont(UIManager.getFont("Label.font"));      
+        setWrapStyleWord(true);  
+        setLineWrap(true);
+    }
 } 
