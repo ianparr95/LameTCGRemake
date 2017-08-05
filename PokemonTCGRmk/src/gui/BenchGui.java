@@ -17,10 +17,14 @@ import cardAbstract.ActivePokemonCard;
 import cardAbstract.PokemonCard;
 import gui.Clickables.ActivePokemonCardGui;
 
+/**
+ * GUI for the benches: made up of CLabels, which are clickable.
+ * When you click on them, it unhides a JDialog with
+ * the active pokemon card.
+ */
 public class BenchGui extends JPanel implements GuiUpdate {
 	
 	// assumes max bench is 7.
-	
 	private List<CLabel> cards = new ArrayList<CLabel>();
 	private Bench bench;
 	
@@ -60,7 +64,8 @@ public class BenchGui extends JPanel implements GuiUpdate {
 			this.addMouseListener(this);
 			if (pc != null) {
 				JDialog clicked = new JDialog();
-				clicked.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				clicked.setResizable(false);
+				clicked.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 				ActivePokemonCardGui ng = new ActivePokemonCardGui(pc);
 				clicked.add(ng);
 				ng.setVisible(true);
@@ -75,7 +80,7 @@ public class BenchGui extends JPanel implements GuiUpdate {
 			// create a new card gui when click.
 			if (pc != null) {
 				// not null, create a new card gui.
-				clicked.setLocation(e.getLocationOnScreen());
+				clicked.setLocation(e.getLocationOnScreen().x, e.getLocationOnScreen().y - 40);
 				clicked.setVisible(true);
 			}
 		}
