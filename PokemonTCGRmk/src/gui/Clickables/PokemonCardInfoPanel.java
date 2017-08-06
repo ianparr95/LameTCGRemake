@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -21,7 +23,7 @@ import gui.JMultilineLabel;
  * Active Pokemon Card GUI
  * Shows the Energy/HP/moves/statuses etc.
  */
-public class ActivePokemonCardPanel extends JPanel {
+public class PokemonCardInfoPanel extends JPanel {
 	
 	public static final Dimension NAME_AND_EFFECT_BOUNDS = new Dimension(200, 30);
 	public static final Dimension ACTIVE_POKEMON_CARD_GUI_BOUNDS = new Dimension(200,320);
@@ -31,7 +33,11 @@ public class ActivePokemonCardPanel extends JPanel {
 	public static final int CLICKABLE_MOVE_Y_START = 170;
 	public static final int CLICKABLE_MOVE_SPACE = 60;
 
-	public ActivePokemonCardPanel(ActivePokemonCard card) {
+	private ActivePokemonCard card;
+	private List<ClickableMove> moves = new ArrayList<ClickableMove>();
+	
+	public PokemonCardInfoPanel(ActivePokemonCard card) {
+		this.card = card;
 		this.setLayout(null);
 		// TODO: fix this.
 		JMultilineLabel name = new JMultilineLabel(card.getName() + "\nClick to view afflicted statuses.");
@@ -68,6 +74,13 @@ public class ActivePokemonCardPanel extends JPanel {
 			this.add(cm);
 			cm.setBounds(0,CLICKABLE_MOVE_Y_START + i * CLICKABLE_MOVE_SPACE, 200, CLICKABLE_MOVE_SPACE);
 			cm.setBorder(new LineBorder(Color.blue));
+			moves.add(cm);
+		}
+	}
+
+	public void closeAllWindows() {
+		for (ClickableMove cm : moves) {
+			cm.makeInvisible();
 		}
 	}
 }

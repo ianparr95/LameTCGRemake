@@ -57,6 +57,10 @@ public class ClickableMove extends JMultilineLabel implements MouseListener {
 		//box.setPreferredSize(info.getPreferredSize());
 	}
 	
+	public void makeInvisible() {
+		box.setVisible(false);
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (in == false) {
