@@ -16,6 +16,7 @@ import javax.swing.border.LineBorder;
 
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.EnergyCard;
+import cardAbstract.PokemonCard;
 import cardAbstract.PokemonMove;
 import gui.JMultilineLabel;
 
@@ -33,10 +34,10 @@ public class PokemonCardInfoPanel extends JPanel {
 	public static final int CLICKABLE_MOVE_Y_START = 170;
 	public static final int CLICKABLE_MOVE_SPACE = 60;
 
-	private ActivePokemonCard card;
+	private PokemonCard card;
 	private List<ClickableMove> moves = new ArrayList<ClickableMove>();
 	
-	public PokemonCardInfoPanel(ActivePokemonCard card) {
+	public PokemonCardInfoPanel(PokemonCard card) {
 		this.card = card;
 		this.setLayout(null);
 		// TODO: fix this.
@@ -46,10 +47,20 @@ public class PokemonCardInfoPanel extends JPanel {
 		name.setSize(NAME_AND_EFFECT_BOUNDS);
 		name.setBorder(new LineBorder(Color.magenta));
 		JMultilineLabel cardInfo = new JMultilineLabel(card.addInfoName());
-		cardInfo.setText(card.addInfoName() + " HP:" + (card.getMaxHp() - card.getDamage()) + "/" + card.getMaxHp()
-		+ "\nEnergies: " + card.getEnergyString() + "\nRetreat Cost: " + card.getRCost() + "\nResistance: "
+		if (card instanceof ActivePokemonCard) {
+		
+		cardInfo.setText(card.addInfoName() + " HP:" + (card.getMaxHp() - ((ActivePokemonCard) card).getDamage()) + "/" + card.getMaxHp()
+		+ "\nEnergies: " + ((ActivePokemonCard) card).getEnergyString() + "\nRetreat Cost: " + card.getRCost() + "\nResistance: "
 		+ ((card.getResistance() == null ? "none" : card.getResistance().toUpperCase()) + "\nWeakness: "
 		+ ((card.getWeakness() == null ? "none" : card.getWeakness().toUpperCase()))));
+		
+		} else {
+		
+		cardInfo.setText(card.addInfoName() + " HP:" + (card.getMaxHp())
+		+ "\nEnergies: " + "" + "\nRetreat Cost: " + card.getRCost() + "\nResistance: "
+		+ ((card.getResistance() == null ? "none" : card.getResistance().toUpperCase()) + "\nWeakness: "
+		+ ((card.getWeakness() == null ? "none" : card.getWeakness().toUpperCase()))));
+		}
 
 		this.add(cardInfo);
 		cardInfo.setBounds(INFO_BOUNDS);

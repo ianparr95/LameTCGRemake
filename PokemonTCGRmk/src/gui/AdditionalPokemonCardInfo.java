@@ -6,13 +6,14 @@ import java.awt.event.WindowListener;
 import javax.swing.JDialog;
 
 import cardAbstract.ActivePokemonCard;
+import cardAbstract.PokemonCard;
 import gui.Clickables.PokemonCardInfoPanel;
 
 public class AdditionalPokemonCardInfo extends JDialog{
 	
 	private PokemonCardInfoPanel ng;
 	
-	public AdditionalPokemonCardInfo(ActivePokemonCard c) {
+	public AdditionalPokemonCardInfo(PokemonCard c) {
 		super(MainGui.MAIN_GUI, false);
 		this.setTitle(c.getName());
 		this.setResizable(false);

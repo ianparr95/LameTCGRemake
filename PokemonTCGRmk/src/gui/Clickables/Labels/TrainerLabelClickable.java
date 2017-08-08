@@ -1,5 +1,6 @@
-package gui.Clickables;
+package gui.Clickables.Labels;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -8,44 +9,42 @@ import java.awt.event.WindowListener;
 import javax.swing.JDialog;
 
 import cardAbstract.ActivePokemonCard;
+import cardAbstract.TrainerCard;
 import gui.AdditionalPokemonCardInfo;
 import gui.BenchGui;
 import gui.JMultilineLabel;
 import gui.MainGui;
 
-public class CardBenchLabelClickable extends JMultilineLabel implements MouseListener{
+public class TrainerLabelClickable extends ClickableCardLabel{
 	
 	/**
 	 * Card label.
 	 */
-	private BenchGui activePokemonCardGui;
-	ActivePokemonCard pc;
-	AdditionalPokemonCardInfo clicked;
+	TrainerCard c;
 	
-	public CardBenchLabelClickable(BenchGui benchGui, ActivePokemonCard c) {
-		super(c == null ? "" : c.getName() + "\n" + (c.getMaxHp() - c.getDamage()) + "/" + c.getMaxHp());
-		activePokemonCardGui = benchGui;
-		this.pc = c;
+	public TrainerLabelClickable(TrainerCard c) {
+		super(c == null ? "" : ("Trainer\n" + c.getName()));
+		this.c = c;
 		this.addMouseListener(this);
-		if (pc != null) {
-			AdditionalPokemonCardInfo clicked = new AdditionalPokemonCardInfo(pc);
-			this.clicked = clicked;
+		if (c != null) {
+			//AdditionalPokemonCardInfo clicked = new AdditionalPokemonCardInfo(c);
+			//this.clicked = clicked;
 		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// create a new card gui when click.
+	/*	// create a new card gui when click.
 		if (pc != null) {
 			// not null, create a new card gui.
 			if (clicked.isVisible()) {
 				clicked.setVisible(false);
 				clicked.closeAllWindows();
 			} else {
-				clicked.setLocation(e.getLocationOnScreen());
+				clicked.setLocation(e.getLocationOnScreen().x, e.getLocationOnScreen().y - 100);
 				clicked.setVisible(true);
 			}
-		}
+		}*/
 	}
 
 	@Override

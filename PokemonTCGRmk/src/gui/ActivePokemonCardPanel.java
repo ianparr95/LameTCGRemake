@@ -1,11 +1,14 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Label;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
@@ -22,7 +25,7 @@ public class ActivePokemonCardPanel extends JPanel {
 	
 	private AdditionalPokemonCardInfo clicked;
 	
-	public ActivePokemonCardPanel(ActivePokemonCard apc) {
+	public ActivePokemonCardPanel(ActivePokemonCard apc, boolean isActive) {
 		clicked = new AdditionalPokemonCardInfo(apc);
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		((FlowLayout)this.getLayout()).setVgap(0);
@@ -30,6 +33,7 @@ public class ActivePokemonCardPanel extends JPanel {
 		JMultilineLabel info = new JMultilineLabel(apc.getName() + 
 				"\nHP: " + (apc.getMaxHp() - apc.getDamage()) + "/" + apc.getMaxHp());
 		this.add(info);
+		info.setBorder(new LineBorder(Color.pink));
 		info.addMouseListener(new MouseListener(){
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -37,7 +41,7 @@ public class ActivePokemonCardPanel extends JPanel {
 					clicked.setVisible(false);
 					clicked.closeAllWindows();
 				} else {
-					clicked.setLocation(e.getLocationOnScreen());
+					clicked.setLocation(e.getLocationOnScreen().x, e.getLocationOnScreen().y - 100);
 					clicked.setVisible(true);
 				}
 			}
@@ -46,7 +50,14 @@ public class ActivePokemonCardPanel extends JPanel {
 			public void mouseEntered(MouseEvent e) {}
 			public void mouseExited(MouseEvent e) {}
 		});
-		// want to have gaps between energies:
+		
+		if (isActive) {
+			JLabel actions = new JLabel("Perform action...");
+			this.add(actions);
+			actions.setBorder(new LineBorder(Color.black));
+			actions.setPreferredSize(new Dimension(MainGui.ACTIVE_WIDTH, 20));
+		}
+		
 		JTextArea energies = new JTextArea();
 		energies.setWrapStyleWord(true);
 		energies.setLineWrap(true);

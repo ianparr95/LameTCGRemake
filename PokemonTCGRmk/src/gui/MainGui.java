@@ -2,9 +2,12 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -27,7 +30,7 @@ public class MainGui {
 	public static final int FRAME_SIZE_Y = 700;
 
 	// Benches
-	public static final int BENCH_WIDTH = 400;
+	public static final int BENCH_WIDTH = 390;
 	public static final int BENCH_HEIGHT = 50;
 	public static final int BENCH_X = 175;
 	public static final int BENCH_Y_DEF = 100;
@@ -37,8 +40,18 @@ public class MainGui {
 	public static final int ACTIVE_WIDTH = 100;
 	public static final int ACTIVE_HEIGHT = 150;
 	public static final int ACTIVE_X = 325;
-	public static final int ACTIVE_Y_DEF = 200;
+	public static final int ACTIVE_Y_DEF = 150;
 	public static final int ACTIVE_Y_ATT = 350;
+	
+	// View hand/discard buttons.
+	public static final int HD_WIDTH = 100;
+	public static final int HD_HEIGHT = 20;
+	public static final int HD_X = 325;
+	public static final int HAND_Y_ATT = 560;
+	public static final int DISCARD_Y_ATT = 580;
+	public static final int DISCARD_Y_DEF = 70;
+	//public static final int HAND_Y_DEF = 0;
+
 	
 	public static void loadGui(GameArena ba) {
 		// TODO: READ.
@@ -55,15 +68,58 @@ public class MainGui {
 		// set up both benches:
 		BenchGui attbench = new BenchGui(ba.getPlayerAtt().getBench());
 		BenchGui defbench = new BenchGui(ba.getPlayerDef().getBench());
+		
 		MAIN_GUI.add(attbench);
 		attbench.setBounds(BENCH_X, BENCH_Y_ATT, BENCH_WIDTH, BENCH_HEIGHT);
 		MAIN_GUI.add(defbench);
 		defbench.setBounds(BENCH_X, BENCH_Y_DEF, BENCH_WIDTH, BENCH_HEIGHT);
 		
 		// set up active pokemon.
-		ActivePokemonCardPanel attAct = new ActivePokemonCardPanel(ba.getAttActive());
-		attAct.setBounds(ACTIVE_X, ACTIVE_Y_ATT, ACTIVE_WIDTH, ACTIVE_HEIGHT);
+		ActivePokemonCardPanel attAct = new ActivePokemonCardPanel(ba.getAttActive(), true);
+		ActivePokemonCardPanel defAct = new ActivePokemonCardPanel(ba.getDefActive(), false);
+		
 		MAIN_GUI.add(attAct);
+		attAct.setBounds(ACTIVE_X, ACTIVE_Y_ATT, ACTIVE_WIDTH, ACTIVE_HEIGHT);
+		MAIN_GUI.add(defAct);
+		defAct.setBounds(ACTIVE_X, ACTIVE_Y_DEF, ACTIVE_WIDTH, ACTIVE_HEIGHT);
+		
+		// set up hand and discard piles.
+		HandGui attHand = new HandGui(ba.getAttHand());
+		JButton handAtt = new JButton("View hand.");
+		MAIN_GUI.add(handAtt);
+		handAtt.setBounds(HD_X, HAND_Y_ATT, HD_WIDTH, HD_HEIGHT);
+		handAtt.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (attHand.isVisible()) {
+					attHand.setVisible(false);
+				} else {
+					attHand.setVisible(true);
+					attHand.setLocationRelativeTo(MAIN_GUI);
+					attHand.setLocation(BENCH_X, ACTIVE_Y_ATT);
+				}
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {}
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+			@Override
+			public void mouseExited(MouseEvent e) {}
+		});
+		
+		JButton discardAtt = new JButton("Discard Pile.");
+		MAIN_GUI.add(discardAtt);
+		discardAtt.setBounds(HD_X - 10, DISCARD_Y_ATT, HD_WIDTH + 20, HD_HEIGHT);
+		JButton discardDef = new JButton("Discard Pile.");
+		MAIN_GUI.add(discardDef);
+		discardDef.setBounds(HD_X - 10, DISCARD_Y_DEF, HD_WIDTH + 20, HD_HEIGHT);
+		
+		// Def hand, can't view it!
+		/*JButton handDef = new JButton("View hand.");
+		MAIN_GUI.add(handAtt);
+		handAtt.setBounds(HAND_X, HAND_Y_ATT, HAND_WIDTH, HAND_HEIGHT);*/
 		
 		
 		// final set up

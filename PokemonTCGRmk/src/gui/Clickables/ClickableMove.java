@@ -41,7 +41,7 @@ public class ClickableMove extends JMultilineLabel implements MouseListener {
 		if (mv.getAdditionalEffects().length > 0) {
 			text += "Additional effects: " + "\n";
 			for (int i = 0; i < mv.getAdditionalEffects().length; i++) {
-				text += i + ". " + mv.getAdditionalEffects()[i] + "\n";
+				text += mv.getAdditionalEffects()[i] + "\n";
 			}
 		}
 		if (mv.getCoinFlips() > 0) {

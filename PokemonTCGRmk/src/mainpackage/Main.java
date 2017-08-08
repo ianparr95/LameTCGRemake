@@ -36,8 +36,6 @@ import energyCard.LightningEnergy;
 import energyCard.StoneEnergy;
 import energyCard.WaterEnergy;
 import gui.BattlePanel;
-import gui.CardGui;
-import gui.CardListGui;
 import gui.MainGui;
 import misc.CardFilter;
 import misc.DebugConsole;
@@ -236,40 +234,6 @@ public class Main {
 		return (us.length() >= oe.length());
 	}
 	
-	private static void testGui(GameArena ba) throws FileNotFoundException{
-		JFrame jf = new JFrame("Battle!");
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.setVisible(true);
-		/*BattlePanel opponentPanel = new BattlePanel(false);
-		BattlePanel ourPanel = new BattlePanel(true);
-		jf.setLayout(null);
-		jf.setSize(500, 530);
-		jf.setResizable(false);
-		jf.add(opponentPanel);
-		jf.add(ourPanel);
-		ourPanel.setSize(500, 250);
-		ourPanel.setLocation(0, 250);
-		opponentPanel.setLocation(0,0);
-		opponentPanel.setSize(500, 250);
-		ourPanel.setBorder(BorderFactory.createLineBorder(Color.black));*/
-		//PokemonCard p12 = ParsePokemonCardsFile.getPokemonCard("Squirtle", "8");
-		//Card po = new DefenderCard(null, 0);
-		//CardGui g = new CardGui(p12);
-		//g.setVisible(true);
-		List<ActivePokemonCard> benchba = ba.getPlayerDef().getBench().getList();
-		List<Card> benchfix = new ArrayList<Card>();
-		for (Card c : benchba){
-			benchfix.add(c);
-		}
-		CardListGui g = new CardListGui(ba.getDefDeck().getList());
-		g.setVisible(true);
-		jf.setLayout(null);
-		jf.setSize(700, 700);
-		//jf.setResizable(false);
-		jf.add(g, 0, 0);
-		//jf.pack();
-
-	}
 	
 	private static void debug(String cards[][]) throws FileNotFoundException{
 
