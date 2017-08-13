@@ -1,4 +1,4 @@
-package gui;
+package gui.Panels;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -11,20 +11,22 @@ import javax.swing.JPanel;
 
 import arena.Bench;
 import cardAbstract.PokemonCard;
-import gui.Clickables.Labels.PokemonLabelClickable;
+import gui.GuiUpdate;
+import gui.MainGui;
+import gui.PokemonCard.PokemonLabelClickable;
 
 /**
  * GUI for the benches: made up of CLabels, which are clickable.
  * When you click on them, it unhides a JDialog with
  * the active pokemon card.
  */
-public class BenchGui extends JPanel implements GuiUpdate {
+public class BenchPanel extends JPanel implements GuiUpdate {
 	
 	// assumes max bench is 6.
 	private List<PokemonLabelClickable> cards = new ArrayList<PokemonLabelClickable>();
 	private Bench bench;
 	
-	public BenchGui(Bench bench) {
+	public BenchPanel(Bench bench) {
 		this.setVisible(true);
 		this.bench = bench;
 		this.setLayout(null);

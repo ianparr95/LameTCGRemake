@@ -1,4 +1,4 @@
-package gui.Clickables;
+package gui.PokemonCard;
 
 import java.awt.Color;
 import java.awt.Component;

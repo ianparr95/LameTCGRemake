@@ -1,8 +1,6 @@
-package gui.Clickables.Labels;
+package gui;
 
 import java.awt.event.MouseListener;
-
-import gui.JMultilineLabel;
 
 public abstract class ClickableCardLabel extends JMultilineLabel implements MouseListener {
 

@@ -1,4 +1,4 @@
-package gui;
+package gui.PokemonCard;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,7 +19,8 @@ import cardAbstract.ActivePokemonCard;
 import cardAbstract.EnergyCard;
 import energyCard.DoubleColorlessEnergy;
 import energyCard.WaterEnergy;
-import gui.Clickables.PokemonCardInfoPanel;
+import gui.JMultilineLabel;
+import gui.MainGui;
 
 public class ActivePokemonCardPanel extends JPanel {
 	

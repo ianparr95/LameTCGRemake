@@ -1,7 +1,9 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -9,13 +11,16 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import arena.GameArena;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
-import gui.Clickables.PokemonCardInfoPanel;
+import gui.Panels.BenchPanel;
+import gui.PokemonCard.ActivePokemonCardPanel;
+import gui.PokemonCard.PokemonCardInfoPanel;
 
 /**
  * Basic GUI, this is the main gui class which controls all the
@@ -24,6 +29,8 @@ import gui.Clickables.PokemonCardInfoPanel;
 public class MainGui {
 	
 	public static final JFrame MAIN_GUI = new JFrame("Pokemon TCG");
+	
+	public static GameArena ARENA;
 	
 	// The big frame Constants
 	public static final int FRAME_SIZE_X = 700;
@@ -51,8 +58,14 @@ public class MainGui {
 	public static final int DISCARD_Y_ATT = 580;
 	public static final int DISCARD_Y_DEF = 70;
 	//public static final int HAND_Y_DEF = 0;
-
 	
+	// Deck size/prizes/endturn labels.
+	public static final Point DECK_SIZE_ATT_BOUNDS = new Point(20,570);
+	public static final Point DECK_SIZE_DEF_BOUNDS = new Point(20,10);
+	public static final Point PRIZES_LEFT_ATT_BOUNDS = new Point(20,600);
+	public static final Point PRIZES_LEFT_DEF_BOUNDS = new Point(20,40);
+	public static final Point END_TURN_BOUNDS = new Point(20,520);
+
 	public static void loadGui(GameArena ba) {
 		// TODO: READ.
 		/*
@@ -62,12 +75,14 @@ public class MainGui {
 		 * maybe have some recursive closeWindows function?
 		 */
 		
+		ARENA = ba;
+		
 		setFonts();
 		MAIN_GUI.setLayout(null);
 		
 		// set up both benches:
-		BenchGui attbench = new BenchGui(ba.getPlayerAtt().getBench());
-		BenchGui defbench = new BenchGui(ba.getPlayerDef().getBench());
+		BenchPanel attbench = new BenchPanel(ba.getPlayerAtt().getBench());
+		BenchPanel defbench = new BenchPanel(ba.getPlayerDef().getBench());
 		
 		MAIN_GUI.add(attbench);
 		attbench.setBounds(BENCH_X, BENCH_Y_ATT, BENCH_WIDTH, BENCH_HEIGHT);
@@ -116,11 +131,23 @@ public class MainGui {
 		MAIN_GUI.add(discardDef);
 		discardDef.setBounds(HD_X - 10, DISCARD_Y_DEF, HD_WIDTH + 20, HD_HEIGHT);
 		
-		// Def hand, can't view it!
-		/*JButton handDef = new JButton("View hand.");
-		MAIN_GUI.add(handAtt);
-		handAtt.setBounds(HAND_X, HAND_Y_ATT, HAND_WIDTH, HAND_HEIGHT);*/
+		JLabel defPrizesLeft = new JLabel("Prizes: ");
+		MAIN_GUI.add(defPrizesLeft);
+		defPrizesLeft.setBounds(PRIZES_LEFT_DEF_BOUNDS.x, PRIZES_LEFT_DEF_BOUNDS.y, 100, 20);
+		JLabel defDeckSize = new JLabel("Deck size: ");
+		MAIN_GUI.add(defDeckSize);
+		defDeckSize.setBounds(DECK_SIZE_DEF_BOUNDS.x, DECK_SIZE_DEF_BOUNDS.y, 100, 20);
 		
+		JLabel attPrizesLeft = new JLabel("Prizes: ");
+		MAIN_GUI.add(attPrizesLeft);
+		attPrizesLeft.setBounds(PRIZES_LEFT_ATT_BOUNDS.x, PRIZES_LEFT_ATT_BOUNDS.y, 100, 20);
+		JLabel attDeckSize = new JLabel("Deck size: ");
+		MAIN_GUI.add(attDeckSize);
+		attDeckSize.setBounds(DECK_SIZE_ATT_BOUNDS.x, DECK_SIZE_ATT_BOUNDS.y, 100, 20);
+		
+		JButton endTurnButton = new JButton("End turn");
+		MAIN_GUI.add(endTurnButton);
+		endTurnButton.setBounds(END_TURN_BOUNDS.x, END_TURN_BOUNDS.y, 100, 20);
 		
 		// final set up
 		MAIN_GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

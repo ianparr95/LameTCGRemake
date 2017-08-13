@@ -18,6 +18,7 @@ import arena.Hand;
 import cardAbstract.Card;
 import cardAbstract.ParsePokemonCardsFile;
 import cardAbstract.PokemonCard;
+import gui.Panels.GenericCardListPanel;
 
 /**
  * Displays so that you can scroll through
@@ -35,11 +36,9 @@ public class HandGui extends JDialog {
 		this.setTitle("Hand");
 		this.setLayout(null);
 		this.setSize(WIDTH, HEIGHT);
-		GenericCardListGui gcl = new GenericCardListGui(attHand.getList());
+		GenericCardListPanel gcl = new GenericCardListPanel(attHand.getList());
 		gcl.setBounds(0, 0, WIDTH, HEIGHT);
 		this.add(gcl);
-		
-
 	}
 	
 }

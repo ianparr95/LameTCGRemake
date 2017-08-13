@@ -35,7 +35,6 @@ import energyCard.GrassEnergy;
 import energyCard.LightningEnergy;
 import energyCard.StoneEnergy;
 import energyCard.WaterEnergy;
-import gui.BattlePanel;
 import gui.MainGui;
 import misc.CardFilter;
 import misc.DebugConsole;

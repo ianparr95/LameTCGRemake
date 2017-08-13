@@ -1,4 +1,4 @@
-package gui.Clickables.Labels;
+package gui.TrainerCard;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -10,10 +10,11 @@ import javax.swing.JDialog;
 
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.TrainerCard;
-import gui.AdditionalPokemonCardInfo;
-import gui.BenchGui;
+import gui.ClickableCardLabel;
 import gui.JMultilineLabel;
 import gui.MainGui;
+import gui.Panels.BenchPanel;
+import gui.PokemonCard.AdditionalPokemonCardInfo;
 
 public class TrainerLabelClickable extends ClickableCardLabel{
 	

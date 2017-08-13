@@ -1,4 +1,4 @@
-package gui;
+package gui.Panels;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -19,12 +19,12 @@ import cardAbstract.EnergyCard;
 import cardAbstract.ParsePokemonCardsFile;
 import cardAbstract.PokemonCard;
 import cardAbstract.TrainerCard;
-import gui.Clickables.Labels.ClickableCardLabel;
-import gui.Clickables.Labels.EnergyLabelClickable;
-import gui.Clickables.Labels.PokemonLabelClickable;
-import gui.Clickables.Labels.TrainerLabelClickable;
+import gui.ClickableCardLabel;
+import gui.EnergyCard.EnergyLabelClickable;
+import gui.PokemonCard.PokemonLabelClickable;
+import gui.TrainerCard.TrainerLabelClickable;
 
-public class GenericCardListGui extends JPanel {
+public class GenericCardListPanel extends JPanel {
 	
 	private List<Card> clist = new ArrayList<Card>();
 	private List<ClickableCardLabel> labelList = new ArrayList<ClickableCardLabel>();
@@ -46,7 +46,7 @@ public class GenericCardListGui extends JPanel {
 	private static final int LABEL_X = 300;
 	private static final int LABEL_Y = 95;
 	
-	public GenericCardListGui(List<Card> cards) {
+	public GenericCardListPanel(List<Card> cards) {
 		
 		this.setLayout(null);
 
@@ -109,12 +109,12 @@ public class GenericCardListGui extends JPanel {
 				int s = clist.size();
 				if (s >= 4) {
 					curNum = ((curNum + 1) % s + s) % s;
-					GenericCardListGui.this.remove(count);
+					GenericCardListPanel.this.remove(count);
 					count = new JLabel(curNum + "/" + cards.size());
-					GenericCardListGui.this.add(count);
+					GenericCardListPanel.this.add(count);
 					count.setBounds(LABEL_X, LABEL_Y, 
 							(int)count.getPreferredSize().getWidth(), (int)count.getPreferredSize().getHeight());
-					GenericCardListGui.this.repaint();
+					GenericCardListPanel.this.repaint();
 				}
 				onUpdate();
 			}
@@ -135,12 +135,12 @@ public class GenericCardListGui extends JPanel {
 				int s = clist.size();
 				if (s >= 4) {
 					curNum = ((curNum - 1) % s + s) % s;
-					GenericCardListGui.this.remove(count);
+					GenericCardListPanel.this.remove(count);
 					count = new JLabel(curNum + "/" + cards.size());
-					GenericCardListGui.this.add(count);
+					GenericCardListPanel.this.add(count);
 					count.setBounds(LABEL_X, LABEL_Y, 
 							(int)count.getPreferredSize().getWidth(), (int)count.getPreferredSize().getHeight());
-					GenericCardListGui.this.repaint();
+					GenericCardListPanel.this.repaint();
 				}
 				onUpdate();
 			}

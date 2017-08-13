@@ -1,4 +1,4 @@
-package gui.Clickables.Labels;
+package gui.PokemonCard;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -10,8 +10,7 @@ import javax.swing.JDialog;
 
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.PokemonCard;
-import gui.AdditionalPokemonCardInfo;
-import gui.BenchGui;
+import gui.ClickableCardLabel;
 import gui.JMultilineLabel;
 import gui.MainGui;
 

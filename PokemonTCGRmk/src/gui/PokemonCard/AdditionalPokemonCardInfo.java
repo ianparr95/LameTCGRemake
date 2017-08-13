@@ -1,4 +1,4 @@
-package gui;
+package gui.PokemonCard;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -7,7 +7,7 @@ import javax.swing.JDialog;
 
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.PokemonCard;
-import gui.Clickables.PokemonCardInfoPanel;
+import gui.MainGui;
 
 public class AdditionalPokemonCardInfo extends JDialog{
 	
