@@ -51,7 +51,9 @@ public class ActivePokemonCardPanel extends JPanel {
 				if (clicked.isVisible()) {
 					clicked.setVisible(false);
 					clicked.closeAllWindows();
+					MainGui.removeCurrentlyOpen(clicked);
 				} else {
+					MainGui.addCurrentlyOpen(clicked);
 					clicked.setLocation(e.getLocationOnScreen().x, e.getLocationOnScreen().y - 100);
 					clicked.setVisible(true);
 				}

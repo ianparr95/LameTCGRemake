@@ -8,6 +8,7 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import arena.GameArena;
@@ -94,7 +95,19 @@ public class PokemonLabelClickable extends ClickableCardLabel{
 					boolean success = MainGui.ARENA.getPlayerAtt().attachEnergyCard(
 							(EnergyCard) MainGui.ARENA.getActionObject(), selected);
 					if (success) {
+						JDialog s = new JDialog(MainGui.MAIN_GUI, true);
+						s.add(new JLabel("Sucessfully attached energy card"));
+						s.setSize(210, 60);
+						s.setLocation(e.getLocationOnScreen());
+						s.setVisible(true);
 						MainGui.onUpdate();
+					} else {	
+						// notify fail:
+						JDialog s = new JDialog(MainGui.MAIN_GUI, true);
+						s.add(new JLabel("Failed to attach energy card"));
+						s.setSize(210, 60);
+						s.setLocation(e.getLocationOnScreen());
+						s.setVisible(true);
 					}
 				}
 			}

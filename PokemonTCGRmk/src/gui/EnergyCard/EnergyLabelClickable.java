@@ -6,32 +6,33 @@ import javax.swing.JDialog;
 
 import cardAbstract.EnergyCard;
 import gui.ClickableCardLabel;
+import gui.MainGui;
 import gui.PokemonCard.AdditionalPokemonCardInfo;
 
 public class EnergyLabelClickable extends ClickableCardLabel {
 		
 	// TODO : FIX
 	private EnergyCard c;
-	AdditionalEnergyCardInfo clicked;
+	private AdditionalEnergyCardInfo clickableEnergyLabel;
 	
 	public EnergyLabelClickable(EnergyCard c) {
 		super(c.getName());
 		this.c = c;
 		this.addMouseListener(this);
-		clicked = new AdditionalEnergyCardInfo(c);
+		clickableEnergyLabel = new AdditionalEnergyCardInfo(c);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// create a new card gui when click.
 		if (c != null) {
-			// not null, create a new card gui.
-			if (clicked.isVisible()) {
-				clicked.setVisible(false);
-				clicked.closeAllWindows();
+			if (clickableEnergyLabel.isVisible()) {
+				clickableEnergyLabel.setVisible(false);
+				clickableEnergyLabel.closeAllWindows();
+				MainGui.removeCurrentlyOpen(clickableEnergyLabel);
 			} else {
-				clicked.setLocation(e.getLocationOnScreen().x, e.getLocationOnScreen().y - 100);
-				clicked.setVisible(true);
+				clickableEnergyLabel.setLocation(e.getLocationOnScreen().x, e.getLocationOnScreen().y - 100);
+				clickableEnergyLabel.setVisible(true);
+				MainGui.addCurrentlyOpen(clickableEnergyLabel);
 			}
 		}
 	}

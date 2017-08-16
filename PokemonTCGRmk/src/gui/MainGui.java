@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
@@ -18,8 +19,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 import arena.GameArena;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
+import gui.EnergyCard.AttachEnergyCard;
+import gui.EnergyCard.EnergyLabelClickable;
 import gui.Panels.BenchPanel;
 import gui.PokemonCard.ActivePokemonCardPanel;
+import gui.PokemonCard.AdditionalPokemonCardInfo;
 import gui.PokemonCard.PokemonCardInfoPanel;
 
 /**
@@ -31,6 +35,8 @@ public class MainGui {
 	public static final JFrame MAIN_GUI = new JFrame("Pokemon TCG");
 	
 	public static GameArena ARENA;
+	
+	private static List<JDialog> currentlyOpen = new ArrayList<JDialog>();
 	
 	// The big frame Constants
 	public static final int FRAME_SIZE_X = 700;
@@ -217,6 +223,21 @@ public class MainGui {
 		defbench.onUpdate(MAIN_GUI);
 		attHand.setVisible(false);
 		attHand = new HandGui(ARENA.getAttHand());
+		for (JDialog jd : currentlyOpen) {
+			if (jd != null) {
+				jd.dispose();
+			}
+		}
+		currentlyOpen.clear();
+	}
+	
+	public static void addCurrentlyOpen(JDialog jd) {
+		currentlyOpen.add(jd);
+	}
+
+	public static void removeCurrentlyOpen(JDialog jd) {
+		currentlyOpen.remove(jd);
+		
 	}
 	
 }

@@ -35,7 +35,7 @@ public class AdditionalPokemonCardInfo extends JDialog{
 		this.c = c;
 		this.setTitle(c.getName());
 		this.setResizable(false);
-		this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		PokemonCardInfoPanel ng = new PokemonCardInfoPanel(c);
 		this.ng = ng;
 		this.add(ng);

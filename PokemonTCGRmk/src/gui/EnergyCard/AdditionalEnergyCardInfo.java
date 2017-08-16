@@ -15,6 +15,7 @@ public class AdditionalEnergyCardInfo extends JDialog {
 	
 	public AdditionalEnergyCardInfo(EnergyCard c) {
 		super(MainGui.MAIN_GUI, true);
+		MainGui.addCurrentlyOpen(this);
 		this.setTitle(c.getName());
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
