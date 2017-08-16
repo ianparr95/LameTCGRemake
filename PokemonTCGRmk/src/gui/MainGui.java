@@ -65,6 +65,15 @@ public class MainGui {
 	public static final Point PRIZES_LEFT_ATT_BOUNDS = new Point(20,600);
 	public static final Point PRIZES_LEFT_DEF_BOUNDS = new Point(20,40);
 	public static final Point END_TURN_BOUNDS = new Point(20,520);
+	
+	public static BenchPanel attbench;
+	public static BenchPanel defbench;
+	
+	public static ActivePokemonCardPanel attAct;
+	public static ActivePokemonCardPanel defAct;
+	
+	public static HandGui attHand;
+
 
 	public static void loadGui(GameArena ba) {
 		// TODO: READ.
@@ -81,8 +90,8 @@ public class MainGui {
 		MAIN_GUI.setLayout(null);
 		
 		// set up both benches:
-		BenchPanel attbench = new BenchPanel(ba.getPlayerAtt().getBench());
-		BenchPanel defbench = new BenchPanel(ba.getPlayerDef().getBench());
+		attbench = new BenchPanel(MAIN_GUI, ba.getPlayerAtt().getBench());
+		defbench = new BenchPanel(MAIN_GUI, ba.getPlayerDef().getBench());
 		
 		MAIN_GUI.add(attbench);
 		attbench.setBounds(BENCH_X, BENCH_Y_ATT, BENCH_WIDTH, BENCH_HEIGHT);
@@ -90,8 +99,8 @@ public class MainGui {
 		defbench.setBounds(BENCH_X, BENCH_Y_DEF, BENCH_WIDTH, BENCH_HEIGHT);
 		
 		// set up active pokemon.
-		ActivePokemonCardPanel attAct = new ActivePokemonCardPanel(ba.getAttActive(), true);
-		ActivePokemonCardPanel defAct = new ActivePokemonCardPanel(ba.getDefActive(), false);
+		attAct = new ActivePokemonCardPanel(ba.getAttActive(), true);
+		defAct = new ActivePokemonCardPanel(ba.getDefActive(), false);
 		
 		MAIN_GUI.add(attAct);
 		attAct.setBounds(ACTIVE_X, ACTIVE_Y_ATT, ACTIVE_WIDTH, ACTIVE_HEIGHT);
@@ -99,7 +108,7 @@ public class MainGui {
 		defAct.setBounds(ACTIVE_X, ACTIVE_Y_DEF, ACTIVE_WIDTH, ACTIVE_HEIGHT);
 		
 		// set up hand and discard piles.
-		HandGui attHand = new HandGui(ba.getAttHand());
+		attHand = new HandGui(ba.getAttHand());
 		JButton handAtt = new JButton("View hand.");
 		MAIN_GUI.add(handAtt);
 		handAtt.setBounds(HD_X, HAND_Y_ATT, HD_WIDTH, HD_HEIGHT);
@@ -201,6 +210,13 @@ public class MainGui {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void onUpdate() {
+		attbench.onUpdate(MAIN_GUI);
+		defbench.onUpdate(MAIN_GUI);
+		attHand.setVisible(false);
+		attHand = new HandGui(ARENA.getAttHand());
 	}
 	
 }

@@ -1,6 +1,7 @@
 package gui.Panels;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -46,7 +49,7 @@ public class GenericCardListPanel extends JPanel {
 	private static final int LABEL_X = 300;
 	private static final int LABEL_Y = 95;
 	
-	public GenericCardListPanel(List<Card> cards) {
+	public GenericCardListPanel(Component parent, List<Card> cards) {
 		
 		this.setLayout(null);
 
@@ -60,8 +63,13 @@ public class GenericCardListPanel extends JPanel {
 				cc = new TrainerLabelClickable((TrainerCard) c);
 				labelList.add(cc);
 			} else if (c instanceof PokemonCard) {
-				cc = new PokemonLabelClickable((PokemonCard) c);
-				labelList.add(cc);
+				if (parent instanceof JDialog) {
+					cc = new PokemonLabelClickable((JDialog) parent, (PokemonCard) c);
+					labelList.add(cc);
+				} else {
+					cc = new PokemonLabelClickable((JFrame) parent, (PokemonCard) c);
+					labelList.add(cc);
+				}
 			} else if (c instanceof EnergyCard) {
 				cc = new EnergyLabelClickable((EnergyCard) c);
 				labelList.add(cc);

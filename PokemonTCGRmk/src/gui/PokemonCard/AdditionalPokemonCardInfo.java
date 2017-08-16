@@ -1,9 +1,12 @@
 package gui.PokemonCard;
 
+import java.awt.Component;
+import java.awt.Window;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.PokemonCard;
@@ -12,9 +15,24 @@ import gui.MainGui;
 public class AdditionalPokemonCardInfo extends JDialog{
 	
 	private PokemonCardInfoPanel ng;
+	private PokemonCard c;
 	
-	public AdditionalPokemonCardInfo(PokemonCard c) {
-		super(MainGui.MAIN_GUI, false);
+	public AdditionalPokemonCardInfo(JDialog parent, PokemonCard c) {
+		super(parent, false);
+		setUp(c);
+	}
+	
+	public AdditionalPokemonCardInfo(JFrame parent, PokemonCard c) {
+		super(parent, false);
+		setUp(c);
+	}
+	
+	public PokemonCard getPokemonCard() {
+		return c;
+	}
+	
+	private void setUp(PokemonCard c) {
+		this.c = c;
 		this.setTitle(c.getName());
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);

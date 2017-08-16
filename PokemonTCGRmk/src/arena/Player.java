@@ -12,6 +12,7 @@ public class Player {
 	private Bench bench;
 	private ActivePokemonCard apc;
 	private boolean alreadyAttachedEnergy;
+	private GameArena arena;
 	
 	/**
 	 * Initializes player with the deck, prizes, and bench.
@@ -28,6 +29,7 @@ public class Player {
 		this.prizes = prizes;
 		this.bench = bench;
 		this.apc = apc;
+		this.arena = arena;
 		alreadyAttachedEnergy = false;
 		deck.setPlayer(this);
 		prizes.setPlayer(this);
@@ -103,12 +105,19 @@ public class Player {
 	 * If already attached an energy this turn, does nothing.
 	 * FOR BLASTOISES RAINDANCE, IGNORE THIS FUNCTION.
 	 * Assumes pc is either on bench or active pokemon card.
-	 * DOES NOT ASSUME ANYTHING ABOUT WHERE ENERGY CAME FROM.
-	 * NEED TO REMOVE FROM HAND OR DECK MANUALLY.
+	 * REMOVES THE CARD FROM THE HAND
+	 * @return False if didn't attach, true if did.
 	 */
-	public void attachEnergyCard(EnergyCard e, ActivePokemonCard pc){
+	public boolean attachEnergyCard(EnergyCard e, ActivePokemonCard pc){
+		arena.setCurStage(GameArena.GameStage.ATTEMPTED_ATTACHED_ENERGY);
+		try {
+			arena.checkPowers(e);
+		} catch (InstantiationException | IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		if (alreadyAttachedEnergy) { // if already attached, do nothing.
-			return;
+			return false;
 		}
 		alreadyAttachedEnergy = true;
 		pc.attachEnergy(e);
@@ -116,6 +125,7 @@ public class Player {
 		e.whenPlayed();
 		// now remove it from the hand.
 		hand.removeCardFromHand(e);
+		return true;
 		
 	}
 	
@@ -149,5 +159,9 @@ public class Player {
 		//hand.getHand().remove(pc);
 		hand.removeCardFromHand(pc);
 		this.apc = new ActivePokemonCard(pc, pc.getId(), this);
+	}
+
+	public void setArena(GameArena ba) {
+		this.arena = ba;
 	}
 }

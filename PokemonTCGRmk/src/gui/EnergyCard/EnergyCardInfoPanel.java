@@ -1,5 +1,6 @@
 package gui.EnergyCard;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import cardAbstract.EnergyCard;
@@ -12,9 +13,10 @@ public class EnergyCardInfoPanel extends JPanel {
 	
 	public EnergyCardInfoPanel(EnergyCard c) {
 		this.c = c;
-		this.setLayout(null);
-		this.add(new JMultilineLabel("TEST"));
-		
+		this.add(new JMultilineLabel(c.getName() + "\n" + c.addInfoName()));
+		JButton attach = new JButton("Attach");
+		attach.addMouseListener(new AttachEnergyCard(c));
+		this.add(attach);
 	}
 	
 	public void closeAllWindows() {

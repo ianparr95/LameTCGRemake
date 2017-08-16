@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -27,7 +28,16 @@ public class ActivePokemonCardPanel extends JPanel {
 	private AdditionalPokemonCardInfo clicked;
 	
 	public ActivePokemonCardPanel(ActivePokemonCard apc, boolean isActive) {
-		clicked = new AdditionalPokemonCardInfo(apc);
+		clicked = new AdditionalPokemonCardInfo(MainGui.MAIN_GUI, apc);
+		onUpdate(apc, isActive);
+	}
+
+	public ActivePokemonCardPanel(JDialog attEnergy, ActivePokemonCard apc, boolean isActive) {
+		clicked = new AdditionalPokemonCardInfo(attEnergy, apc);
+		onUpdate(apc, isActive);
+	}
+	
+	private void onUpdate(ActivePokemonCard apc, boolean isActive) {
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		((FlowLayout)this.getLayout()).setVgap(0);
 		((FlowLayout)this.getLayout()).setHgap(0);

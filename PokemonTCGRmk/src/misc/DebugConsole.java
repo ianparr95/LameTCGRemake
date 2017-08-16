@@ -246,7 +246,7 @@ public class DebugConsole {
 					}
 				} else if (cmds[0].equals("att") && cmds.length >= 2) {
 					// attaching an energy.
-					ba.setCurStage(GameStage.ATTACH_ENERGY);
+					ba.setCurStage(GameStage.ATTEMPTED_ATTACHED_ENERGY);
 					int index = getIndex(0, ba.getAttHand().getSize(), 
 							"Usage: att <index in hand for energy card> <0 for "
 							+ "active, 1 to 6 for bench>", cmds);

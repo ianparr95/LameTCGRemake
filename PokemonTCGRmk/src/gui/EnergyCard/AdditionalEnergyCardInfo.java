@@ -14,7 +14,7 @@ public class AdditionalEnergyCardInfo extends JDialog {
 	private EnergyCardInfoPanel ng;
 	
 	public AdditionalEnergyCardInfo(EnergyCard c) {
-		super(MainGui.MAIN_GUI, false);
+		super(MainGui.MAIN_GUI, true);
 		this.setTitle(c.getName());
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
@@ -22,7 +22,6 @@ public class AdditionalEnergyCardInfo extends JDialog {
 		this.ng = ng;
 		this.add(ng);
 		ng.setVisible(true);
-		this.setPreferredSize(ng.getPreferredSize());
 		this.addWindowListener(new WindowListener(){
 			@Override
 			public void windowOpened(WindowEvent e) {

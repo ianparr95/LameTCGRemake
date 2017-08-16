@@ -19,7 +19,7 @@ public class RainDance extends PokePower{
 
 	@Override
 	public void effect(Object c) {
-		if (ba.getCurStage() == GameStage.ATTACH_ENERGY) {
+		if (ba.getCurStage() == GameStage.ATTEMPTED_ATTACHED_ENERGY) {
 			if (c instanceof EnergyCard) {
 				if (((EnergyCard) c).energyType().equals("w")) {
 					//System.out.println("Rain Dance invoked!!!!");

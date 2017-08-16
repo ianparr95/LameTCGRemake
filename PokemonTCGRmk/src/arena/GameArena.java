@@ -22,10 +22,12 @@ public class GameArena {
 	
 	private Player att;
 	private Player def;
+	private Object actionObject;
 	
 	// UI should set this. Decribes which stage of the game we are in, so that pokepowers can work appropriately.
 	public static enum GameStage {
-		ATTACK, ATTACH_ENERGY, ATTACH_TRAINER, RECEIVE_ATTACK, RECEIVE_DAMAGE, NOTHING, PLACE_POKEMON, RETREAT_POKEMON
+		ATTACK, ATTACHING_ENERGY, ATTEMPTED_ATTACHED_ENERGY, ATTACHED_ENERGY, // multiple energy stuff for raindance.
+		ATTACH_TRAINER, RECEIVE_ATTACK, RECEIVE_DAMAGE, NOTHING, PLACE_POKEMON, RETREAT_POKEMON
 	}
 
 	private static GameStage curStage;
@@ -444,6 +446,14 @@ public class GameArena {
 
 			}
 		}
+	}
+
+	public void setActionObject(Object c) {
+		this.actionObject = c;	
+	}
+	
+	public Object getActionObject() {
+		return actionObject;
 	}
 
 

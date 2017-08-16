@@ -65,6 +65,8 @@ public class Main {
 		playerTwo.getBench().setPlayer(playerTwo);
 
 		GameArena ba = new GameArena(playerOne, playerTwo);
+		playerOne.setArena(ba);
+		playerTwo.setArena(ba);
 		testDeck(playerOne, ba);
 		testDeck(playerTwo, ba);
 
