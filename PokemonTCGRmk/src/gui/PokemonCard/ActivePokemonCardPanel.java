@@ -14,8 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
+import arena.GameArena;
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.EnergyCard;
 import energyCard.DoubleColorlessEnergy;
@@ -32,12 +34,12 @@ public class ActivePokemonCardPanel extends JPanel {
 		onUpdate(apc, isActive);
 	}
 
-	public ActivePokemonCardPanel(JDialog attEnergy, ActivePokemonCard apc, boolean isActive) {
-		clicked = new AdditionalPokemonCardInfo(attEnergy, apc);
+	public ActivePokemonCardPanel(JDialog parent, ActivePokemonCard apc, boolean isActive) {
+		clicked = new AdditionalPokemonCardInfo(parent, apc);
 		onUpdate(apc, isActive);
 	}
 	
-	private void onUpdate(ActivePokemonCard apc, boolean isActive) {
+	public void onUpdate(ActivePokemonCard apc, boolean isActive) {
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		((FlowLayout)this.getLayout()).setVgap(0);
 		((FlowLayout)this.getLayout()).setHgap(0);
@@ -48,14 +50,38 @@ public class ActivePokemonCardPanel extends JPanel {
 		info.addMouseListener(new MouseListener(){
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (clicked.isVisible()) {
-					clicked.setVisible(false);
-					clicked.closeAllWindows();
-					MainGui.removeCurrentlyOpen(clicked);
+				if (SwingUtilities.isLeftMouseButton(e)) {
+					if (clicked.isVisible()) {
+						clicked.setVisible(false);
+						clicked.closeAllWindows();
+						MainGui.removeCurrentlyOpen(clicked);
+					} else {
+						MainGui.addCurrentlyOpen(clicked);
+						clicked.setLocation(e.getLocationOnScreen().x, e.getLocationOnScreen().y - 100);
+						clicked.setVisible(true);
+					}
 				} else {
-					MainGui.addCurrentlyOpen(clicked);
-					clicked.setLocation(e.getLocationOnScreen().x, e.getLocationOnScreen().y - 100);
-					clicked.setVisible(true);
+					// right click.
+					if (MainGui.ARENA.getCurStage() == GameArena.GameStage.ATTACHING_ENERGY) {
+						ActivePokemonCard selected = (ActivePokemonCard) clicked.getPokemonCard();
+						boolean success = MainGui.ARENA.getPlayerAtt().attachEnergyCard(
+								(EnergyCard) MainGui.ARENA.getActionObject(), selected);
+						if (success) {
+							JDialog s = new JDialog(MainGui.MAIN_GUI, true);
+							s.add(new JLabel("Sucessfully attached energy card"));
+							s.setSize(210, 60);
+							s.setLocation(e.getLocationOnScreen());
+							s.setVisible(true);
+							MainGui.onUpdate();
+						} else {	
+							// notify fail:
+							JDialog s = new JDialog(MainGui.MAIN_GUI, true);
+							s.add(new JLabel("Failed to attach energy card"));
+							s.setSize(210, 60);
+							s.setLocation(e.getLocationOnScreen());
+							s.setVisible(true);
+						}
+					}
 				}
 			}
 			public void mousePressed(MouseEvent e) {}
@@ -103,5 +129,4 @@ public class ActivePokemonCardPanel extends JPanel {
 		this.add(moves);
 		this.setBorder(new LineBorder(Color.blue));
 	}
-
 }

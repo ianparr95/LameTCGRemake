@@ -223,12 +223,24 @@ public class MainGui {
 		defbench.onUpdate(MAIN_GUI);
 		attHand.setVisible(false);
 		attHand = new HandGui(ARENA.getAttHand());
+		
+		MAIN_GUI.remove(attAct);
+		MAIN_GUI.remove(defAct);
+		
+		attAct = new ActivePokemonCardPanel(ARENA.getAttActive(), true);
+		defAct = new ActivePokemonCardPanel(ARENA.getDefActive(), false);
+		MAIN_GUI.add(attAct);
+		attAct.setBounds(ACTIVE_X, ACTIVE_Y_ATT, ACTIVE_WIDTH, ACTIVE_HEIGHT);
+		MAIN_GUI.add(defAct);
+		defAct.setBounds(ACTIVE_X, ACTIVE_Y_DEF, ACTIVE_WIDTH, ACTIVE_HEIGHT);
+		
 		for (JDialog jd : currentlyOpen) {
 			if (jd != null) {
 				jd.dispose();
 			}
 		}
 		currentlyOpen.clear();
+		MAIN_GUI.repaint();
 	}
 	
 	public static void addCurrentlyOpen(JDialog jd) {
