@@ -7,7 +7,9 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -36,7 +38,7 @@ public class MainGui {
 	
 	public static GameArena ARENA;
 	
-	private static List<JDialog> currentlyOpen = new ArrayList<JDialog>();
+	private static Set<JDialog> currentlyOpen = new HashSet<JDialog>();
 	
 	// The big frame Constants
 	public static final int FRAME_SIZE_X = 700;
@@ -219,27 +221,32 @@ public class MainGui {
 	}
 
 	public static void onUpdate() {
-		attbench.onUpdate(MAIN_GUI);
-		defbench.onUpdate(MAIN_GUI);
-		attHand.setVisible(false);
-		attHand = new HandGui(ARENA.getAttHand());
-		
-		MAIN_GUI.remove(attAct);
-		MAIN_GUI.remove(defAct);
-		
-		attAct = new ActivePokemonCardPanel(ARENA.getAttActive(), true);
-		defAct = new ActivePokemonCardPanel(ARENA.getDefActive(), false);
-		MAIN_GUI.add(attAct);
-		attAct.setBounds(ACTIVE_X, ACTIVE_Y_ATT, ACTIVE_WIDTH, ACTIVE_HEIGHT);
-		MAIN_GUI.add(defAct);
-		defAct.setBounds(ACTIVE_X, ACTIVE_Y_DEF, ACTIVE_WIDTH, ACTIVE_HEIGHT);
-		
+		// Firstly: close all windows
 		for (JDialog jd : currentlyOpen) {
 			if (jd != null) {
 				jd.dispose();
 			}
 		}
 		currentlyOpen.clear();
+		
+		// Then do rest of stuff.
+		attbench.setBench(ARENA.getAttBench());
+		defbench.setBench(ARENA.getDefBench());
+		attbench.onUpdate(MAIN_GUI);
+		defbench.onUpdate(MAIN_GUI);
+		
+		attHand.setVisible(false);
+		attHand = new HandGui(ARENA.getAttHand());
+		
+		MAIN_GUI.remove(attAct);
+		MAIN_GUI.remove(defAct);
+		attAct = new ActivePokemonCardPanel(ARENA.getAttActive(), true);
+		defAct = new ActivePokemonCardPanel(ARENA.getDefActive(), false);
+		MAIN_GUI.add(attAct);
+		attAct.setBounds(ACTIVE_X, ACTIVE_Y_ATT, ACTIVE_WIDTH, ACTIVE_HEIGHT);
+		MAIN_GUI.add(defAct);
+		defAct.setBounds(ACTIVE_X, ACTIVE_Y_DEF, ACTIVE_WIDTH, ACTIVE_HEIGHT);
+
 		MAIN_GUI.repaint();
 	}
 	

@@ -16,7 +16,7 @@ import gui.MainGui;
 import gui.Panels.BenchPanel;
 import gui.PokemonCard.AdditionalPokemonCardInfo;
 
-public class TrainerLabelClickable extends ClickableCardLabel{
+public class TrainerLabelClickable extends ClickableCardLabel implements MouseListener{
 	
 	/**
 	 * Card label.

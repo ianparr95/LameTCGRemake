@@ -211,7 +211,7 @@ public class GameArena {
 	 * @throws InvocationTargetException 
 	 * @throws IllegalArgumentException 
 	 */
-	public int doMove(PokemonMove m) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
+	public int doMove(PokemonMove m) throws Exception {
 		
 		System.out.println("-----\n" + att.getActivePokemon() + " is doing move: " + m.getName());
 		
@@ -454,6 +454,14 @@ public class GameArena {
 	
 	public Object getActionObject() {
 		return actionObject;
+	}
+
+	public Bench getAttBench() {
+		return att.getBench();
+	}
+	
+	public Bench getDefBench() {
+		return def.getBench();
 	}
 
 

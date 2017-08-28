@@ -33,11 +33,11 @@ public class PokemonLabelClickable extends ClickableCardLabel{
 		(Integer.parseInt(c.getStage()) == 0 ? "Basic" : "Stage: " + c.getStage()) +
 		 "\n" + (c.getMaxHp() - c.getDamage()) + "/" + c.getMaxHp())));
 		this.pc = c;
-		this.addMouseListener(this);
 		if (pc != null) {
 			AdditionalPokemonCardInfo clicked = new AdditionalPokemonCardInfo(parent, (ActivePokemonCard) pc);
 			this.clicked = clicked;
 		}
+		this.addMouseListener(new ClickablePokemonInfoListener(pc, clicked));
 	}
 
 	public PokemonLabelClickable(JFrame parent, PokemonCard c) {
@@ -45,11 +45,11 @@ public class PokemonLabelClickable extends ClickableCardLabel{
 		(Integer.parseInt(c.getStage()) == 0 ? "Basic" : "Stage: " + c.getStage()) +
 		 "\nHP: " + c.getMaxHp())));
 		this.pc = c;
-		this.addMouseListener(this);
 		if (pc != null) {
 			AdditionalPokemonCardInfo clicked = new AdditionalPokemonCardInfo(parent, pc);
 			this.clicked = clicked;
 		}
+		this.addMouseListener(new ClickablePokemonInfoListener(pc, clicked));
 	}
 	
 	public PokemonLabelClickable(JDialog parent, ActivePokemonCard c) {
@@ -57,11 +57,11 @@ public class PokemonLabelClickable extends ClickableCardLabel{
 		(Integer.parseInt(c.getStage()) == 0 ? "Basic" : "Stage: " + c.getStage()) +
 		 "\n" + (c.getMaxHp() - c.getDamage()) + "/" + c.getMaxHp())));
 		this.pc = c;
-		this.addMouseListener(this);
 		if (pc != null) {
 			AdditionalPokemonCardInfo clicked = new AdditionalPokemonCardInfo(parent, (ActivePokemonCard) pc);
 			this.clicked = clicked;
 		}
+		this.addMouseListener(new ClickablePokemonInfoListener(pc, clicked));
 	}
 
 	public PokemonLabelClickable(JDialog parent, PokemonCard c) {
@@ -69,65 +69,11 @@ public class PokemonLabelClickable extends ClickableCardLabel{
 		(Integer.parseInt(c.getStage()) == 0 ? "Basic" : "Stage: " + c.getStage()) +
 		 "\nHP: " + c.getMaxHp())));
 		this.pc = c;
-		this.addMouseListener(this);
 		if (pc != null) {
 			AdditionalPokemonCardInfo clicked = new AdditionalPokemonCardInfo(parent, pc);
 			this.clicked = clicked;
 		}
+		this.addMouseListener(new ClickablePokemonInfoListener(pc, clicked));
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// set visible when clicked.
-		if (pc != null) {
-			if (SwingUtilities.isLeftMouseButton(e)) {
-				if (clicked.isVisible()) {
-					clicked.setVisible(false);
-					clicked.closeAllWindows();
-				} else {
-					clicked.setLocation(e.getLocationOnScreen().x, e.getLocationOnScreen().y - 100);
-					clicked.setVisible(true);
-				}
-			} else {
-				// right click:
-				if (MainGui.ARENA.getCurStage() == GameArena.GameStage.ATTACHING_ENERGY) {
-					ActivePokemonCard selected = (ActivePokemonCard) clicked.getPokemonCard();
-					boolean success = MainGui.ARENA.getPlayerAtt().attachEnergyCard(
-							(EnergyCard) MainGui.ARENA.getActionObject(), selected);
-					if (success) {
-						JDialog s = new JDialog(MainGui.MAIN_GUI, true);
-						s.add(new JLabel("Sucessfully attached energy card"));
-						s.setSize(210, 60);
-						s.setLocation(e.getLocationOnScreen());
-						s.setVisible(true);
-						MainGui.onUpdate();
-					} else {	
-						// notify fail:
-						JDialog s = new JDialog(MainGui.MAIN_GUI, true);
-						s.add(new JLabel("Failed to attach energy card"));
-						s.setSize(210, 60);
-						s.setLocation(e.getLocationOnScreen());
-						s.setVisible(true);
-					}
-				}
-			}
-		}
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-	
 }
+

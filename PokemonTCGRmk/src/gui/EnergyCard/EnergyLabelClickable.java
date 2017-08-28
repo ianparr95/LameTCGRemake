@@ -1,6 +1,7 @@
 package gui.EnergyCard;
 
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JDialog;
 
@@ -9,7 +10,7 @@ import gui.ClickableCardLabel;
 import gui.MainGui;
 import gui.PokemonCard.AdditionalPokemonCardInfo;
 
-public class EnergyLabelClickable extends ClickableCardLabel {
+public class EnergyLabelClickable extends ClickableCardLabel implements MouseListener {
 		
 	// TODO : FIX
 	private EnergyCard c;
@@ -28,7 +29,7 @@ public class EnergyLabelClickable extends ClickableCardLabel {
 			if (clickableEnergyLabel.isVisible()) {
 				clickableEnergyLabel.setVisible(false);
 				clickableEnergyLabel.closeAllWindows();
-				MainGui.removeCurrentlyOpen(clickableEnergyLabel);
+				//MainGui.removeCurrentlyOpen(clickableEnergyLabel);
 			} else {
 				clickableEnergyLabel.setLocation(e.getLocationOnScreen().x, e.getLocationOnScreen().y - 100);
 				clickableEnergyLabel.setVisible(true);

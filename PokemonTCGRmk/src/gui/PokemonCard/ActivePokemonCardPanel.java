@@ -47,54 +47,14 @@ public class ActivePokemonCardPanel extends JPanel {
 				"\nHP: " + (apc.getMaxHp() - apc.getDamage()) + "/" + apc.getMaxHp());
 		this.add(info);
 		info.setBorder(new LineBorder(Color.pink));
-		info.addMouseListener(new MouseListener(){
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (SwingUtilities.isLeftMouseButton(e)) {
-					if (clicked.isVisible()) {
-						clicked.setVisible(false);
-						clicked.closeAllWindows();
-						MainGui.removeCurrentlyOpen(clicked);
-					} else {
-						MainGui.addCurrentlyOpen(clicked);
-						clicked.setLocation(e.getLocationOnScreen().x, e.getLocationOnScreen().y - 100);
-						clicked.setVisible(true);
-					}
-				} else {
-					// right click.
-					if (MainGui.ARENA.getCurStage() == GameArena.GameStage.ATTACHING_ENERGY) {
-						ActivePokemonCard selected = (ActivePokemonCard) clicked.getPokemonCard();
-						boolean success = MainGui.ARENA.getPlayerAtt().attachEnergyCard(
-								(EnergyCard) MainGui.ARENA.getActionObject(), selected);
-						if (success) {
-							JDialog s = new JDialog(MainGui.MAIN_GUI, true);
-							s.add(new JLabel("Sucessfully attached energy card"));
-							s.setSize(210, 60);
-							s.setLocation(e.getLocationOnScreen());
-							s.setVisible(true);
-							MainGui.onUpdate();
-						} else {	
-							// notify fail:
-							JDialog s = new JDialog(MainGui.MAIN_GUI, true);
-							s.add(new JLabel("Failed to attach energy card"));
-							s.setSize(210, 60);
-							s.setLocation(e.getLocationOnScreen());
-							s.setVisible(true);
-						}
-					}
-				}
-			}
-			public void mousePressed(MouseEvent e) {}
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-		});
+		info.addMouseListener(new ClickablePokemonInfoListener(apc, clicked));
 		
 		if (isActive) {
 			JLabel actions = new JLabel("Perform action...");
 			this.add(actions);
 			actions.setBorder(new LineBorder(Color.black));
 			actions.setPreferredSize(new Dimension(MainGui.ACTIVE_WIDTH, 20));
+			actions.addMouseListener(new PerformActionListener(apc));
 		}
 		
 		JTextArea energies = new JTextArea();

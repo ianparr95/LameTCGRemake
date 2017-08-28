@@ -41,6 +41,10 @@ public class BenchPanel extends JPanel {
 		this.setLayout(null);
 		onUpdate(parent);
 	}
+	
+	public void setBench(Bench bench) {
+		this.bench = bench;
+	}
 
 	public void onUpdate(Component parent) {
 		this.cards.clear();
@@ -70,6 +74,7 @@ public class BenchPanel extends JPanel {
 			cards.get(i).setBackground(Color.pink);
 			cards.get(i).setForeground(Color.blue);
 		}
+		
 	}
 	
 
