@@ -306,10 +306,12 @@ public class ActivePokemonCard extends PokemonCard{
 	 * @return True, if this card can perform the move.
 	 */
 	public boolean canPerformMove(PokemonMove mv){
-		// First check if this card even has that move:
 		if (mv == null) {
 			return false;
 		}
+		
+		// Assume that the card has the move... MAYBE FIX? TODO
+		
 		// We have the move: check energy cards.
 		if (mv.getEnergyCost() == null) {
 			System.err.println("ERROR WITH ENERGY COST FOR MOVE " + mv.getName() + " FOR POKEMON: " + this.getName() + " LEVEL: " + this.getLevel());
@@ -363,7 +365,9 @@ public class ActivePokemonCard extends PokemonCard{
 		/* CHECKS HERE */
 		// TODO
 		for (Status s : statuses) {
-			if (s.canAttack() == false) return false;
+			if (s.canAttack() == false) {
+				return false;
+			}
 		}
 		//TODO: SINCE CONFUSION CAN KILL: MAKE SURE CHECK
 		
