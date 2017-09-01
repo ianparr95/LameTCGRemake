@@ -40,6 +40,7 @@ public class GameArena {
 	public GameArena(Player att, Player def) {
 		this.att = att;
 		this.def = def;
+		PokePower.ba = this;
 	}
 	
 	/**
@@ -76,6 +77,7 @@ public class GameArena {
 		return def;
 	}
 	
+	private int turnNum = 1;
 	/**
 	 * TODO: clean up.
 	 * Advances to the next turn such that att becomes def,
@@ -85,6 +87,8 @@ public class GameArena {
 	 * ALSO DRAWS A CARD FROM DECK!
 	 */
 	public void nextTurn(){
+		turnNum++;
+		System.out.println("---------Turn " + (turnNum/2) + "---------");
 		for (int i = att.getActivePokemon().getStatus().size() - 1; i >= 0; i--) {
 			Status s = att.getActivePokemon().getStatus().get(i);
 			s.turnUsToOpp();

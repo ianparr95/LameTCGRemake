@@ -103,7 +103,6 @@ public class Player {
 	/**
 	 * Attachs energy card e to the activepokemoncard pc.
 	 * If already attached an energy this turn, does nothing.
-	 * FOR BLASTOISES RAINDANCE, IGNORE THIS FUNCTION.
 	 * Assumes pc is either on bench or active pokemon card.
 	 * REMOVES THE CARD FROM THE HAND
 	 * @return False if didn't attach, true if did.
@@ -117,6 +116,7 @@ public class Player {
 			e1.printStackTrace();
 		}
 		if (alreadyAttachedEnergy) { // if already attached, do nothing.
+			System.out.println("Could not attach energy to " + pc);
 			return false;
 		}
 		alreadyAttachedEnergy = true;
@@ -125,6 +125,7 @@ public class Player {
 		e.whenPlayed();
 		// now remove it from the hand.
 		hand.removeCardFromHand(e);
+		System.out.println("Successfully attached energy card:\n" + e + " to:\n" + pc);
 		return true;
 		
 	}

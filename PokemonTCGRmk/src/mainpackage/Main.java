@@ -173,13 +173,13 @@ public class Main {
 		p1d.addCardFast(GOW);
 		p1d.addCardFast(GOW);
 		WaterEnergy we = new WaterEnergy(ba , 0);
-		for (int i = p1d.getSize(); i < 40; i++) {
+		for (int i = p1d.getSize(); i < 60; i++) {
 			p1d.addCardFast(we);
 		}
-		GrassEnergy ge = new GrassEnergy(ba, 0);
+		/*GrassEnergy ge = new GrassEnergy(ba, 0);
 		for (int i = p1d.getSize(); i < 60; i++) {
 			p1d.addCardFast(ge);
-		}
+		}*/
 		p1d.shuffleDeck();
 		player.getHand().drawInitialHand();
 		//System.out.println(player.getHand().getHand());

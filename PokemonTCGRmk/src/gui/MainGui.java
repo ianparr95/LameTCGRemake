@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -44,6 +48,9 @@ public class MainGui {
 	// The big frame Constants
 	public static final int FRAME_SIZE_X = 700;
 	public static final int FRAME_SIZE_Y = 700;
+	
+	// The game log
+	public static final Rectangle LOG_DIM = new Rectangle(475, 180, 200, 280);
 
 	// Benches
 	public static final int BENCH_WIDTH = 390;
@@ -82,6 +89,17 @@ public class MainGui {
 	public static ActivePokemonCardPanel defAct;
 	
 	public static HandGui attHand;
+	
+	public static JButton discardAtt;
+	public static JButton discardDef;
+	
+	public static JLabel attPrizesLeft;
+	public static JLabel defPrizesLeft;
+	
+	public static JLabel attDeckSize;
+	public static JLabel defDeckSize;
+	
+	public static JButton endTurnButton;
 
 
 	public static void loadGui(GameArena ba) {
@@ -142,30 +160,56 @@ public class MainGui {
 			public void mouseExited(MouseEvent e) {}
 		});
 		
-		JButton discardAtt = new JButton("Discard Pile.");
+		discardAtt = new JButton("Discard Pile.");
 		MAIN_GUI.add(discardAtt);
 		discardAtt.setBounds(HD_X - 10, DISCARD_Y_ATT, HD_WIDTH + 20, HD_HEIGHT);
-		JButton discardDef = new JButton("Discard Pile.");
+		discardDef = new JButton("Discard Pile.");
 		MAIN_GUI.add(discardDef);
 		discardDef.setBounds(HD_X - 10, DISCARD_Y_DEF, HD_WIDTH + 20, HD_HEIGHT);
 		
-		JLabel defPrizesLeft = new JLabel("Prizes: ");
+		defPrizesLeft = new JLabel("Prizes: 6/6");
 		MAIN_GUI.add(defPrizesLeft);
 		defPrizesLeft.setBounds(PRIZES_LEFT_DEF_BOUNDS.x, PRIZES_LEFT_DEF_BOUNDS.y, 100, 20);
-		JLabel defDeckSize = new JLabel("Deck size: ");
+		defDeckSize = new JLabel("Deck size: " + ARENA.getDefDeck().getSize() + "/60");
 		MAIN_GUI.add(defDeckSize);
 		defDeckSize.setBounds(DECK_SIZE_DEF_BOUNDS.x, DECK_SIZE_DEF_BOUNDS.y, 100, 20);
 		
-		JLabel attPrizesLeft = new JLabel("Prizes: ");
+		attPrizesLeft = new JLabel("Prizes: 6/6");
 		MAIN_GUI.add(attPrizesLeft);
 		attPrizesLeft.setBounds(PRIZES_LEFT_ATT_BOUNDS.x, PRIZES_LEFT_ATT_BOUNDS.y, 100, 20);
-		JLabel attDeckSize = new JLabel("Deck size: ");
+		attDeckSize = new JLabel("Deck size: " + ARENA.getAttDeck().getSize() + "/60");
 		MAIN_GUI.add(attDeckSize);
 		attDeckSize.setBounds(DECK_SIZE_ATT_BOUNDS.x, DECK_SIZE_ATT_BOUNDS.y, 100, 20);
 		
-		JButton endTurnButton = new JButton("End turn");
+		endTurnButton = new JButton("End turn");
 		MAIN_GUI.add(endTurnButton);
+		endTurnButton.addMouseListener(new MouseListener(){
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				MainGui.ARENA.nextTurn();
+				MainGui.onUpdate();
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {}
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+			@Override
+			public void mouseExited(MouseEvent e) {}
+		});
 		endTurnButton.setBounds(END_TURN_BOUNDS.x, END_TURN_BOUNDS.y, 100, 20);
+		
+		JTextArea log = new JTextArea(5, 40);
+		log.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(log);
+
+        MAIN_GUI.add(scrollPane);
+        scrollPane.setBounds(LOG_DIM);
+        
+        PrintStream printStream = new PrintStream(new CustomOutput(log));
+        System.setOut(printStream);
+        System.out.println("Game log:");
 		
 		// final set up
 		MAIN_GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -201,6 +245,12 @@ public class MainGui {
 		attAct.setBounds(ACTIVE_X, ACTIVE_Y_ATT, ACTIVE_WIDTH, ACTIVE_HEIGHT);
 		MAIN_GUI.add(defAct);
 		defAct.setBounds(ACTIVE_X, ACTIVE_Y_DEF, ACTIVE_WIDTH, ACTIVE_HEIGHT);
+		
+		attDeckSize.setText("Deck size: " + ARENA.getAttDeck().getSize() + "/60");
+		defDeckSize.setText("Deck size: " + ARENA.getDefDeck().getSize() + "/60");
+		
+		attPrizesLeft.setText("Prizes: " + ARENA.getPlayerAtt().getPrizes().numPrizesLeft() + "/6");
+		defPrizesLeft.setText("Prizes: " + ARENA.getPlayerDef().getPrizes().numPrizesLeft() + "/6");
 
 		MAIN_GUI.repaint();
 	}
