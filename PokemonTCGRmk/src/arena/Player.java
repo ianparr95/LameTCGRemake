@@ -29,7 +29,7 @@ public class Player {
 		this.prizes = prizes;
 		this.bench = bench;
 		this.apc = apc;
-		this.arena = arena;
+		///this.arena = arena;
 		alreadyAttachedEnergy = false;
 		deck.setPlayer(this);
 		prizes.setPlayer(this);

@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -15,8 +17,11 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import cardAbstract.ActivePokemonCard;
+import cardAbstract.Card;
 import cardAbstract.PokemonMove;
 import gui.MainGui;
+import gui.RetreatPokemonGui;
+import gui.Panels.GenericCardListPanel;
 
 public class ActionDisplayDialog extends JDialog {
 
@@ -44,9 +49,41 @@ public class ActionDisplayDialog extends JDialog {
 
 		leftPanel.setBorder(new LineBorder(Color.blue));
 		this.add(leftPanel, BorderLayout.LINE_START);
-		this.add(new JButton("Retreat"), BorderLayout.LINE_END);
+		
+		JButton retreat = new JButton("Retreat");
+		this.add(retreat, BorderLayout.LINE_END);
+		retreat.addMouseListener(new RetreatOnClick());
+		
 		this.add(new JButton("Use PokePower"), BorderLayout.CENTER);
 
+	}
+	
+	private class RetreatOnClick implements MouseListener {
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (MainGui.ARENA.canRetreat()) {
+				// Pay retreat cost.
+				JDialog jd = new RetreatPokemonGui();
+				jd.setLocation(e.getLocationOnScreen());
+				jd.setVisible(true);
+			} else {
+				JOptionPane.showMessageDialog(null, "Can't retreat.");
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+		
 	}
 	
 	private class MoveOnClick implements MouseListener {

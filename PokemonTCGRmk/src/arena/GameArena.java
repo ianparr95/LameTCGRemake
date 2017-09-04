@@ -1,6 +1,8 @@
 package arena;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
 import cardAbstract.ActivePokemonCard;
 import cardAbstract.EnergyCard;
 import cardAbstract.PokemonCard;
@@ -24,6 +26,8 @@ public class GameArena {
 	private Player def;
 	private Object actionObject;
 	
+	private PrizeDrawer pd;
+	
 	// UI should set this. Decribes which stage of the game we are in, so that pokepowers can work appropriately.
 	public static enum GameStage {
 		ATTACK, ATTACHING_ENERGY, ATTEMPTED_ATTACHED_ENERGY, ATTACHED_ENERGY, // multiple energy stuff for raindance.
@@ -41,6 +45,10 @@ public class GameArena {
 		this.att = att;
 		this.def = def;
 		PokePower.ba = this;
+	}
+	
+	public void registerPrizeHandler(PrizeDrawer pd) {
+		this.pd = pd;
 	}
 	
 	/**
@@ -62,11 +70,62 @@ public class GameArena {
 	}
 	
 	/**
+	 * Returns true if this att can retreat
+	 * @return True if can retreat.
+	 */
+	public boolean canRetreat() {
+		for (Status s : att.getActivePokemon().getStatus()) {
+			if (!s.canRetreat()) {
+				System.out.println("Can't retreat cause pokemon is affected by status " + s + ".");
+				return false;
+			}
+		}
+		if (att.getActivePokemon().getEnergyString().length() < att.getActivePokemon().getRCost().length()) {
+			System.out.println("Not enough energy cards to retreat.");
+			return false;
+		}
+		if (att.getBench().getCurrentCapacity() == 0) {
+			System.out.println("Can't retreat since there are no pokemon on the bench.");
+			return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * Get the attacking player
 	 * @return The attacking player
 	 */
 	public Player getPlayerAtt() {
 		return att;
+	}
+	
+	/**
+	 * Retreats the current active pokemon with the specified bench pokemon,
+	 * with the selected energy cards to be removed from the active pokemon.
+	 * @param ec, the energy cards to be removed.
+	 * @param benchPokemon, the pokemon to swap to.
+	 * @return true, if successful.
+	 */
+	public boolean retreatTo(List<EnergyCard> ec, ActivePokemonCard benchPokemon) {
+		for (EnergyCard c : ec) {
+			if (!getAttActive().getEnergyCards().contains(c)) {
+				return false;
+			}
+		}
+		for (EnergyCard c : ec) {
+			getAttActive().removeEnergy(c);
+			getPlayerAtt().getDiscardPile().addCard(c);
+		}
+		// remove trainer cards to discard pile.
+		for (int i = getAttActive().getTrainerCards().size() - 1; i >= 0; i--) {
+			getPlayerAtt().getDiscardPile().addCard(getAttActive().getTrainerCards().get(i));
+			getPlayerAtt().getActivePokemon().getTrainerCards().remove(i);
+		}
+		getPlayerAtt().getActivePokemon().clearStatuses();
+		getPlayerAtt().getBench().removeCard(benchPokemon);
+		getPlayerAtt().getBench().addActive(getPlayerAtt().getActivePokemon());
+		getPlayerAtt().setActivePokemon(benchPokemon);
+		return true;
 	}
 	
 	/**
@@ -87,6 +146,23 @@ public class GameArena {
 	 * ALSO DRAWS A CARD FROM DECK!
 	 */
 	public void nextTurn(){
+		
+		if (this.numPrizesAttDraw() > 0) {
+			pd.drawPrizesAtt(this.numPrizesAttDraw());
+		}
+		
+		if (this.numPrizesDefDraw() > 0) {
+			pd.drawPrizesDef(this.numPrizesDefDraw());
+		}
+		
+		if (this.attActDead()) {
+			pd.replaceAtt();
+		}
+		if (this.defActDead()) {
+			pd.replaceDef();
+		}
+		
+		
 		turnNum++;
 		System.out.println("---------Turn " + (turnNum/2) + "---------");
 		for (int i = att.getActivePokemon().getStatus().size() - 1; i >= 0; i--) {
@@ -106,6 +182,16 @@ public class GameArena {
 			TrainerCard s = def.getActivePokemon().getTrainerCards().get(i);
 			s.turnOppToUs();
 		}
+		
+		// Call again after doing statuses
+		if (this.numPrizesAttDraw() > 0) {
+			pd.drawPrizesAtt(this.numPrizesAttDraw());
+		}
+		
+		if (this.numPrizesDefDraw() > 0) {
+			pd.drawPrizesDef(this.numPrizesDefDraw());
+		}
+		
 		// Resets that both can now attach energy cards.
 		att.setCanAttachEnergy();
 		def.setCanAttachEnergy();

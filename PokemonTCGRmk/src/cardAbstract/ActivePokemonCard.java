@@ -1,5 +1,6 @@
 package cardAbstract;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import arena.Player;
@@ -107,9 +108,11 @@ public class ActivePokemonCard extends PokemonCard{
 		return forms;
 	}
 	
-	
+	/**
+	 * Returns an unmodifiable list of energy cards.
+	 */
 	public List<EnergyCard> getEnergyCards(){
-		return eCards;
+		return new ArrayList<EnergyCard>(Collections.unmodifiableCollection(eCards));
 	}
 	
 	/**
@@ -204,7 +207,7 @@ public class ActivePokemonCard extends PokemonCard{
 	}
 	
 	/**
-	 * Returns a list of attached trainer cards.
+	 * Returns a modifiable list of attached trainers
 	 * @return a list of attached trainer cards.
 	 */
 	public List<TrainerCard> getTrainerCards(){
@@ -403,6 +406,16 @@ public class ActivePokemonCard extends PokemonCard{
 	public void clearStatuses() {
 		statuses.clear();
 	}
+	
+	/**
+	 * Removes this energy card from this pokemon.
+	 * @param c, the card to remove.
+	 */
+	public void removeEnergy(EnergyCard c) {
+		eCards.remove(c);
+		curEnergy.remove(c.energyType());
+	}
+
 	
 	
 }

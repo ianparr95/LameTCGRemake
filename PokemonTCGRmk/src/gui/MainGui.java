@@ -113,6 +113,10 @@ public class MainGui {
 		
 		ARENA = ba;
 		
+		// Handlers for the game arena stuff.
+		ARENA.registerPrizeHandler(new DrawPrizesGui());
+		
+		// Have default arial fonts.
 		setFonts();
 		MAIN_GUI.setLayout(null);
 		
