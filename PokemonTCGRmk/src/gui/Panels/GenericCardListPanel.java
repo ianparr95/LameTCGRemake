@@ -24,6 +24,7 @@ import cardAbstract.ParsePokemonCardsFile;
 import cardAbstract.PokemonCard;
 import cardAbstract.TrainerCard;
 import gui.ClickableCardLabel;
+import gui.RetreatListener;
 import gui.SelectedListener;
 import gui.EnergyCard.EnergyLabelClickable;
 import gui.PokemonCard.PokemonLabelClickable;
@@ -55,7 +56,7 @@ public class GenericCardListPanel extends JPanel {
 		this(parent, cards, null);
 	}
 
-	public GenericCardListPanel(Component parent, List<Card> cards, Class<SelectedListener> lClass) throws Exception {
+	public GenericCardListPanel(Component parent, List<Card> cards, Class<? extends SelectedListener> class1) throws Exception {
 		
 		this.setLayout(null);
 
@@ -67,34 +68,38 @@ public class GenericCardListPanel extends JPanel {
 			ClickableCardLabel cc = null;
 			Card c = clist.get(i);
 			if (c instanceof TrainerCard) {
-				if (lClass != null) {
-					cc = new TrainerLabelClickable((TrainerCard) c, 
-							lClass.getDeclaredConstructor(Card.class, ClickableCardLabel.class).newInstance(c, cc));
+				if (class1 != null) {
+					SelectedListener ls = class1.getDeclaredConstructor(Card.class).newInstance(c);
+					cc = new TrainerLabelClickable((TrainerCard) c, ls);
+					ls.setLabel(cc);
 				} else {
 					cc = new TrainerLabelClickable((TrainerCard) c);
 				}
 				labelList.add(cc);
 			} else if (c instanceof PokemonCard) {
 				if (parent instanceof JDialog) {
-					if (lClass != null) {
-						cc = new PokemonLabelClickable((JDialog) parent, (PokemonCard) c,
-								lClass.getDeclaredConstructor(Card.class, ClickableCardLabel.class).newInstance(c, cc));
+					if (class1 != null) {
+						SelectedListener ls = class1.getDeclaredConstructor(Card.class).newInstance(c);
+						cc = new PokemonLabelClickable((JDialog) parent, (PokemonCard) c, ls);
+						ls.setLabel(cc);
 					} else {
 						cc = new PokemonLabelClickable((JDialog) parent, (PokemonCard) c);
 					}
 				} else {
-					if (lClass != null) {
-						cc = new PokemonLabelClickable((JFrame) parent, (PokemonCard) c,
-								lClass.getDeclaredConstructor(Card.class, ClickableCardLabel.class).newInstance(c, cc));
+					if (class1 != null) {
+						SelectedListener ls = class1.getDeclaredConstructor(Card.class).newInstance(c);
+						cc = new PokemonLabelClickable((JFrame) parent, (PokemonCard) c, ls);
+						ls.setLabel(cc);
 					} else {
 						cc = new PokemonLabelClickable((JFrame) parent, (PokemonCard) c);
 					}
 				}
 				labelList.add(cc);
 			} else if (c instanceof EnergyCard) {
-				if (lClass != null) {
-					cc = new EnergyLabelClickable((EnergyCard) c,
-							lClass.getDeclaredConstructor(Card.class, ClickableCardLabel.class).newInstance(c, cc));
+				if (class1 != null) {
+					SelectedListener ls = class1.getDeclaredConstructor(Card.class).newInstance(c);
+					cc = new EnergyLabelClickable((EnergyCard) c, ls);
+					ls.setLabel(cc);
 				} else {
 					cc = new EnergyLabelClickable((EnergyCard) c);
 				}
