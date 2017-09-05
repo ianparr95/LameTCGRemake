@@ -31,7 +31,7 @@ public class PokemonLabelClickable extends ClickableCardLabel{
 	public PokemonLabelClickable(JFrame parent, ActivePokemonCard c) {
 		super((c == null ? "" : (c.getName() + "\n" + 
 		(Integer.parseInt(c.getStage()) == 0 ? "Basic" : "Stage: " + c.getStage()) +
-		 "\n" + (c.getMaxHp() - c.getDamage()) + "/" + c.getMaxHp())));
+		 "\n" + (c.getMaxHp() - c.getDamage()) + "/" + c.getMaxHp())), c);
 		this.pc = c;
 		if (pc != null) {
 			AdditionalPokemonCardInfo clicked = new AdditionalPokemonCardInfo(parent, (ActivePokemonCard) pc);
@@ -43,7 +43,7 @@ public class PokemonLabelClickable extends ClickableCardLabel{
 	public PokemonLabelClickable(JFrame parent, PokemonCard c) {
 		super((c == null ? "" : (c.getName() + "\n" + 
 		(Integer.parseInt(c.getStage()) == 0 ? "Basic" : "Stage: " + c.getStage()) +
-		 "\nHP: " + c.getMaxHp())));
+		 "\nHP: " + c.getMaxHp())), c);
 		this.pc = c;
 		if (pc != null) {
 			AdditionalPokemonCardInfo clicked = new AdditionalPokemonCardInfo(parent, pc);
@@ -55,7 +55,7 @@ public class PokemonLabelClickable extends ClickableCardLabel{
 	public PokemonLabelClickable(JDialog parent, ActivePokemonCard c) {
 		super((c == null ? "" : (c.getName() + "\n" + 
 		(Integer.parseInt(c.getStage()) == 0 ? "Basic" : "Stage: " + c.getStage()) +
-		 "\n" + (c.getMaxHp() - c.getDamage()) + "/" + c.getMaxHp())));
+		 "\n" + (c.getMaxHp() - c.getDamage()) + "/" + c.getMaxHp())), c);
 		this.pc = c;
 		if (pc != null) {
 			AdditionalPokemonCardInfo clicked = new AdditionalPokemonCardInfo(parent, (ActivePokemonCard) pc);
@@ -67,13 +67,25 @@ public class PokemonLabelClickable extends ClickableCardLabel{
 	public PokemonLabelClickable(JDialog parent, PokemonCard c) {
 		super((c == null ? "" : (c.getName() + "\n" + 
 		(Integer.parseInt(c.getStage()) == 0 ? "Basic" : "Stage: " + c.getStage()) +
-		 "\nHP: " + c.getMaxHp())));
+		 "\nHP: " + c.getMaxHp())), c);
 		this.pc = c;
 		if (pc != null) {
 			AdditionalPokemonCardInfo clicked = new AdditionalPokemonCardInfo(parent, pc);
 			this.clicked = clicked;
 		}
 		this.addMouseListener(new ClickablePokemonInfoListener(pc, clicked));
+	}
+
+	public PokemonLabelClickable(JDialog parent, PokemonCard c, MouseListener selectedListener) {
+		super((c == null ? "" : (c.getName() + "\n" + 
+		(Integer.parseInt(c.getStage()) == 0 ? "Basic" : "Stage: " + c.getStage()) +
+		 "\nHP: " + c.getMaxHp())), c);
+	}
+
+	public PokemonLabelClickable(JFrame parent, PokemonCard c, MouseListener selectedListener) {
+		super((c == null ? "" : (c.getName() + "\n" + 
+		(Integer.parseInt(c.getStage()) == 0 ? "Basic" : "Stage: " + c.getStage()) +
+		 "\nHP: " + c.getMaxHp())), c);
 	}
 }
 

@@ -17,9 +17,16 @@ public class EnergyLabelClickable extends ClickableCardLabel implements MouseLis
 	private AdditionalEnergyCardInfo clickableEnergyLabel;
 	
 	public EnergyLabelClickable(EnergyCard c) {
-		super(c.getName());
+		super(c.getName(), c);
 		this.c = c;
 		this.addMouseListener(this);
+		clickableEnergyLabel = new AdditionalEnergyCardInfo(c);
+	}
+
+	public EnergyLabelClickable(EnergyCard c, MouseListener selectedListener) {
+		super(c.getName(), c);
+		this.c = c;
+		this.addMouseListener(selectedListener);
 		clickableEnergyLabel = new AdditionalEnergyCardInfo(c);
 	}
 

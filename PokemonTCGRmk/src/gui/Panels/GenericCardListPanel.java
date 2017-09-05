@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +24,7 @@ import cardAbstract.ParsePokemonCardsFile;
 import cardAbstract.PokemonCard;
 import cardAbstract.TrainerCard;
 import gui.ClickableCardLabel;
+import gui.SelectedListener;
 import gui.EnergyCard.EnergyLabelClickable;
 import gui.PokemonCard.PokemonLabelClickable;
 import gui.TrainerCard.TrainerLabelClickable;
@@ -49,29 +51,53 @@ public class GenericCardListPanel extends JPanel {
 	private static final int LABEL_X = 300;
 	private static final int LABEL_Y = 95;
 	
-	public GenericCardListPanel(Component parent, List<Card> cards) {
+	public GenericCardListPanel(Component parent, List<Card> cards) throws Exception {
+		this(parent, cards, null);
+	}
+
+	public GenericCardListPanel(Component parent, List<Card> cards, Class<SelectedListener> lClass) throws Exception {
 		
 		this.setLayout(null);
 
 		for (Card c : cards) {
 			this.clist.add(c);
 		}
+		
 		for (int i = 0; i < clist.size(); i++) {
 			ClickableCardLabel cc = null;
 			Card c = clist.get(i);
 			if (c instanceof TrainerCard) {
-				cc = new TrainerLabelClickable((TrainerCard) c);
+				if (lClass != null) {
+					cc = new TrainerLabelClickable((TrainerCard) c, 
+							lClass.getDeclaredConstructor(Card.class, ClickableCardLabel.class).newInstance(c, cc));
+				} else {
+					cc = new TrainerLabelClickable((TrainerCard) c);
+				}
 				labelList.add(cc);
 			} else if (c instanceof PokemonCard) {
 				if (parent instanceof JDialog) {
-					cc = new PokemonLabelClickable((JDialog) parent, (PokemonCard) c);
-					labelList.add(cc);
+					if (lClass != null) {
+						cc = new PokemonLabelClickable((JDialog) parent, (PokemonCard) c,
+								lClass.getDeclaredConstructor(Card.class, ClickableCardLabel.class).newInstance(c, cc));
+					} else {
+						cc = new PokemonLabelClickable((JDialog) parent, (PokemonCard) c);
+					}
 				} else {
-					cc = new PokemonLabelClickable((JFrame) parent, (PokemonCard) c);
-					labelList.add(cc);
+					if (lClass != null) {
+						cc = new PokemonLabelClickable((JFrame) parent, (PokemonCard) c,
+								lClass.getDeclaredConstructor(Card.class, ClickableCardLabel.class).newInstance(c, cc));
+					} else {
+						cc = new PokemonLabelClickable((JFrame) parent, (PokemonCard) c);
+					}
 				}
+				labelList.add(cc);
 			} else if (c instanceof EnergyCard) {
-				cc = new EnergyLabelClickable((EnergyCard) c);
+				if (lClass != null) {
+					cc = new EnergyLabelClickable((EnergyCard) c,
+							lClass.getDeclaredConstructor(Card.class, ClickableCardLabel.class).newInstance(c, cc));
+				} else {
+					cc = new EnergyLabelClickable((EnergyCard) c);
+				}
 				labelList.add(cc);
 			} else {
 				System.err.println("ERROR: Clickable Card is not a known type.");
@@ -173,7 +199,6 @@ public class GenericCardListPanel extends JPanel {
 		for (int i = 0; i < indx; i++) {
 			JPanel curPan = cPanel.get(i);
 			curPan.removeAll();
-			Card c = clist.get(i);
 			ClickableCardLabel cc = labelList.get(i);
 			if (cc != null) {
 				cc.setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);

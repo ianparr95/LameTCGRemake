@@ -64,9 +64,15 @@ public class ActionDisplayDialog extends JDialog {
 		public void mouseClicked(MouseEvent e) {
 			if (MainGui.ARENA.canRetreat()) {
 				// Pay retreat cost.
-				JDialog jd = new RetreatPokemonGui();
+				RetreatPokemonGui jd = new RetreatPokemonGui();
 				jd.setLocation(e.getLocationOnScreen());
 				jd.setVisible(true);
+				
+				// here: check jd selected cards.
+				List<Card> cards = jd.selectedCards();
+				
+				// here: choose pokemon to switch to.
+				
 			} else {
 				JOptionPane.showMessageDialog(null, "Can't retreat.");
 			}

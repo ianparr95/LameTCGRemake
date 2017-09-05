@@ -36,9 +36,13 @@ public class HandGui extends JDialog {
 		this.setTitle("Hand");
 		this.setLayout(null);
 		this.setSize(WIDTH, HEIGHT);
-		GenericCardListPanel gcl = new GenericCardListPanel(this, attHand.getList());
-		gcl.setBounds(0, 0, WIDTH, HEIGHT);
-		this.add(gcl);
+		try {
+			GenericCardListPanel gcl = new GenericCardListPanel(this, attHand.getList());
+			gcl.setBounds(0, 0, WIDTH, HEIGHT);
+			this.add(gcl);
+		} catch (Exception e) {
+			System.out.println("ERROR: COULD NOT CREATE HAND GUI");
+		}
 	}
 	
 }

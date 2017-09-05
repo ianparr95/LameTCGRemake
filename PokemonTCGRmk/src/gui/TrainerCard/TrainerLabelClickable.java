@@ -16,7 +16,7 @@ import gui.MainGui;
 import gui.Panels.BenchPanel;
 import gui.PokemonCard.AdditionalPokemonCardInfo;
 
-public class TrainerLabelClickable extends ClickableCardLabel implements MouseListener{
+public class TrainerLabelClickable extends ClickableCardLabel {
 	
 	/**
 	 * Card label.
@@ -24,44 +24,23 @@ public class TrainerLabelClickable extends ClickableCardLabel implements MouseLi
 	TrainerCard c;
 	
 	public TrainerLabelClickable(TrainerCard c) {
-		super(c == null ? "" : ("Trainer\n" + c.getName()));
+		super(c == null ? "" : ("Trainer\n" + c.getName()), c);
 		this.c = c;
-		this.addMouseListener(this);
+		//this.addMouseListener(this);
 		if (c != null) {
 			//AdditionalPokemonCardInfo clicked = new AdditionalPokemonCardInfo(c);
 			//this.clicked = clicked;
 		}
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	/*	// create a new card gui when click.
-		if (pc != null) {
-			// not null, create a new card gui.
-			if (clicked.isVisible()) {
-				clicked.setVisible(false);
-				clicked.closeAllWindows();
-			} else {
-				clicked.setLocation(e.getLocationOnScreen().x, e.getLocationOnScreen().y - 100);
-				clicked.setVisible(true);
-			}
-		}*/
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
+	public TrainerLabelClickable(TrainerCard c, MouseListener selectedListener) {
+		super(c == null ? "" : ("Trainer\n" + c.getName()), c);
+		this.c = c;
+		//this.addMouseListener(this);
+		if (c != null) {
+			//AdditionalPokemonCardInfo clicked = new AdditionalPokemonCardInfo(c);
+			//this.clicked = clicked;
+		}
 	}
 	
 }
