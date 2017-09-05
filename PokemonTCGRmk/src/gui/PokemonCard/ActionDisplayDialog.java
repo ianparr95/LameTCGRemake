@@ -20,8 +20,8 @@ import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.PokemonMove;
 import gui.MainGui;
-import gui.RetreatPokemonGui;
 import gui.Panels.GenericCardListPanel;
+import gui.Retreating.RetreatPokemonGui;
 
 public class ActionDisplayDialog extends JDialog {
 
@@ -69,8 +69,8 @@ public class ActionDisplayDialog extends JDialog {
 				jd.setVisible(true);
 				
 				// here: check jd selected cards.
-				List<Card> cards = jd.selectedCards();
-				
+				List<Card> cards = jd.getSelectedCards();
+				System.out.println("GETS EXECUTED AFTER JD CLOSES! We choose: " + cards.size());
 				// here: choose pokemon to switch to.
 				
 			} else {

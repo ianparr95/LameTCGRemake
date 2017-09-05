@@ -1,4 +1,4 @@
-package gui;
+package gui.Retreating;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -6,21 +6,24 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JLabel;
+
 import cardAbstract.Card;
 import cardAbstract.EnergyCard;
+import gui.SelectedListener;
 
-public class RetreatListener extends SelectedListener {
+public class RetreatEnergyListener extends SelectedListener {
 
 	private boolean selected = false;
-	private static List<EnergyCard> selectedCards = new ArrayList<EnergyCard>();
+	private static List<Card> selectedCards;
+	private static JLabel curLab;
 
-	public RetreatListener(Card c) {
+	public RetreatEnergyListener(Card c) {
 		super(c);
-		selectedCards.clear();
 	}
 	
-	public static List<EnergyCard> getSelectedEnergies() {
-		return selectedCards;
+	public static void setSelectedEnergies(List<Card> selectedCards) {
+		RetreatEnergyListener.selectedCards = selectedCards;
 	}
 
 	@Override
@@ -37,6 +40,12 @@ public class RetreatListener extends SelectedListener {
 			label.repaint();
 			selectedCards.remove(c);
 		}
+		String eStr = "";
+		for (Card c : selectedCards) {
+			eStr += ((EnergyCard) c).energyType();
+		}
+		curLab.setText("Currently selected energies: " + eStr);
+		curLab.repaint();
 	}
 
 	@Override
@@ -50,5 +59,9 @@ public class RetreatListener extends SelectedListener {
 
 	@Override
 	public void mouseExited(MouseEvent e) {	}
+
+	public static void setLabel(JLabel curEnergies) {
+		curLab = curEnergies;
+	}
 	
 }
