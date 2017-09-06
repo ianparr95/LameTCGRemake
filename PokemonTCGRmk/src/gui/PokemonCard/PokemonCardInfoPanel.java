@@ -19,6 +19,7 @@ import cardAbstract.EnergyCard;
 import cardAbstract.PokemonCard;
 import cardAbstract.PokemonMove;
 import gui.JMultilineLabel;
+import gui.PokemonCard.Moves.ClickableMove;
 
 /**
  * Active Pokemon Card GUI

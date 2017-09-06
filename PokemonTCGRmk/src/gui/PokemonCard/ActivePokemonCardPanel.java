@@ -54,7 +54,7 @@ public class ActivePokemonCardPanel extends JPanel {
 			this.add(actions);
 			actions.setBorder(new LineBorder(Color.black));
 			actions.setPreferredSize(new Dimension(MainGui.ACTIVE_WIDTH, 20));
-			actions.addMouseListener(new PerformActionListener(apc));
+			actions.addMouseListener(new PerformActionListener());
 		}
 		
 		JTextArea energies = new JTextArea();

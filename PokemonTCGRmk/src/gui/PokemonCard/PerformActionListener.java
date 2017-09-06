@@ -14,9 +14,9 @@ public class PerformActionListener implements MouseListener {
 	private ActivePokemonCard apc;
 	private JDialog ActionDisplay;
 	
-	public PerformActionListener(ActivePokemonCard apc) {
+	public PerformActionListener() {
 		this.apc = apc;
-		ActionDisplay = new ActionDisplayDialog(apc);
+		ActionDisplay = new ActionDisplayDialog();
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 
 import cardAbstract.EnergyCard;
 import gui.JMultilineLabel;
-import gui.PokemonCard.ClickableMove;
+import gui.PokemonCard.Moves.ClickableMove;
 
 public class EnergyCardInfoPanel extends JPanel {
 	

@@ -1,4 +1,4 @@
-package gui.PokemonCard;
+package gui.PokemonCard.Moves;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -28,7 +28,10 @@ public class RetreatEnergyListener extends SelectedListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (!selected ) {
+		if (!selected) {
+			// TODO: make it so that when select a card,
+			// check if it fulfils retreat. if so, and select a new card
+			// make sure that can't select a new one without deselect.
 			selected = true;
 			label.setOpaque(true);
 			label.setBackground(Color.red);
