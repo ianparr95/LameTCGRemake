@@ -1,4 +1,4 @@
-package gui;
+package gui.Selectable;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -14,6 +14,8 @@ import javax.swing.border.LineBorder;
 
 import cardAbstract.Card;
 import cardAbstract.NullCard;
+import gui.ClickableCardLabel;
+import gui.MainGui;
 import gui.Panels.GenericCardListPanel;
 import gui.Retreating.RetreatEnergyListener;
 import gui.Retreating.RetreatPokemonGui;
@@ -66,11 +68,14 @@ public class SelectableGui extends JDialog implements WindowListener {
 		this.setLayout(null);
 		this.setSize(WIDTH, HEIGHT);
 		selectedCards = new ArrayList<Card>();
+		ArrayList<Card> cl = new ArrayList<Card>();
+		cl.addAll(cards);
 		try {
-			GenericCardListPanel gcl = new GenericCardListPanel(this, cards);
+			GenericCardListPanel gcl = new GenericCardListPanel(this, cl, SelectableCallback.class);
 			gcl.setBounds(0, 0, WIDTH, GCL_HEIGHT);
 			this.add(gcl);
 			gcl.setBorder(new LineBorder(Color.black));
+			SelectableCallback.setSelectableGui(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -102,7 +107,7 @@ public class SelectableGui extends JDialog implements WindowListener {
 	}
 	
 	public List<Card> getSelectedCards() {
-		return null;
+		return selectedCards;
 	}
 
 	private void createBenchAndActive(boolean ourBench, int mode, int min, int max) {
@@ -135,6 +140,10 @@ public class SelectableGui extends JDialog implements WindowListener {
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {}
+
+	public void onClick(SelectableCallback selectableCallback) {
+		System.out.println("CLICKED!!");
+	}
 	
 	
 }

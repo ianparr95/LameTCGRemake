@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 
 import cardAbstract.Card;
 import cardAbstract.EnergyCard;
-import gui.SelectedListener;
+import gui.Selectable.SelectedListener;
 
 public class RetreatEnergyListener extends SelectedListener {
 

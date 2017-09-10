@@ -11,7 +11,7 @@ import cardAbstract.Card;
 import cardAbstract.EnergyCard;
 import cardAbstract.NullCard;
 import gui.MainGui;
-import gui.SelectableGui;
+import gui.Selectable.SelectableGui;
 import pokemonCard.ActivePokemonCard;
 
 public class RetreatOnClick implements MouseListener {

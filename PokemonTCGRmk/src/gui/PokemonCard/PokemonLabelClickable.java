@@ -80,12 +80,16 @@ public class PokemonLabelClickable extends ClickableCardLabel{
 		super((c == null ? "" : (c.getName() + "\n" + 
 		(Integer.parseInt(c.getStage()) == 0 ? "Basic" : "Stage: " + c.getStage()) +
 		 "\nHP: " + c.getMaxHp())), c);
+		this.pc = c;
+		this.addMouseListener(selectedListener);
 	}
 
 	public PokemonLabelClickable(JFrame parent, PokemonCard c, MouseListener selectedListener) {
 		super((c == null ? "" : (c.getName() + "\n" + 
 		(Integer.parseInt(c.getStage()) == 0 ? "Basic" : "Stage: " + c.getStage()) +
 		 "\nHP: " + c.getMaxHp())), c);
+		this.pc = c;
+		this.addMouseListener(selectedListener);
 	}
 }
 

@@ -1,4 +1,4 @@
-package gui;
+package gui.Selectable;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cardAbstract.Card;
+import gui.ClickableCardLabel;
 
 public abstract class SelectedListener implements MouseListener {
 

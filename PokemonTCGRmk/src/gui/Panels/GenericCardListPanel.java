@@ -22,10 +22,10 @@ import cardAbstract.EnergyCard;
 import cardAbstract.ParsePokemonCardsFile;
 import cardAbstract.TrainerCard;
 import gui.ClickableCardLabel;
-import gui.SelectedListener;
 import gui.EnergyCard.EnergyLabelClickable;
 import gui.PokemonCard.PokemonLabelClickable;
 import gui.Retreating.RetreatEnergyListener;
+import gui.Selectable.SelectedListener;
 import gui.TrainerCard.TrainerLabelClickable;
 import pokemonCard.ActivePokemonCard;
 import pokemonCard.PokemonCard;
@@ -85,6 +85,7 @@ public class GenericCardListPanel extends JPanel {
 					} else {
 						cc = new PokemonLabelClickable((JDialog) parent, (PokemonCard) c);
 					}
+					labelList.add(cc);
 				} else {
 					if (class1 != null) {
 						SelectedListener ls = class1.getDeclaredConstructor(Card.class).newInstance(c);
@@ -93,8 +94,8 @@ public class GenericCardListPanel extends JPanel {
 					} else {
 						cc = new PokemonLabelClickable((JFrame) parent, (PokemonCard) c);
 					}
+					labelList.add(cc);
 				}
-				labelList.add(cc);
 			} else if (c instanceof EnergyCard) {
 				if (class1 != null) {
 					SelectedListener ls = class1.getDeclaredConstructor(Card.class).newInstance(c);
@@ -194,6 +195,10 @@ public class GenericCardListPanel extends JPanel {
 		});
 		
 		onUpdate();
+	}
+	
+	public List<ClickableCardLabel> getLabels() {
+		return labelList;
 	}
 
 	private void onUpdate() {

@@ -7,6 +7,13 @@ import cardAbstract.Card;
 public abstract class ClickableCardLabel extends JMultilineLabel {
 
 	private Card c;
+	private MouseListener ml;
+	
+	public ClickableCardLabel(String s, Card c, MouseListener ml) {
+		super(s);
+		this.c = c;
+		this.addMouseListener(ml);
+	}
 	
 	public ClickableCardLabel(String s, Card c) {
 		super(s);
@@ -15,6 +22,10 @@ public abstract class ClickableCardLabel extends JMultilineLabel {
 	
 	public Card getCard() {
 		return c;
+	}
+	
+	public MouseListener getMouseListener() {
+		return ml;
 	}
 	
 }
