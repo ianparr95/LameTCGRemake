@@ -8,9 +8,9 @@ import java.awt.event.WindowListener;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-import cardAbstract.ActivePokemonCard;
-import cardAbstract.PokemonCard;
 import gui.MainGui;
+import pokemonCard.ActivePokemonCard;
+import pokemonCard.PokemonCard;
 
 public class AdditionalPokemonCardInfo extends JDialog{
 	

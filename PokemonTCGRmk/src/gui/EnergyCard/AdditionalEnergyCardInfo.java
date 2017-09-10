@@ -6,9 +6,9 @@ import java.awt.event.WindowListener;
 import javax.swing.JDialog;
 
 import cardAbstract.EnergyCard;
-import cardAbstract.PokemonCard;
 import gui.MainGui;
 import gui.PokemonCard.PokemonCardInfoPanel;
+import pokemonCard.PokemonCard;
 
 public class AdditionalEnergyCardInfo extends JDialog {
 	private EnergyCardInfoPanel ng;

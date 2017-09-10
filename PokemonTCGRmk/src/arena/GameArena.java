@@ -3,14 +3,15 @@ package arena;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import cardAbstract.ActivePokemonCard;
+import cardAbstract.Card;
 import cardAbstract.EnergyCard;
-import cardAbstract.PokemonCard;
-import cardAbstract.PokemonMove;
 import cardAbstract.TrainerCard;
 import misc.CEList;
 import misc.RNG;
 import moveEffects.MoveEffect;
+import pokemonCard.ActivePokemonCard;
+import pokemonCard.PokemonCard;
+import pokemonCard.PokemonMove;
 import pokepower.PokePower;
 import statuses.Status;
 
@@ -80,12 +81,15 @@ public class GameArena {
 				return false;
 			}
 		}
-		if (att.getActivePokemon().getEnergyString().length() < att.getActivePokemon().getRCost().length()) {
-			System.out.println("Not enough energy cards to retreat.");
-			return false;
-		}
 		if (att.getBench().getCurrentCapacity() == 0) {
 			System.out.println("Can't retreat since there are no pokemon on the bench.");
+			return false;
+		}
+		
+		if (att.getActivePokemon().getRCost() == null) return true;
+		
+		if (att.getActivePokemon().getEnergyString().length() < att.getActivePokemon().getRCost().length()) {
+			System.out.println("Not enough energy cards to retreat.");
 			return false;
 		}
 		return true;
@@ -552,6 +556,19 @@ public class GameArena {
 	
 	public Bench getDefBench() {
 		return def.getBench();
+	}
+
+	/**
+	 * Returns if we can pay the retreat cost with the set of cards.
+	 * Assumes: cards only contains EnergyCards.
+	 */
+	public boolean canRetreat(List<Card> cards) {
+		if (getAttActive().getRCost() == null) return true;
+		String s = "";
+		for (Card e : cards) {
+			s += ((EnergyCard) e).energyType();
+		}
+		return s.length() >= getAttActive().getRCost().length();
 	}
 
 

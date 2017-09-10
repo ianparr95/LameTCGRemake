@@ -10,14 +10,14 @@ import java.util.Scanner;
 import arena.GameArena;
 import arena.GameArena.GameStage;
 import arena.Player;
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.CardRequest;
 import cardAbstract.EnergyCard;
 import cardAbstract.ParsePokemonCardsFile;
-import cardAbstract.PokemonCard;
-import cardAbstract.PokemonMove;
 import cardAbstract.TrainerCard;
+import pokemonCard.ActivePokemonCard;
+import pokemonCard.PokemonCard;
+import pokemonCard.PokemonMove;
 import pokepower.PokePower;
 import statuses.Status;
 

@@ -1,6 +1,6 @@
 package statuses;
 
-import cardAbstract.ActivePokemonCard;
+import pokemonCard.ActivePokemonCard;
 
 public class Pluspower extends Status{
 

@@ -1,7 +1,9 @@
-package cardAbstract;
+package pokemonCard;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import cardAbstract.Card;
 
 public class PokemonCard extends Card{
 
@@ -166,7 +168,8 @@ public class PokemonCard extends Card{
 	
 	/**
 	 * Get the retreat cost of the pokemon
-	 * @return the retreat cost of the pokemon
+	 * @return the retreat cost of the pokemon.
+	 * If there is no retreat cost, returns null.
 	 */
 	public String getRCost(){
 		return getAssoc("[rcost]");

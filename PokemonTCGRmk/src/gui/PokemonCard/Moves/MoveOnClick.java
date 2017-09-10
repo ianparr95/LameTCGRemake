@@ -5,9 +5,9 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JOptionPane;
 
-import cardAbstract.PokemonMove;
 import gui.MainGui;
 import gui.PokemonCard.ActionDisplayDialog;
+import pokemonCard.PokemonMove;
 
 public class MoveOnClick implements MouseListener {
 	

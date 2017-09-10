@@ -1,7 +1,7 @@
 package statuses;
 
-import cardAbstract.ActivePokemonCard;
 import misc.RNG;
+import pokemonCard.ActivePokemonCard;
 
 /**
  * Do special handling for this class!

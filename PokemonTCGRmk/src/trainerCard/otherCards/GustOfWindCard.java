@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import arena.GameArena;
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.CardRequest;
 import cardAbstract.TrainerCard;
+import pokemonCard.ActivePokemonCard;
 import trainerCard.statusCards.Potion;
 
 public class GustOfWindCard extends TrainerCard {

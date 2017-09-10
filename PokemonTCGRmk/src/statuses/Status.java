@@ -1,6 +1,6 @@
 package statuses;
 
-import cardAbstract.ActivePokemonCard;
+import pokemonCard.ActivePokemonCard;
 
 /**
  * This interface represents the statuses that can inflict the active pokemon

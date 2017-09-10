@@ -12,11 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import cardAbstract.ActivePokemonCard;
 import gui.MainGui;
 import gui.Panels.GenericCardListPanel;
 import gui.PokemonCard.Moves.MoveOnClick;
 import gui.Retreating.RetreatOnClick;
+import pokemonCard.ActivePokemonCard;
 
 public class ActionDisplayDialog extends JDialog {
 

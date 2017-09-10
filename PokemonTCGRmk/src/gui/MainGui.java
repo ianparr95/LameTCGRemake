@@ -24,7 +24,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import arena.GameArena;
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import gui.EnergyCard.AttachEnergyCard;
 import gui.EnergyCard.EnergyLabelClickable;
@@ -32,6 +31,7 @@ import gui.Panels.BenchPanel;
 import gui.PokemonCard.ActivePokemonCardPanel;
 import gui.PokemonCard.AdditionalPokemonCardInfo;
 import gui.PokemonCard.PokemonCardInfoPanel;
+import pokemonCard.ActivePokemonCard;
 
 /**
  * Basic GUI, this is the main gui class which controls all the

@@ -11,9 +11,9 @@ import arena.Bench;
 import arena.Deck;
 import arena.Player;
 import arena.Prizes;
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.ParsePokemonCardsFile;
-import cardAbstract.PokemonCard;
+import pokemonCard.ActivePokemonCard;
+import pokemonCard.PokemonCard;
 
 public class ArenaTest {
 

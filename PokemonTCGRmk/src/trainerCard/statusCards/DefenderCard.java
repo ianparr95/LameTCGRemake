@@ -1,9 +1,9 @@
 package trainerCard.statusCards;
 
 import arena.GameArena;
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.TrainerCard;
+import pokemonCard.ActivePokemonCard;
 
 public class DefenderCard extends TrainerCard{
 

@@ -1,8 +1,8 @@
 package arena;
 
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.EnergyCard;
-import cardAbstract.PokemonCard;
+import pokemonCard.ActivePokemonCard;
+import pokemonCard.PokemonCard;
 
 public class Player {
 	private Deck deck;

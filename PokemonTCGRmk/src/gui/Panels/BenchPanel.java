@@ -12,10 +12,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import arena.Bench;
-import cardAbstract.PokemonCard;
 import gui.GuiUpdate;
 import gui.MainGui;
 import gui.PokemonCard.PokemonLabelClickable;
+import pokemonCard.PokemonCard;
 
 /**
  * GUI for the benches: made up of CLabels, which are clickable.

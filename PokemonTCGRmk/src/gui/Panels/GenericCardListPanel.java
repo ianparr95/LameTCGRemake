@@ -17,11 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.EnergyCard;
 import cardAbstract.ParsePokemonCardsFile;
-import cardAbstract.PokemonCard;
 import cardAbstract.TrainerCard;
 import gui.ClickableCardLabel;
 import gui.SelectedListener;
@@ -29,6 +27,8 @@ import gui.EnergyCard.EnergyLabelClickable;
 import gui.PokemonCard.PokemonLabelClickable;
 import gui.Retreating.RetreatEnergyListener;
 import gui.TrainerCard.TrainerLabelClickable;
+import pokemonCard.ActivePokemonCard;
+import pokemonCard.PokemonCard;
 
 public class GenericCardListPanel extends JPanel {
 	

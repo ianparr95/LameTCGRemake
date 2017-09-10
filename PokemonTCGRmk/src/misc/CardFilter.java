@@ -5,7 +5,7 @@ import java.util.List;
 
 import cardAbstract.Card;
 import cardAbstract.EnergyCard;
-import cardAbstract.PokemonCard;
+import pokemonCard.PokemonCard;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class CardFilter {

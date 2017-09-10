@@ -12,13 +12,13 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import arena.GameArena;
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.EnergyCard;
-import cardAbstract.PokemonCard;
 import gui.ClickableCardLabel;
 import gui.JMultilineLabel;
 import gui.MainGui;
+import pokemonCard.ActivePokemonCard;
+import pokemonCard.PokemonCard;
 
 public class PokemonLabelClickable extends ClickableCardLabel{
 	

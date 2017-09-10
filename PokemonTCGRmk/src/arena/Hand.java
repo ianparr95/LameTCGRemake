@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import cardAbstract.Card;
-import cardAbstract.PokemonCard;
+import pokemonCard.PokemonCard;
 
 public class Hand {
 	// This class represents the hand of a player.

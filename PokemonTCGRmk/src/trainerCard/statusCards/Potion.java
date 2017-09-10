@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import arena.GameArena;
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.Card;
 import cardAbstract.CardRequest;
-import cardAbstract.PokemonCard;
 import cardAbstract.TrainerCard;
+import pokemonCard.ActivePokemonCard;
+import pokemonCard.PokemonCard;
 
 public class Potion extends TrainerCard{
 

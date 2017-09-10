@@ -1,9 +1,11 @@
-package cardAbstract;
+package pokemonCard;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import arena.Player;
+import cardAbstract.EnergyCard;
+import cardAbstract.TrainerCard;
 import statuses.Poisoned;
 import statuses.Status;
 import statuses.Toxic;

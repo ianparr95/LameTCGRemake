@@ -8,10 +8,10 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import arena.GameArena;
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.EnergyCard;
-import cardAbstract.PokemonCard;
 import gui.MainGui;
+import pokemonCard.ActivePokemonCard;
+import pokemonCard.PokemonCard;
 
 public class ClickablePokemonInfoListener implements MouseListener {
 

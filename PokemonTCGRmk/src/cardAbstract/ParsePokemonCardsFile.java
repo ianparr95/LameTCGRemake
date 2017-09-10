@@ -3,6 +3,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import pokemonCard.PokemonCard;
+
 public class ParsePokemonCardsFile {
 	
 	private static final File POKEMON = new File("data/pokemon.txt");

@@ -1,4 +1,4 @@
-package gui.Retreating;
+package gui;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -10,19 +10,16 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
 import cardAbstract.Card;
 import cardAbstract.NullCard;
-import gui.MainGui;
 import gui.Panels.GenericCardListPanel;
+import gui.Retreating.RetreatEnergyListener;
+import gui.Retreating.RetreatPokemonGui;
 
-/**
- * TODO:
- * Extend SelectableGui?
- */
-public class RetreatPokemonGui extends JDialog implements WindowListener {
+public class SelectableGui extends JDialog implements WindowListener {
+	
 	private static final int WIDTH = 400;
 	private static final int HEIGHT = 200;
 	
@@ -37,44 +34,48 @@ public class RetreatPokemonGui extends JDialog implements WindowListener {
 	
 	private static final int GCL_HEIGHT = 130;
 	
-	private boolean done = false;
+	private boolean done;
 	
-	private static List<Card> selectedCards;
+	private List<Card> selectedCards;
 	
-	public RetreatPokemonGui() {
+	/**
+	 * Create a new Selectable Gui
+	 * @param benchAndActive: create a gui where you can select pokemon
+	 * from the bench or active.
+	 * @param ourBench: true if our bench/active. else enemy.
+	 * @param mode, 0 = must select exact equal to min. 1 = can be from max to min.
+	 * 2 = must be atleast max or more.
+	 * @param min
+	 * @param max
+	 * @param cards, The list of cards. benchAndActive will override this.
+	 * @param closeable: if true, closing will return null card. Set to false to disable closing
+	 * or it will act like clicking done? DECISIONS.
+	 * @param title: the title of the gui
+	 */
+	public SelectableGui(boolean benchAndActive, boolean ourBench, int mode, int min, int max, List<Card> cards,
+			boolean closeable, String title) {
 		super(MainGui.MAIN_GUI, true);
+		if (benchAndActive) {
+			createBenchAndActive(ourBench, mode, min, max);
+			return;
+		}
+		// Create the rest of the stuff here:
 		this.addWindowListener(this);
 		this.setResizable(false);
-		this.setTitle("Choose energy cards");
+		this.setTitle(title);
 		this.setLayout(null);
 		this.setSize(WIDTH, HEIGHT);
 		selectedCards = new ArrayList<Card>();
-		List<Card> cl = new ArrayList<Card>();
-		cl.addAll(MainGui.ARENA.getAttActive().getEnergyCards());
 		try {
-			GenericCardListPanel gcl = new GenericCardListPanel(this, cl, RetreatEnergyListener.class);
+			GenericCardListPanel gcl = new GenericCardListPanel(this, cards);
 			gcl.setBounds(0, 0, WIDTH, GCL_HEIGHT);
 			this.add(gcl);
 			gcl.setBorder(new LineBorder(Color.black));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		JLabel neededEnergies = null;
-		if (MainGui.ARENA.getAttActive().getRCost() != null) {
-			neededEnergies = new JLabel("Needed energies: " + MainGui.ARENA.getAttActive().getRCost());
-		} else {
-			neededEnergies = new JLabel("Needed energies: none");
-		}
-		neededEnergies.setBounds(NEED_X, NEED_Y, WIDTH/2, 20);
-		this.add(neededEnergies);
 		
-		JLabel curEnergies = new JLabel("Currently selected energies: ");
-		curEnergies.setBounds(HAVE_X, HAVE_Y, WIDTH/2, 20);
-		this.add(curEnergies);
 		
-		RetreatEnergyListener.setSelectedEnergies(selectedCards);
-		RetreatEnergyListener.setLabel(curEnergies);
 		
 		JButton doneButton = new JButton("Done");
 		doneButton.setBounds(DONE_X, DONE_Y, 70, 25);
@@ -83,9 +84,8 @@ public class RetreatPokemonGui extends JDialog implements WindowListener {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				done = true;
-				RetreatPokemonGui.this.dispose();
+				SelectableGui.this.dispose();
 			}
-
 			@Override
 			public void mousePressed(MouseEvent e) {}
 
@@ -98,10 +98,15 @@ public class RetreatPokemonGui extends JDialog implements WindowListener {
 			@Override
 			public void mouseExited(MouseEvent e) {}
 		});
+		
+	}
+	
+	public List<Card> getSelectedCards() {
+		return null;
 	}
 
-	public List<Card> getSelectedCards() {
-		return selectedCards;
+	private void createBenchAndActive(boolean ourBench, int mode, int min, int max) {
+		System.out.println("NOT YET IMPLEMENTED!");
 	}
 
 	@Override
@@ -117,10 +122,10 @@ public class RetreatPokemonGui extends JDialog implements WindowListener {
 	}
 
 	@Override
-	public void windowClosed(WindowEvent e) {}
+	public void windowClosed(WindowEvent e) {	}
 
 	@Override
-	public void windowIconified(WindowEvent e) {}
+	public void windowIconified(WindowEvent e) {	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {}
@@ -130,4 +135,6 @@ public class RetreatPokemonGui extends JDialog implements WindowListener {
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {}
+	
+	
 }

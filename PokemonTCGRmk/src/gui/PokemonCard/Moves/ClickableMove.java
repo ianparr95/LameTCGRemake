@@ -12,8 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import cardAbstract.PokemonMove;
 import gui.JMultilineLabel;
+import pokemonCard.PokemonMove;
 
 /**
  * Displays information about a move.

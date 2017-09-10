@@ -17,8 +17,8 @@ import javax.swing.border.LineBorder;
 import arena.Hand;
 import cardAbstract.Card;
 import cardAbstract.ParsePokemonCardsFile;
-import cardAbstract.PokemonCard;
 import gui.Panels.GenericCardListPanel;
+import pokemonCard.PokemonCard;
 
 /**
  * Displays so that you can scroll through

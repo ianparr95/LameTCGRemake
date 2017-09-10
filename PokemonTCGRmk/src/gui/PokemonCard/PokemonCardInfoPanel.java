@@ -14,12 +14,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.EnergyCard;
-import cardAbstract.PokemonCard;
-import cardAbstract.PokemonMove;
 import gui.JMultilineLabel;
 import gui.PokemonCard.Moves.ClickableMove;
+import pokemonCard.ActivePokemonCard;
+import pokemonCard.PokemonCard;
+import pokemonCard.PokemonMove;
 
 /**
  * Active Pokemon Card GUI

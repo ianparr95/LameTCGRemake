@@ -8,13 +8,13 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JDialog;
 
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.TrainerCard;
 import gui.ClickableCardLabel;
 import gui.JMultilineLabel;
 import gui.MainGui;
 import gui.Panels.BenchPanel;
 import gui.PokemonCard.AdditionalPokemonCardInfo;
+import pokemonCard.ActivePokemonCard;
 
 public class TrainerLabelClickable extends ClickableCardLabel {
 	

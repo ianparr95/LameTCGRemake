@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import cardAbstract.ActivePokemonCard;
-import cardAbstract.PokemonCard;
+import pokemonCard.ActivePokemonCard;
+import pokemonCard.PokemonCard;
 
 public class Bench {
 	

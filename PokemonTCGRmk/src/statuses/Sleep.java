@@ -1,6 +1,6 @@
 package statuses;
-import cardAbstract.ActivePokemonCard;
 import misc.RNG;
+import pokemonCard.ActivePokemonCard;
 public class Sleep extends Status{
 
 	public Sleep(ActivePokemonCard apc) {

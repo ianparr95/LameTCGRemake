@@ -18,12 +18,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 import arena.GameArena;
-import cardAbstract.ActivePokemonCard;
 import cardAbstract.EnergyCard;
 import energyCard.DoubleColorlessEnergy;
 import energyCard.WaterEnergy;
 import gui.JMultilineLabel;
 import gui.MainGui;
+import pokemonCard.ActivePokemonCard;
 
 public class ActivePokemonCardPanel extends JPanel {
 	
